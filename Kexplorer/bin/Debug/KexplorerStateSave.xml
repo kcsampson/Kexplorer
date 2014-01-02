@@ -1,0 +1,25 @@
+<KexplorerState>
+  <KexplorerTab>
+    <TabName>Main</TabName>
+    <CurrentFolder>C:\Enterworks\bin</CurrentFolder>
+    <Drive>C:\</Drive>
+    <Drive>K:\</Drive>
+    <Drive>R:\</Drive>
+  </KexplorerTab>
+  <KexplorerTab>
+    <TabName>Services</TabName>
+    <CurrentFolder>
+    </CurrentFolder>
+    <ServicesTab />
+	<Service>EPIM70_ePIM_kimballsam_JBOSS_8034</Service>
+    <Service>EPIM70_ePIM_kimballsam_TOMCAT_8090</Service>
+    <Service>EPX_kimballsam_JBOSS_9034</Service>
+    <Service>EPX_kimballsam_WEB_9040_9039</Service>
+    <Service>MSSQL$KQL</Service>
+    <Service>MSSQLFDLauncher$KQL</Service>
+    <Service>ReportServer$KQL</Service>
+    <Service>SQLAgent$KQL</Service>
+    <Service>SQLBrowser</Service>
+  </KexplorerTab>
+
+</KexplorerState>

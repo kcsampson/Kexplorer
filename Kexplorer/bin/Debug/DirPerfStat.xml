@@ -1,0 +1,3 @@
+<DirPerfStats>
+  <Result GetDirectoryRetries="3" GetDirectoryAborts="3" GetDirectorySuccessfulRetries="0" HighPriorityThreadAborts="0" LowPriorityThreadAborts="5" MakeDirInfoCalls="2" SlowestMakeDirInfoCallTicks="0" SlowestMakeDirInfoCallPath="" GetDirsCalls="39" SlowestDirsCallTicks="3276021" SlowestDirsCallPath="C:\Documents and Settings" GetFilesCalls="1" SlowestFilesCallTicks="0" SlowestFilesCallPath="Unknown" />
+</DirPerfStats>

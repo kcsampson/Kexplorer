@@ -1,0 +1,6 @@
+C:\Projects\Kexploer\XSLT\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Projects\Kexploer\XSLT\bin\Debug\XSLT.exe
+C:\Projects\Kexploer\XSLT\bin\Debug\XSLT.pdb
+C:\Projects\Kexploer\XSLT\obj\x86\Debug\XSLT.exe
+C:\Projects\Kexploer\XSLT\obj\x86\Debug\XSLT.pdb
+C:\Projects\Kexploer\XSLT\bin\Debug\XSLT.exe.config

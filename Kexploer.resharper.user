@@ -1,0 +1,231 @@
+<Configuration>
+  <CompletionStatisticsManager>
+    <ItemStatistics item="Qualified:Kexplorer.scripts.IOlympCryptography">
+      <Item value="Encrypt" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Forms.Label">
+      <Item value="Text" priority="2" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:Kexplorer.scripting.IScriptMgr">
+      <Item value="FolderScripts" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Forms.Button">
+      <Item value="Enabled" priority="0" />
+      <Item value="Visible" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.DateTime.Now">
+      <Item value="AddYears" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:Kexplorer.res.IDbConnection">
+      <Item value="ConnectionString" priority="0" />
+      <Item value="ConnStringEncrypted" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.IO.DirectoryInfo">
+      <Item value="FullName" priority="3" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.Windows.Forms.DialogResult">
+      <Item value="Cancel" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:string[]">
+      <Item value="Length" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Text.StringBuilder">
+      <Item value="ToString" priority="0" />
+      <Item value="Append" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@Kexplorer.res.KMultiForm">
+      <Item value="instance" priority="0" />
+      <Item value="Instance" priority="2" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@Kexplorer.scripting.ScriptHelper.scriptHelperDoc">
+      <Item value="Save" priority="0" />
+      <Item value="LoadXml" priority="0" />
+      <Item value="SelectSingleNode" priority="0" />
+      <Item value="Load" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@Kexplorer.scripting.ScriptHelper">
+      <Item value="scriptHelperDoc" priority="3" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Forms.Menu.MenuItemCollection">
+      <Item value="AddRange" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:Kexplorer.scripts.OlympCryptography">
+      <Item value="Encrypt" priority="0" />
+      <Item value="Decrypt" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:Kexplorer.scripting.IFolderScript">
+      <Item value="ValidatorFolder" priority="2" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Xml.XmlDocument">
+      <Item value="Load" priority="0" />
+      <Item value="CreateElement" priority="0" />
+      <Item value="SelectNodes" priority="0" />
+      <Item value="SelectSingleNode" priority="2" />
+      <Item value="Save" priority="4" />
+      <Item value="CloneNode" priority="1" />
+      <Item value="CreateAttribute" priority="3" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.IO.StreamWriter">
+      <Item value="Write" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:Kexplorer.scripting.IScriptHelper">
+      <Item value="RunProgram" priority="0" />
+      <Item value="RefreshFolder" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:Kexplorer.res.DbConnectionDialog">
+      <Item value="lbConnEncrypted" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Forms.ComboBox">
+      <Item value="Items" priority="0" />
+      <Item value="SelectedItem" priority="7" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Forms.TextBox">
+      <Item value="Text" priority="8" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:string">
+      <Item value="Split" priority="1" />
+      <Item value="ToLower" priority="6" />
+      <Item value="Trim" priority="0" />
+      <Item value="Length" priority="4" />
+      <Item value="Equals" priority="3" />
+      <Item value="StartsWith" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Collections.ArrayList">
+      <Item value="ToArray" priority="1" />
+      <Item value="Clear" priority="0" />
+      <Item value="Add" priority="3" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@">
+      <Item value="textBox2" priority="0" />
+      <Item value="Database" priority="1" />
+      <Item value="lbConnString" priority="0" />
+      <Item value="tbUserName" priority="1" />
+      <Item value="cbUserArea" priority="2" />
+      <Item value="Pwd" priority="1" />
+      <Item value="ConnectionString" priority="2" />
+      <Item value="CopyUserInputToDbConnection" priority="0" />
+      <Item value="Provider" priority="3" />
+      <Item value="DataSource" priority="1" />
+      <Item value="UserArea" priority="4" />
+      <Item value="Name" priority="1" />
+      <Item value="comboBox1" priority="2" />
+      <Item value="tbPwd" priority="1" />
+      <Item value="cbProvider" priority="3" />
+      <Item value="tbDataSource" priority="1" />
+      <Item value="tbDatabase" priority="1" />
+      <Item value="ShowDialog" priority="1" />
+      <Item value="tbName" priority="1" />
+      <Item value="UserName" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.IO.MemoryStream">
+      <Item value="GetBuffer" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Forms.ComboBox.ObjectCollection">
+      <Item value="AddRange" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.IO.FileInfo">
+      <Item value="Attributes" priority="1" />
+      <Item value="GetType" priority="0" />
+      <Item value="Name" priority="3" />
+      <Item value="FullName" priority="2" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:Kexplorer.scripts.DbConnection[]">
+      <Item value="Length" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:Kexplorer.scripts.DbConnection">
+      <Item value="AcceptChanges" priority="0" />
+      <Item value="Name" priority="0" />
+      <Item value="dbClonedNode" priority="0" />
+      <Item value="isNew" priority="0" />
+      <Item value="dbConnNode" priority="3" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:object">
+      <Item value="ToString" priority="3" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.DateTime">
+      <Item value="ToUniversalTime" priority="0" />
+      <Item value="ToLongDateString" priority="0" />
+      <Item value="ToLongTimeString" priority="0" />
+      <Item value="ToString" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Xml.XmlAttributeCollection">
+      <Item value="Append" priority="2" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.IO.File">
+      <Item value="Exists" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Xml.XmlAttribute">
+      <Item value="Name" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:bool">
+      <Item value="ToString" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Xml.XmlNode">
+      <Item value="Attributes" priority="20" />
+      <Item value="ParentNode" priority="1" />
+      <Item value="RemoveChild" priority="1" />
+      <Item value="InnerText" priority="0" />
+      <Item value="CloneNode" priority="0" />
+      <Item value="AppendChild" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:Kexplorer.KExplorerNode">
+      <Item value="DirInfo" priority="6" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Xml.XmlNodeList">
+      <Item value="Count" priority="0" />
+    </ItemStatistics>
+  </CompletionStatisticsManager>
+  <EditorManager>
+    <RecentFiles>
+      <File id="CD299346-3245-41D7-A454-84276E17FFB6/d:scripts/d:src/f:BeyondCompareRunScript.cs" caret="428" visual-x="0" visual-y="306" />
+      <File id="CD299346-3245-41D7-A454-84276E17FFB6/d:scripts/d:src/f:UnzipToFileScript.cs" caret="0" visual-x="0" visual-y="0" />
+      <File id="CD299346-3245-41D7-A454-84276E17FFB6/d:scripts/d:src/f:TextPadFileScript.cs" caret="460" visual-x="0" visual-y="0" />
+      <File id="CD299346-3245-41D7-A454-84276E17FFB6/d:scripting/d:src/f:ScriptHelper.cs" caret="5807" visual-x="0" visual-y="3842" />
+      <File id="CD299346-3245-41D7-A454-84276E17FFB6/d:scripts/d:src/f:SearchAndReplaceFileScript.cs" caret="565" visual-x="0" visual-y="119" />
+      <File id="CD299346-3245-41D7-A454-84276E17FFB6/d:scripts/d:src/f:WinGrepFolderScript.cs" caret="317" visual-x="0" visual-y="0" />
+      <File id="CD299346-3245-41D7-A454-84276E17FFB6/d:scripts/d:src/f:TextpadNewFileScript.cs" caret="751" visual-x="0" visual-y="0" />
+      <File id="CD299346-3245-41D7-A454-84276E17FFB6/d:scripts/d:src/f:XsltQuickFileHereFileAndFolderScript.cs" caret="718" visual-x="0" visual-y="306" />
+      <File id="CD299346-3245-41D7-A454-84276E17FFB6/d:scripts/d:src/f:ClearcaseHistoryFileScript.cs" caret="1850" visual-x="0" visual-y="884" />
+      <File id="CD299346-3245-41D7-A454-84276E17FFB6/d:scripts/d:src/f:CopyToNameToCipboardForTSClientScript.cs" caret="1097" visual-x="0" visual-y="68" />
+      <File id="CD299346-3245-41D7-A454-84276E17FFB6/d:src/f:KExplorerNode.cs" caret="102" visual-x="0" visual-y="0" />
+      <File id="CD299346-3245-41D7-A454-84276E17FFB6/d:scripts/d:src/f:UnzipHereFileScript.cs" caret="0" visual-x="0" visual-y="51" />
+      <File id="CD299346-3245-41D7-A454-84276E17FFB6/d:scripting/d:src/f:IFileScript.cs" caret="91" visual-x="0" visual-y="0" />
+      <File id="CD299346-3245-41D7-A454-84276E17FFB6/d:src/f:KExplorerControl.cs" caret="18384" visual-x="0" visual-y="8636" />
+      <File id="CD299346-3245-41D7-A454-84276E17FFB6/d:scripts/d:src/f:BackupCopyScript.cs" caret="689" visual-x="0" visual-y="204" />
+      <File id="CD299346-3245-41D7-A454-84276E17FFB6/d:res/f:KMultiForm.cs" caret="11514" visual-x="0" visual-y="8160" />
+      <File id="CD299346-3245-41D7-A454-84276E17FFB6/d:res/f:QuickDialog2.cs" caret="4740" visual-x="0" visual-y="2227" />
+      <File id="CD299346-3245-41D7-A454-84276E17FFB6/d:scripts/d:src/f:GDDecompressFileScript.cs" caret="1864" visual-x="0" visual-y="782" />
+      <File id="CD299346-3245-41D7-A454-84276E17FFB6/d:scripts/d:src/f:DeleteScript.cs" caret="1184" visual-x="0" visual-y="459" />
+      <File id="CD299346-3245-41D7-A454-84276E17FFB6/d:res/f:QuickDialog.cs" caret="3296" visual-x="0" visual-y="1700" />
+      <File id="CD299346-3245-41D7-A454-84276E17FFB6/d:scripts/d:src/f:AccountRepositoryGuess.cs" caret="8025" visual-x="0" visual-y="3944" />
+      <File id="CD299346-3245-41D7-A454-84276E17FFB6/d:scripting/d:src/f:ScriptMgr.cs" caret="1348" visual-x="0" visual-y="884" />
+      <File id="CD299346-3245-41D7-A454-84276E17FFB6/d:res/f:QuickSelectListDialog.cs" caret="3669" visual-x="0" visual-y="1513" />
+      <File id="CD299346-3245-41D7-A454-84276E17FFB6/d:res/f:DbConnectionDialog.cs" caret="10521" visual-x="0" visual-y="1462" />
+      <File id="CD299346-3245-41D7-A454-84276E17FFB6/d:scripts/d:src/f:DBConnectionSettingsFileScript.cs" caret="4289" visual-x="0" visual-y="2278" />
+      <File id="CD299346-3245-41D7-A454-84276E17FFB6/d:src/f:DriveLoaderWorkUnit.cs" caret="6554" visual-x="0" visual-y="3995" />
+      <File id="CD299346-3245-41D7-A454-84276E17FFB6/d:scripts/d:src/f:BeyondCompareSetLeftSideScript.cs" caret="188" visual-x="0" visual-y="0" />
+      <File id="CD299346-3245-41D7-A454-84276E17FFB6/d:scripts/d:src/f:ClearcaseExplorerFolderScript.cs" caret="0" visual-x="0" visual-y="0" />
+      <File id="CD299346-3245-41D7-A454-84276E17FFB6/d:scripts/d:src/f:ClearcaseVersionTreeFileScript.cs" caret="293" visual-x="0" visual-y="731" />
+      <File id="CD299346-3245-41D7-A454-84276E17FFB6/d:scripts/d:src/f:ClearcaseLabelSelection.cs" caret="2026" visual-x="0" visual-y="969" />
+    </RecentFiles>
+  </EditorManager>
+  <FileStructureView>
+    <AutoScrollToSource>False</AutoScrollToSource>
+    <TrackCaretLocation>False</TrackCaretLocation>
+  </FileStructureView>
+  <NAntValidationSettings>
+    <NAntPath value="" />
+  </NAntValidationSettings>
+  <ReFormatCode>
+    <OptimizeUsings>False</OptimizeUsings>
+    <RemoveRedundantThis>False</RemoveRedundantThis>
+    <ShortenReferences>False</ShortenReferences>
+    <DecorateModifiers>False</DecorateModifiers>
+  </ReFormatCode>
+  <SharedSolutionDisabledTemplatesManager>
+    <DisabledTemplates />
+  </SharedSolutionDisabledTemplatesManager>
+  <UserSolutionDisabledTemplatesManager>
+    <DisabledTemplates />
+  </UserSolutionDisabledTemplatesManager>
+</Configuration>

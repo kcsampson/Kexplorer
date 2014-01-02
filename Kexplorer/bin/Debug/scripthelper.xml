@@ -1,0 +1,44 @@
+<ScriptHelper>
+  <!--    exe names will be tolowered before searching. -->
+  <ProgramLocations>
+    <ProgramAlias exe="textpad.exe">C:\Program Files (x86)\Notepad++\Notepad++.exe</ProgramAlias>
+    <ProgramAlias exe="grep32.exe">C:\Program Files (x86)\Windows Grep\grep32.exe</ProgramAlias>
+    <ProgramAlias exe="7z.exe">C:\Program Files\7-Zip\7z.exe</ProgramAlias>
+    <ProgramAlias exe="bc2.exe">C:\kimball\BC2\Beyond Compare 2\BC2.exe</ProgramAlias>
+    <ProgramAlias exe="c1reportdesigner.exe">C:\Program Files\ComponentOne Studio.NET\C1Report\ReportDesigner\C1ReportDesigner.exe</ProgramAlias>
+  </ProgramLocations>
+  <WinGrep>
+    <WinGrepExt>cs</WinGrepExt>
+    <WinGrepExt>txt</WinGrepExt>
+    <WinGrepExt>xml</WinGrepExt>
+    <WinGrepExt>java</WinGrepExt>
+    <WinGrepExt>csproj</WinGrepExt>
+    <WinGrepExt>sln</WinGrepExt>
+    <WinGrepExt>mak</WinGrepExt>
+    <WinGrepExt>xslt</WinGrepExt>
+    <WinGrepExt>php</WinGrepExt>
+    <WinGrepExt>php5</WinGrepExt>
+    <WinGrepExt>h</WinGrepExt>
+    <WinGrepExt>cpp</WinGrepExt>
+    <WinGrepExt>inc</WinGrepExt>
+    <WinGrepExt>sql</WinGrepExt>
+    <WinGrepExt>config</WinGrepExt>
+    <WinGrepExt>aspx</WinGrepExt>
+    <WinGrepExt>ascx</WinGrepExt>
+    <WinGrepExt>properties</WinGrepExt>
+    <WinGrepExt>master</WinGrepExt>
+    <WinGrepExt>aspx</WinGrepExt>
+    <WinGrepExt>ascx</WinGrepExt>
+    <WinGrepExt>css</WinGrepExt>
+    <WinGrepExt>js</WinGrepExt>
+    <WinGrepExt>resx</WinGrepExt>
+    <WinGrepExt>config</WinGrepExt>
+    <WinGrepExt>ashx</WinGrepExt>
+  </WinGrep>
+  <ftpsites>
+<ftpsite name="EWKimball" host="ewftp.enterworks.com" username="EWDev" pwd="EWDEV02" folder="/Outgoing/kimball" type="win" />
+<ftpsite name="EWHNI" host="ewftp.enterworks.com" username="EWDev" pwd="EWDEV02" folder="/Outgoing/hni" type="win" />
+<ftpsite name="Enterworks" host="ewftp.enterworks.com" username="EWDev" pwd="ewdev01" folder="/Outgoing" type="win" />
+ 	 <ftpsite name="Kimbonics" host="kimbonics.com" username="ksampson" pwd="8ry1f10BJnkB" folder="" type="unix" />
+</ftpsites>
+</ScriptHelper>

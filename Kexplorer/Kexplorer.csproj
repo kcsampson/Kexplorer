@@ -1,0 +1,434 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{CD299346-3245-41D7-A454-84276E17FFB6}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon />
+    <AssemblyKeyContainerName />
+    <AssemblyName>Kexplorer</AssemblyName>
+    <AssemblyOriginatorKeyFile />
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>Kexplorer</RootNamespace>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <StartupObject>Kexplorer.res.KMultiForm</StartupObject>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <OldToolsVersion>0.0</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile />
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DocumentationFile />
+    <DebugSymbols>true</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn />
+    <Optimize>false</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>full</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile />
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile />
+    <DebugSymbols>false</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn />
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>none</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="C1.C1Zip">
+      <Name>C1.C1Zip</Name>
+      <HintPath>C:\Program Files\ComponentOne Studio.NET\bin\C1.C1Zip.dll</HintPath>
+      <AssemblyFolderKey>hklm\c1studio</AssemblyFolderKey>
+    </Reference>
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.Data.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <Name>System.Drawing</Name>
+    </Reference>
+    <Reference Include="System.ServiceProcess">
+      <Name>System.ServiceProcess</Name>
+    </Reference>
+    <Reference Include="System.Windows.Forms">
+      <Name>System.Windows.Forms</Name>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Name>System.XML</Name>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="console\res\KexplorerConsole.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="console\src\ConsoleManager.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="console\src\IConsoleGUI.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="res\DbConnectionDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="res\KExplorerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="res\KexplorerPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="res\KInfoPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="res\KMultiForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="res\QuickDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="res\QuickDialog2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="res\QuickSelectListDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="res\SimpleProgress.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="res\SimpleProgress.Designer.cs">
+      <DependentUpon>SimpleProgress.cs</DependentUpon>
+    </Compile>
+    <Compile Include="res\ThreadedInfoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="scripting\src\IFileScript.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="scripting\src\IFolderScript.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="scripting\src\IFTPFileScript.cs" />
+    <Compile Include="scripting\src\IFtpFolderScript.cs" />
+    <Compile Include="scripting\src\IScript.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="scripting\src\IScriptHelper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="scripting\src\IScriptMgr.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="scripting\src\IServiceScript.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="scripting\src\ScriptHelper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="scripting\src\ScriptMgr.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="scripting\src\ScriptRunParams.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="scripts\src\AccountRepositoryGuess.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="scripts\src\BackupCopyScript.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="scripts\src\BaseFileAndFolderScript.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="scripts\src\BaseFileScript.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="scripts\src\BaseFolderScript.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="scripts\src\BaseFtpFileScript.cs" />
+    <Compile Include="scripts\src\BaseScript.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="scripts\src\BeyondCompareRunScript.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="scripts\src\BeyondCompareSetLeftSideScript.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="scripts\src\CommandPromptAdminScript.cs" />
+    <Compile Include="scripts\src\CopyContentsScript.cs" />
+    <Compile Include="scripts\src\CopyToWinExpScript.cs" />
+    <Compile Include="scripts\src\CopyShortNameToClipboard.cs" />
+    <Compile Include="scripts\src\CopyFtpScript.cs" />
+    <Compile Include="scripts\src\AsAdminScript.cs" />
+    <Compile Include="scripts\src\TextPadAdminFileScript.cs" />
+    <Compile Include="scripts\src\RestConfigScript.cs" />
+    <Compile Include="scripts\src\MSExplorerHereFolderScript.cs" />
+    <Compile Include="scripts\src\ZipOpenFileScript.cs" />
+    <Compile Include="scripts\src\CommandPromptScript.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="scripts\src\CopyScript.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="scripts\src\CopyToClipboardFullNameScript.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="scripts\src\CopyToNameToCipboardForTSClientScript.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="scripts\src\CutScript.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="scripts\src\DeleteScript.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="scripts\src\DoShowFolderNode.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="scripts\src\InfoScript.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="scripts\src\KonsoleHereScript.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="scripts\src\MakeDirectoryScript.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="scripts\src\MakeWritableScript.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="scripts\src\ZipNextUnZipLocFolderScript.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="scripts\src\PasteScript.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="scripts\src\PictureViewerScript.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="scripts\src\RefreshScript.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="scripts\src\RenameScript.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="scripts\src\SetAsXmlInputToXsltScript.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="scripts\src\TestXmlSyntaxScript.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="scripts\src\TextPadFileScript.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="scripts\src\TextpadNewFileScript.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="scripts\src\UnzipHereFileScript.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="scripts\src\ZipUnzipToFileScript.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="scripts\src\WinGrepFolderScript.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="scripts\src\XSLTRunScript.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="scripts\src\ZipScript.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="services\res\ServicesPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="services\src\BaseServiceScript.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="services\src\HideServiceScript.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="services\src\IServiceGUI.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="services\src\RefreshServicesScript.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="services\src\ServiceMgrWorkUnit.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="services\src\StartServiceScript.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="services\src\StopServiceScript.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\FtpFileInfo.cs" />
+    <Compile Include="src\FtpFileListWorkUnit.cs" />
+    <Compile Include="src\FtpFolderWorkUnit.cs" />
+    <Compile Include="src\FtpLoaderWorkUnit.cs" />
+    <Compile Include="src\FtpSite.cs" />
+    <Compile Include="src\DirPerfStat.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\DriveLoaderWorkUnit.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\FileListWorkUnit.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\FolderFinderWorkUnit.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\FolderWorkUnit.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\IKExplorerControl.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\ISimpleKexplorerGUI.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\IWorkGUIFlagger.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\IWorkUnit.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\KExplorerControl.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\KexplorerFtpNode.cs" />
+    <Compile Include="src\KExplorerNode.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Launcher.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Pipeline.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\TreeViewPersistState.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <EmbeddedResource Include="console\res\KexplorerConsole.resx">
+      <DependentUpon>KexplorerConsole.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="res\DbConnectionDialog.resx">
+      <DependentUpon>DbConnectionDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="res\KExplorerForm.resx">
+      <DependentUpon>KExplorerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="res\KexplorerPanel.resx">
+      <DependentUpon>KexplorerPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="res\KInfoPanel.resx">
+      <DependentUpon>KInfoPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="res\KMultiForm.resx">
+      <DependentUpon>KMultiForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="res\QuickDialog.resx">
+      <DependentUpon>QuickDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="res\QuickDialog2.resx">
+      <DependentUpon>QuickDialog2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="res\QuickSelectListDialog.resx">
+      <DependentUpon>QuickSelectListDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="res\SimpleProgress.resx">
+      <DependentUpon>SimpleProgress.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="res\ThreadedInfoForm.resx">
+      <DependentUpon>ThreadedInfoForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="services\res\ServicesPanel.resx">
+      <DependentUpon>ServicesPanel.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent />
+    <PostBuildEvent />
+  </PropertyGroup>
+</Project>

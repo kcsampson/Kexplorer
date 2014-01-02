@@ -1,0 +1,26 @@
+[General Search Parameters]
+Search String=mmm
+Skip Text Files=False
+Skip Binary Files=True
+Recurse Subdirectories=True
+Count Files First=False
+[Active File Specifications]
+0=*.cs
+1=*.txt
+2=*.xml
+3=*.java
+4=*.csproj
+5=*.sln
+6=*.mak
+7=*.xslt
+8=*.php
+9=*.php5
+10=*.h
+11=*.cpp
+12=*.inc
+13=*.*66
+14=*.sql
+15=*.otl
+16=*.config
+[Active Directory Specifications]
+0=C:\perforce\Enable\EnableNextGen\Enterworks.Enable.WebMain

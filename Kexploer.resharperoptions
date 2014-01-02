@@ -1,0 +1,623 @@
+<Configuration>
+  <RecentFilesTracker>
+    <RecentFilesTracker>
+      <TrackedFile location="C:\Projects\Kexploer\Kexploer\scripts\src\WinGrepFolderScript.cs" offset="1580" line="34" column="0" />
+      <TrackedFile location="C:\Projects\Kexploer\Kexploer\scripts\src\ClearcaseHistoryFileScript.cs" offset="595" line="3" column="0" />
+      <TrackedFile location="C:\Projects\Kexploer\Kexploer\scripts\src\MakeWritableScript.cs" offset="806" line="15" column="0" />
+      <TrackedFile location="C:\Projects\Kexploer\Kexploer\scripts\src\ClearcaseVersionTreeFileScript.cs" offset="896" line="16" column="0" />
+      <TrackedFile location="C:\Projects\Kexploer\Kexploer\scripts\src\RegexFileScript.cs" offset="598" line="7" column="0" />
+      <TrackedFile location="C:\Projects\Kexploer\Kexploer\scripts\src\XSLTRunScript.cs" offset="0" line="56" column="0" />
+      <TrackedFile location="C:\Projects\Kexploer\Kexploer\src\KExplorerControl.cs" offset="0" line="45" column="0" />
+      <TrackedFile location="C:\Projects\Kexploer\Kexploer\res\QuickDialog.cs" offset="0" line="41" column="0" />
+      <TrackedFile location="C:\Projects\Kexploer\Kexploer\scripting\src\ScriptMgr.cs" offset="265" line="0" column="0" />
+      <TrackedFile location="C:\Projects\Kexploer\Kexploer\scripting\src\IScriptHelper.cs" offset="0" line="9" column="0" />
+      <TrackedFile location="C:\Projects\Kexploer\Kexploer\res\KMultiForm.cs" offset="11200" line="474" column="0" />
+      <TrackedFile location="C:\Projects\Kexploer\Kexploer\res\KexplorerPanel.cs" offset="0" line="123" column="0" />
+      <TrackedFile location="C:\Projects\Kexploer\Kexploer\console\res\KexplorerConsole.cs" offset="0" line="194" column="0" />
+      <TrackedFile location="C:\Projects\Kexploer\Kexploer\services\src\ServiceMgrWorkUnit.cs" offset="0" line="164" column="0" />
+      <TrackedFile location="C:\Projects\Kexploer\Kexploer\src\TreeViewPersistState.cs" offset="0" line="100" column="0" />
+      <TrackedFile location="C:\Projects\Kexploer\Kexploer\scripts\src\PictureViewerScript.cs" offset="0" line="4" column="0" />
+      <TrackedFile location="C:\Projects\Kexploer\Kexploer\console\src\ConsoleManager.cs" offset="425" line="274" column="0" />
+      <TrackedFile location="C:\Projects\Kexploer\Kexploer\services\res\ServicesPanel.cs" offset="0" line="23" column="0" />
+      <TrackedFile location="C:\Projects\Kexploer\Kexploer\src\FileListWorkUnit.cs" offset="5676" line="29" column="0" />
+      <TrackedFile location="C:\Projects\Kexploer\Kexploer\scripts\src\KonsoleHereScript.cs" offset="961" line="19" column="0" />
+      <TrackedFile location="C:\Projects\Kexploer\Kexploer\scripts\src\CommandPromptScript.cs" offset="596" line="20" column="0" />
+      <TrackedFile location="C:\Projects\Kexploer\Kexploer\scripting\src\ScriptHelper.cs" offset="5270" line="222" column="0" />
+      <TrackedFile location="C:\Projects\Kexploer\Kexploer\scripts\src\BaseScript.cs" offset="891" line="34" column="0" />
+      <TrackedFile location="C:\Projects\Kexploer\Kexploer\services\src\RefreshServicesScript.cs" offset="0" line="-1" column="-1" />
+      <TrackedFile location="C:\Projects\Kexploer\Kexploer\console\src\IConsoleGUI.cs" offset="192" line="0" column="0" />
+      <TrackedFile location="C:\Projects\Kexploer\Kexploer\src\IWorkUnit.cs" offset="128" line="-1" column="-1" />
+      <TrackedFile location="C:\Projects\Kexploer\Kexploer\src\FolderWorkUnit.cs" offset="5651" line="76" column="0" />
+      <TrackedFile location="C:\Projects\Kexploer\Kexploer\src\DriveLoaderWorkUnit.cs" offset="5007" line="54" column="0" />
+      <TrackedFile location="C:\Projects\Kexploer\Kexploer\src\KExplorerNode.cs" offset="2037" line="57" column="0" />
+      <TrackedFile location="C:\Projects\Kexploer\Kexploer\services\src\IServiceGUI.cs" offset="182" line="-1" column="-1" />
+    </RecentFilesTracker>
+  </RecentFilesTracker>
+  <SettingsComponent>
+    <string />
+    <integer />
+    <boolean>
+      <setting name="ReSharper.FindInterfaceDialog.checkBoxExtendingInterfaces">False</setting>
+      <setting name="ReSharper.FindClassDialog.checkBoxFindMemberUsages">True</setting>
+      <setting name="ReSharper.FindMethodDialog.checkBoxSearchLibraries">False</setting>
+      <setting name="ReSharper.FindMethodDialog.checkBoxFindInheritors">True</setting>
+      <setting name="ReSharper.FindMethodDialog.checkBoxFindUsages">False</setting>
+      <setting name="ReSharper.FindClassDialog.checkBoxFindInheritors">True</setting>
+      <setting name="ReSharper.FindClassDialog.checkBoxFindUsages">True</setting>
+      <setting name="ReSharper.FindInterfaceDialog.checkBoxFindInheritors">True</setting>
+      <setting name="ReSharper.FindClassDialog.checkBoxSearchLibraries">False</setting>
+      <setting name="ReSharper.FindInterfaceDialog.checkBoxSearchLibraries">False</setting>
+      <setting name="ReSharper.FindInterfaceDialog.checkBoxFindMemberUsages">False</setting>
+      <setting name="ReSharper.FindInterfaceDialog.checkBoxFindUsages">False</setting>
+    </boolean>
+  </SettingsComponent>
+  <CompletionStatisticsManager>
+    <ItemStatistics item="Qualified:System.Windows.Forms.DataGrid">
+      <Item value="NavigateTo" priority="0" />
+      <Item value="MouseDown" priority="0" />
+      <Item value="Scroll" priority="0" />
+      <Item value="CaptionText" priority="0" />
+      <Item value="DoubleClick" priority="0" />
+      <Item value="CurrentRowIndex" priority="2" />
+      <Item value="Select" priority="0" />
+      <Item value="IsSelected" priority="0" />
+      <Item value="DataSource" priority="7" />
+      <Item value="Click" priority="0" />
+      <Item value="Refresh" priority="0" />
+      <Item value="GetCurrentCellBounds" priority="0" />
+      <Item value="DataSourceChanged" priority="0" />
+      <Item value="TableStyles" priority="1" />
+      <Item value="KeyDown" priority="0" />
+      <Item value="ContextMenu" priority="1" />
+      <Item value="CurrentCell" priority="0" />
+      <Item value="SelectionBackColor" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:Kexplorer.TreeViewPersistState">
+      <Item value="WriteXmlOutput" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.Xml.Xsl">
+      <Item value="XslTransform" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:string">
+      <Item value="CompareTo" priority="1" />
+      <Item value="ToLower" priority="7" />
+      <Item value="IndexOf" priority="0" />
+      <Item value="Equals" priority="16" />
+      <Item value="EndsWith" priority="0" />
+      <Item value="Split" priority="0" />
+      <Item value="Length" priority="7" />
+      <Item value="StartsWith" priority="2" />
+      <Item value="Replace" priority="1" />
+      <Item value="Substring" priority="10" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Data.DataTable">
+      <Item value="NewRow" priority="0" />
+      <Item value="Rows" priority="13" />
+      <Item value="Columns" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Forms.TabControl">
+      <Item value="SelectedTab" priority="5" />
+      <Item value="SelectedIndexChanged" priority="0" />
+      <Item value="DoubleClick" priority="0" />
+      <Item value="TabPages" priority="4" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Forms.TreeNodeCollection">
+      <Item value="AddRange" priority="2" />
+      <Item value="Clear" priority="2" />
+      <Item value="Add" priority="5" />
+      <Item value="Count" priority="7" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.IO.DirectoryInfo[]">
+      <Item value="Length" priority="10" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Forms.TabControl.TabPageCollection">
+      <Item value="Count" priority="1" />
+      <Item value="Add" priority="0" />
+      <Item value="Remove" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Forms.Menu.MenuItemCollection">
+      <Item value="Clear" priority="1" />
+      <Item value="Add" priority="4" />
+      <Item value="Count" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:Kexplorer.IWorkUnit">
+      <Item value="Abort" priority="0" />
+      <Item value="DoJob" priority="2" />
+      <Item value="YouWereAborted" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Forms.TreeViewEventArgs">
+      <Item value="Node" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Forms.KeyEventArgs">
+      <Item value="KeyCode" priority="4" />
+      <Item value="Shift" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.IO.DirectoryInfo">
+      <Item value="GetDirectories" priority="11" />
+      <Item value="FullName" priority="22" />
+      <Item value="Parent" priority="0" />
+      <Item value="Exists" priority="1" />
+      <Item value="CreationTime" priority="0" />
+      <Item value="Name" priority="13" />
+      <Item value="CreateSubdirectory" priority="2" />
+      <Item value="GetFiles" priority="7" />
+      <Item value="MoveTo" priority="2" />
+      <Item value="GetFileSystemInfos" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:Kexploer.KExplorerControl">
+      <Item value="Initialize" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:Kexplorer.res.ThreadedInfoForm">
+      <Item value="Visible" priority="1" />
+      <Item value="OKCancelBtn" priority="0" />
+      <Item value="Invoke" priority="1" />
+      <Item value="Close" priority="1" />
+      <Item value="SizeLabel" priority="1" />
+      <Item value="NameLabel" priority="0" />
+      <Item value="SubFolderLabel" priority="1" />
+      <Item value="Hide" priority="1" />
+      <Item value="CancelCallback" priority="1" />
+      <Item value="Show" priority="2" />
+      <Item value="FilesLabel" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.Windows.Forms.MessageBox">
+      <Item value="Show" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.ServiceProcess.ServiceControllerStatus">
+      <Item value="ToString" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:Kexplorer.scripting.IScriptHelper">
+      <Item value="RunProgram" priority="6" />
+      <Item value="RefreshFolder" priority="15" />
+      <Item value="FindScript" priority="1" />
+      <Item value="VARS" priority="3" />
+      <Item value="RunProgramInKonsole" priority="0" />
+      <Item value="FindFolder" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.IO.FileInfo[]">
+      <Item value="Length" priority="6" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:Kexplorer.KExplorerControl">
+      <Item value="Initialize" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Diagnostics.Process">
+      <Item value="StandardError" priority="0" />
+      <Item value="StartInfo" priority="8" />
+      <Item value="Start" priority="1" />
+      <Item value="StandardInput" priority="0" />
+      <Item value="StandardOutput" priority="1" />
+      <Item value="Close" priority="0" />
+      <Item value="ProcessorAffinity" priority="0" />
+      <Item value="WaitForExit" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.IO.FileInfo">
+      <Item value="Extension" priority="10" />
+      <Item value="DirectoryName" priority="0" />
+      <Item value="Attributes" priority="7" />
+      <Item value="Delete" priority="1" />
+      <Item value="LastWriteTime" priority="2" />
+      <Item value="Exists" priority="1" />
+      <Item value="Length" priority="3" />
+      <Item value="CopyTo" priority="0" />
+      <Item value="Name" priority="11" />
+      <Item value="Directory" priority="0" />
+      <Item value="FullName" priority="15" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Data.DataRow[]">
+      <Item value="Length" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Forms.TreeView">
+      <Item value="EndUpdate" priority="0" />
+      <Item value="Nodes" priority="2" />
+      <Item value="SelectedNode" priority="5" />
+      <Item value="BeginUpdate" priority="0" />
+      <Item value="AfterExpand" priority="1" />
+      <Item value="DoubleClick" priority="0" />
+      <Item value="ContextMenu" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:Kexplorer.scripting.IScriptMgr">
+      <Item value="FileScripts" priority="2" />
+      <Item value="RunServiceScript" priority="0" />
+      <Item value="RunFolderScript" priority="0" />
+      <Item value="FolderScripts" priority="2" />
+      <Item value="InitializeScripts" priority="0" />
+      <Item value="ScriptHelper" priority="3" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Reflection.Assembly">
+      <Item value="GetModules" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:Kexplorer.scripting.IFolderScript">
+      <Item value="LongName" priority="0" />
+      <Item value="Run" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:Kexplorer.ISimpleKexplorerGUI">
+      <Item value="FileTreeMenu" priority="0" />
+      <Item value="DirTreeMenu" priority="0" />
+      <Item value="TreeView1" priority="22" />
+      <Item value="DataGrid1" priority="7" />
+      <Item value="MainForm" priority="14" />
+      <Item value="WatchingForFolder" priority="2" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@Kexplorer">
+      <Item value="IWorkGUIFlagger" priority="0" />
+      <Item value="ISimpleKexplorerGUI" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.IO.File">
+      <Item value="Move" priority="0" />
+      <Item value="Copy" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:Kexplorer.services.ServiceMgrWorkUnit">
+      <Item value="Close" priority="0" />
+      <Item value="InitalizeControl" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Forms.Control.ControlCollection">
+      <Item value="Add" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Forms.MenuItem">
+      <Item value="Text" priority="1" />
+      <Item value="Enabled" priority="1" />
+      <Item value="Click" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.ServiceProcess.ServiceController">
+      <Item value="Start" priority="0" />
+      <Item value="Refresh" priority="1" />
+      <Item value="ServiceName" priority="2" />
+      <Item value="CanStop" priority="1" />
+      <Item value="Status" priority="1" />
+      <Item value="ServiceType" priority="0" />
+      <Item value="CanPauseAndContinue" priority="0" />
+      <Item value="CanShutdown" priority="0" />
+      <Item value="DisplayName" priority="2" />
+      <Item value="Stop" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.DateTime.Now">
+      <Item value="ToString" priority="0" />
+      <Item value="Subtract" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Text.RegularExpressions.MatchCollection">
+      <Item value="Count" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:Kexplorer.scripting.IScript">
+      <Item value="Initialize" priority="2" />
+      <Item value="ScriptShortCut" priority="0" />
+      <Item value="LongName" priority="1" />
+      <Item value="Description" priority="2" />
+      <Item value="Active" priority="2" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.ServiceProcess.ServiceType">
+      <Item value="ToString" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.Windows.Forms.MessageBoxButtons">
+      <Item value="YesNo" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System">
+      <Item value="Runtime" priority="0" />
+      <Item value="Diagnostics" priority="0" />
+      <Item value="Net" priority="0" />
+      <Item value="Collections" priority="0" />
+      <Item value="Windows" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:Kexploer.Pipeline">
+      <Item value="StopWork" priority="0" />
+      <Item value="StartWork" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.IO.FileAttributes">
+      <Item value="ToString" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.IO">
+      <Item value="File" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Xml.Xsl.XslTransform">
+      <Item value="Load" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:Kexplorer.console.KonsoleColumnStyle">
+      <Item value="Width" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:Kexplorer.scripts.CopyScript">
+      <Item value="ScriptShortCut" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.TimeSpan">
+      <Item value="Ticks" priority="2" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Threading.Thread">
+      <Item value="ThreadState" priority="1" />
+      <Item value="Abort" priority="4" />
+      <Item value="Start" priority="7" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Text.StringBuilder">
+      <Item value="ToString" priority="0" />
+      <Item value="Append" priority="21" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:Kexplorer.scripts.BackgroundRun">
+      <Item value="WasKilled" priority="1" />
+      <Item value="Kill" priority="0" />
+      <Item value="KillCallback" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Forms.TreeNode">
+      <Item value="Remove" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.Data">
+      <Item value="DataTable" priority="0" />
+      <Item value="DataRowState" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Reflection.Module">
+      <Item value="GetTypes" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:long">
+      <Item value="ToString" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Xml.XmlNode">
+      <Item value="Attributes" priority="1" />
+      <Item value="InnerText" priority="3" />
+      <Item value="SelectNodes" priority="1" />
+      <Item value="SelectSingleNode" priority="4" />
+      <Item value="Value" priority="2" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Collections.ArrayList">
+      <Item value="ToArray" priority="7" />
+      <Item value="Remove" priority="1" />
+      <Item value="AddRange" priority="1" />
+      <Item value="Add" priority="11" />
+      <Item value="Count" priority="4" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Data.DataView">
+      <Item value="Sort" priority="4" />
+      <Item value="Table" priority="8" />
+      <Item value="Count" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Xml.XmlNodeList">
+      <Item value="Count" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Forms.TabPage">
+      <Item value="Dispose" priority="0" />
+      <Item value="Text" priority="2" />
+      <Item value="Controls" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.DateTime">
+      <Item value="Now" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Forms.KeyPressEventArgs">
+      <Item value="KeyChar" priority="3" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Diagnostics.ProcessStartInfo">
+      <Item value="WorkingDirectory" priority="1" />
+      <Item value="UseShellExecute" priority="0" />
+      <Item value="Arguments" priority="0" />
+      <Item value="FileName" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:Kexploer.KExplorerNode">
+      <Item value="LoadNode" priority="3" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:Kexplorer.services.IServiceGUI">
+      <Item value="ServiceGridMenu" priority="0" />
+      <Item value="ServiceGrid" priority="5" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.IO.StreamWriter">
+      <Item value="Write" priority="2" />
+      <Item value="Flush" priority="1" />
+      <Item value="Close" priority="3" />
+      <Item value="WriteLine" priority="12" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Forms.Button">
+      <Item value="Text" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Data.DataColumn">
+      <Item value="ExtendedProperties" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Data.DataRow">
+      <Item value="RowState" priority="2" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Text.RegularExpressions.Match">
+      <Item value="Groups" priority="2" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Collections.Hashtable">
+      <Item value="Values" priority="0" />
+      <Item value="ContainsKey" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Exception">
+      <Item value="Message" priority="8" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.IO.StreamReader">
+      <Item value="Close" priority="0" />
+      <Item value="ReadToEnd" priority="2" />
+      <Item value="Read" priority="0" />
+      <Item value="ReadLine" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.DateTime">
+      <Item value="Ticks" priority="1" />
+      <Item value="ToString" priority="1" />
+      <Item value="Subtract" priority="2" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:Kexplorer.scripting.IFileScript">
+      <Item value="Validator" priority="1" />
+      <Item value="LongName" priority="0" />
+      <Item value="Run" priority="1" />
+      <Item value="ValidExtensions" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:Kexplorer.KExplorerNode[]">
+      <Item value="Length" priority="2" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Collections.Queue">
+      <Item value="Clear" priority="0" />
+      <Item value="Enqueue" priority="1" />
+      <Item value="Dequeue" priority="0" />
+      <Item value="Count" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Forms.CurrencyManager">
+      <Item value="List" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Forms.Form">
+      <Item value="BeginInvoke" priority="1" />
+      <Item value="Invoke" priority="4" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:Kexploer.Form1">
+      <Item value="TreeView1" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:Kexplorer.console.KExplorerConsole">
+      <Item value="Initialize" priority="0" />
+      <Item value="TypeCommand" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.Text">
+      <Item value="RegularExpressions" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@">
+      <Item value="textBox1" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Data.DataRowCollection">
+      <Item value="Remove" priority="0" />
+      <Item value="Add" priority="2" />
+      <Item value="Count" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:Kexplorer.scripts.PasteScript">
+      <Item value="ScriptShortCut" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:Kexplorer.Launcher">
+      <Item value="Initialize" priority="0" />
+      <Item value="Launch" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Forms.BindingManagerBase">
+      <Item value="Bindings" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:Kexplorer.KexplorerPanel">
+      <Item value="Initialized" priority="0" />
+      <Item value="InitializeOnce" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Text.RegularExpressions.Regex">
+      <Item value="GetGroupNames" priority="1" />
+      <Item value="Matches" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:Kexploer.src.IWorkUnit">
+      <Item value="DoJob" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Xml.XmlAttributeCollection">
+      <Item value="GetNamedItem" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@Kexplorer.res.KMultiForm">
+      <Item value="instance" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.Threading">
+      <Item value="ThreadAbortException" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.Windows.Forms">
+      <Item value="MessageBoxIcon" priority="0" />
+      <Item value="Clipboard" priority="0" />
+      <Item value="MessageBoxOptions" priority="0" />
+      <Item value="DockStyle" priority="0" />
+      <Item value="MessageBoxButtons" priority="0" />
+      <Item value="MessageBox" priority="1" />
+      <Item value="MessageBoxDefaultButton" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:int">
+      <Item value="ToString" priority="8" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:Kexplorer.Pipeline">
+      <Item value="AddPriorityJob" priority="1" />
+      <Item value="AddJob" priority="7" />
+      <Item value="StopWork" priority="1" />
+      <Item value="StartWork" priority="3" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:object">
+      <Item value="Equals" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:Kexplorer.IKExplorerControl">
+      <Item value="MainPipeLine" priority="1" />
+      <Item value="DrivePipelines" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:Kexplorer.scripts.CutScript">
+      <Item value="ScriptShortCut" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:string[]">
+      <Item value="Length" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.Xml">
+      <Item value="Xsl" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Xml.XmlDocument">
+      <Item value="Load" priority="2" />
+      <Item value="LoadXml" priority="0" />
+      <Item value="SelectNodes" priority="2" />
+      <Item value="SelectSingleNode" priority="0" />
+      <Item value="Save" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.Windows.Forms.MessageBoxDefaultButton">
+      <Item value="Button2" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.ServiceProcess.ServiceController">
+      <Item value="GetDevices" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Forms.DialogResult">
+      <Item value="OK" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.Windows.Forms.MessageBoxIcon">
+      <Item value="Exclamation" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.Windows">
+      <Item value="Forms" priority="9" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Type">
+      <Item value="IsClass" priority="0" />
+      <Item value="GetConstructor" priority="0" />
+      <Item value="GetInterfaceMap" priority="0" />
+      <Item value="IsAbstract" priority="0" />
+      <Item value="GetInterface" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:Kexplorer.KExplorerNode">
+      <Item value="Nodes" priority="20" />
+      <Item value="Expand" priority="1" />
+      <Item value="Stale" priority="7" />
+      <Item value="Parent" priority="8" />
+      <Item value="DirInfo" priority="53" />
+      <Item value="Text" priority="9" />
+      <Item value="FullPath" priority="11" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.Windows.Forms.DockStyle">
+      <Item value="Fill" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.ServiceProcess">
+      <Item value="ServiceController" priority="2" />
+      <Item value="ServiceControllerStatus" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Forms.GridColumnStylesCollection">
+      <Item value="Add" priority="2" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Forms.ContextMenu">
+      <Item value="Popup" priority="2" />
+      <Item value="MenuItems" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Forms.DataGridTextBoxColumn">
+      <Item value="HeaderText" priority="0" />
+      <Item value="MappingName" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.Text.RegularExpressions">
+      <Item value="Regex" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:Kexplorer.services.ServicesPanel">
+      <Item value="Manager" priority="0" />
+      <Item value="ServiceGrid" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Forms.DataGridTableStyle">
+      <Item value="GridColumnStyles" priority="3" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:Kexplorer.scripting.ScriptRunParams">
+      <Item value="FolderNode" priority="2" />
+      <Item value="Files" priority="3" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:Kexplorer.KExplorerForm">
+      <Item value="AcceptButton" priority="0" />
+      <Item value="TreeView1" priority="1" />
+      <Item value="BeginInvoke" priority="4" />
+      <Item value="DataGrid1" priority="2" />
+      <Item value="CommandItem" priority="0" />
+      <Item value="Invoke" priority="2" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Forms.TextBox">
+      <Item value="KeyUp" priority="0" />
+      <Item value="Text" priority="4" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Forms.Label">
+      <Item value="KeyUp" priority="0" />
+      <Item value="Text" priority="11" />
+      <Item value="KeyPress" priority="0" />
+    </ItemStatistics>
+  </CompletionStatisticsManager>
+</Configuration>

@@ -1,0 +1,28 @@
+<Launchers>
+
+
+<Launcher ext="*" command="C:\Program Files (x86)\Notepad++\Notepad++.exe"  />
+<Launcher ext="xml" command = "C:\Program Files (x86)\Mozilla Firefox\firefox.exe" />
+<Launcher ext="sln" command="C:\Program Files (x86)\Common Files\microsoft shared\MSEnv\VSLauncher.exe" />
+<Launcher ext="xls" command="Excel.exe" />
+<Launcher ext="xlsx" command="Excel.exe" />
+<Launcher ext="xlsm" command="Excel.exe" />
+<Launcher ext="ppt" command="C:\Program Files (x86)\Microsoft Office\OFFICE14\POWERPNT.EXE" />
+<Launcher ext="pptx" command="C:\Program Files (x86)\Microsoft Office\OFFICE14\POWERPNT.EXE" />
+
+<Launcher ext="doc" command="C:\Program Files (x86)\Microsoft Office\OFFICE14\WINWORD.EXE" />
+<Launcher ext="docx" command="C:\Program Files (x86)\Microsoft Office\OFFICE14\WINWORD.EXE" />
+
+<Launcher ext="zip" command="C:\Program Files\7-Zip\7zFM.exe" preOption = "" />
+
+<Launcher ext="jar" command="C:\Program Files\7-Zip\7zFM.exe" preOption = "" />
+
+<Launcher ext="pdf" command="C:\Program Files (x86)\Adobe\Reader 9.0\Reader\AcroRd32.exe" />
+<Launcher ext="mpp" command="C:\Program Files (x86)\Microsoft Office\OFFICE12\WINPROJ.EXE" />
+
+<Launcher ext="jpg" command="rundll32.exe" preOption= "C:\WINDOWS\System32\shimgvw.dll,ImageView_Fullscreen" />
+<Launcher ext="jpeg" command="rundll32.exe" preOption= "C:\WINDOWS\System32\shimgvw.dll,ImageView_Fullscreen" />
+
+
+
+</Launchers>

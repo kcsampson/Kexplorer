@@ -1,0 +1,1252 @@
+<!-- CTO is expired, right now it is 8/6/09 -->
+
+<Security>
+  <AccountsRepository>
+    <User UserId="CTO" Abbreviation="CTO" Title="Mr." FirstName="Currency Technology" 
+    LastName="Office" DescriptionKey="Yet another currency technology office user.  " 
+    Department="2BE3" DefaultCulture="en-US" DefaultUICulture="en-US" 
+    StartOfValidity="2004-12-31T19:00:00.0000000" EndOfValidity="2009-01-09T18:59:00.0000000" 
+    AuthenticationMethod="User &amp; Password" CanChangePassword="false" PasswordNeverExpires="true">
+      <Picture />
+    </User>
+    <User UserId="CTOADV" Abbreviation="CTOADV" Title="Mr."
+    FirstName="CTO" LastName="Expert" DescriptionKey="CTO Expert User" 
+    Department="CTO" DefaultCulture="en-US" DefaultUICulture="en-US" 
+    AuthenticationMethod="User &amp; Password" 
+    CanChangePassword="false" PasswordNeverExpires="true">
+      <Picture />
+    </User>
+    <User UserId="alex" Abbreviation="12" Title="" FirstName="Serge" LastName="Alexandre" DescriptionKey="AO" Department="" DefaultCulture="en-US" DefaultUICulture="en-US" AuthenticationMethod="User &amp; Password" CanChangePassword="true" PasswordNeverExpires="false">
+      <Picture />
+    </User>
+    <User UserId="ngun" Abbreviation="49" Title="" FirstName="Andre" LastName="Nguyen" DescriptionKey="AO" Department="" DefaultCulture="en-US" DefaultUICulture="en-US" AuthenticationMethod="User &amp; Password" CanChangePassword="true" PasswordNeverExpires="false">
+      <Picture />
+    </User>
+    <User UserId="brae" Abbreviation="82" Title="" FirstName="Mathieu" LastName="Braen" DescriptionKey="AO" Department="" DefaultCulture="en-US" DefaultUICulture="en-US" AuthenticationMethod="User &amp; Password" CanChangePassword="true" PasswordNeverExpires="false">
+      <Picture />
+    </User>
+    <User UserId="brud" Abbreviation="81" Title="" FirstName="Annick" LastName="Brunet" DescriptionKey="AO" Department="" DefaultCulture="en-US" DefaultUICulture="en-US" AuthenticationMethod="User &amp; Password" CanChangePassword="true" PasswordNeverExpires="false">
+      <Picture />
+    </User>
+    <User UserId="cadp" Abbreviation="33" Title="" FirstName="Donald" LastName="Caron" DescriptionKey="AO" Department="" DefaultCulture="en-US" DefaultUICulture="en-US" AuthenticationMethod="User &amp; Password" CanChangePassword="true" PasswordNeverExpires="false">
+      <Picture />
+    </User>
+    <User UserId="camc" Abbreviation="32" Title="" FirstName="Manon" LastName="Cartier" DescriptionKey="AO" Department="" DefaultCulture="en-US" DefaultUICulture="en-US" AuthenticationMethod="User &amp; Password" CanChangePassword="true" PasswordNeverExpires="false">
+      <Picture />
+    </User>
+    <User UserId="chca" Abbreviation="45" Title="" FirstName="Carole" LastName="Champoux" DescriptionKey="AO" Department="" DefaultCulture="en-US" DefaultUICulture="en-US" AuthenticationMethod="User &amp; Password" CanChangePassword="true" PasswordNeverExpires="false">
+      <Picture />
+    </User>
+    <User UserId="chas" Abbreviation="70" Title="" FirstName="Sylvain" LastName="Charron" DescriptionKey="SSO (Analyste)" Department="" DefaultCulture="en-US" DefaultUICulture="en-US" AuthenticationMethod="User &amp; Password" CanChangePassword="true" PasswordNeverExpires="false">
+      <Picture />
+    </User>
+    <User UserId="daim" Abbreviation="91" Title="" FirstName="Maryse" LastName="Daigle" DescriptionKey="AO" Department="" DefaultCulture="en-US" DefaultUICulture="en-US" AuthenticationMethod="User &amp; Password" CanChangePassword="true" PasswordNeverExpires="false">
+      <Picture />
+    </User>
+    <User UserId="debo" Abbreviation="05" Title="" FirstName="Robert" LastName="Deboisbrillant" DescriptionKey="AO" Department="" DefaultCulture="en-US" DefaultUICulture="en-US" AuthenticationMethod="User &amp; Password" CanChangePassword="true" PasswordNeverExpires="false">
+      <Picture />
+    </User>
+    <User UserId="dels" Abbreviation="92" Title="" FirstName="Susan" LastName="De Lucia" DescriptionKey="SSO (Analyste)" Department="" DefaultCulture="en-US" DefaultUICulture="en-US" AuthenticationMethod="User &amp; Password" CanChangePassword="true" PasswordNeverExpires="false">
+      <Picture />
+    </User>
+    <User UserId="deml" Abbreviation="80" Title="" FirstName="Lise" LastName="Demers" DescriptionKey="AO" Department="" DefaultCulture="en-US" DefaultUICulture="en-US" AuthenticationMethod="User &amp; Password" CanChangePassword="true" PasswordNeverExpires="false">
+      <Picture />
+    </User>
+    <User UserId="filj" Abbreviation="03" Title="" FirstName="Joanne" LastName="Filiatrault" DescriptionKey="AO" Department="" DefaultCulture="en-US" DefaultUICulture="en-US" AuthenticationMethod="User &amp; Password" CanChangePassword="true" PasswordNeverExpires="false">
+      <Picture />
+    </User>
+    <User UserId="fise" Abbreviation="76" Title="" FirstName="Lise" LastName="Fiset" DescriptionKey="AO" Department="" DefaultCulture="en-US" DefaultUICulture="en-US" AuthenticationMethod="User &amp; Password" CanChangePassword="true" PasswordNeverExpires="false">
+      <Picture />
+    </User>
+    <User UserId="forb" Abbreviation="99" Title="" FirstName="Dan" LastName="Fortier" DescriptionKey="SV (Team Leader)" Department="" DefaultCulture="en-US" DefaultUICulture="en-US" AuthenticationMethod="User &amp; Password" CanChangePassword="true" PasswordNeverExpires="false" PermissionToModifyUser="Special.Level4">
+      <Picture />
+    </User>
+    <User UserId="gina" Abbreviation="41" Title="" FirstName="Andre" LastName="Gingras" DescriptionKey="AO" Department="" DefaultCulture="en-US" DefaultUICulture="en-US" AuthenticationMethod="User &amp; Password" CanChangePassword="true" PasswordNeverExpires="false">
+      <Picture />
+    </User>
+    <User UserId="guea" Abbreviation="37" Title="" FirstName="Amelie" LastName="Guerard" DescriptionKey="AO" Department="" DefaultCulture="en-US" DefaultUICulture="en-US" EndOfValidity="2008-03-13T01:49:43.0000000-08:00" AuthenticationMethod="User &amp; Password" CanChangePassword="true" PasswordNeverExpires="false">
+      <Picture />
+    </User>
+    <User UserId="laga" Abbreviation="52" Title="" FirstName="Martin" LastName="Lagace" DescriptionKey="AO" Department="" DefaultCulture="en-US" DefaultUICulture="en-US" AuthenticationMethod="User &amp; Password" CanChangePassword="true" PasswordNeverExpires="false">
+      <Picture />
+    </User>
+    <User UserId="lajo" Abbreviation="31" Title="" FirstName="Melanie" LastName="Lajoie" DescriptionKey="AO" Department="" DefaultCulture="en-US" DefaultUICulture="en-US" AuthenticationMethod="User &amp; Password" CanChangePassword="true" PasswordNeverExpires="false">
+      <Picture />
+    </User>
+    <User UserId="lael" Abbreviation="11" Title="" FirstName="El-Mostafa" LastName="Lamrhani" DescriptionKey="AO" Department="" DefaultCulture="en-US" DefaultUICulture="en-US" AuthenticationMethod="User &amp; Password" CanChangePassword="true" PasswordNeverExpires="false">
+      <Picture />
+    </User>
+    <User UserId="laur" Abbreviation="04" Title="" FirstName="Jacques" LastName="Laurence" DescriptionKey="AO" Department="" DefaultCulture="en-US" DefaultUICulture="en-US" AuthenticationMethod="User &amp; Password" CanChangePassword="true" PasswordNeverExpires="false">
+      <Picture />
+    </User>
+    <User UserId="lavh" Abbreviation="95" Title="" FirstName="Patrice" LastName="Lavigne" DescriptionKey="AO" Department="" DefaultCulture="en-US" DefaultUICulture="en-US" AuthenticationMethod="User &amp; Password" CanChangePassword="true" PasswordNeverExpires="false">
+      <Picture />
+    </User>
+    <User UserId="lemd" Abbreviation="29" Title="" FirstName="Diane" LastName="Lemieux" DescriptionKey="AO" Department="" DefaultCulture="en-US" DefaultUICulture="en-US" AuthenticationMethod="User &amp; Password" CanChangePassword="true" PasswordNeverExpires="false">
+      <Picture />
+    </User>
+    <User UserId="lerf" Abbreviation="19" Title="" FirstName="Francine" LastName="Leroux" DescriptionKey="AO" Department="" DefaultCulture="en-US" DefaultUICulture="en-US" AuthenticationMethod="User &amp; Password" CanChangePassword="true" PasswordNeverExpires="false">
+      <Picture />
+    </User>
+    <User UserId="lers" Abbreviation="38" Title="" FirstName="Sylvie" LastName="Leroux" DescriptionKey="AO" Department="" DefaultCulture="en-US" DefaultUICulture="en-US" AuthenticationMethod="User &amp; Password" CanChangePassword="true" PasswordNeverExpires="false">
+      <Picture />
+    </User>
+    <User UserId="merd" Abbreviation="20" Title="" FirstName="Carole" LastName="Mercier" DescriptionKey="AO" Department="" DefaultCulture="en-US" DefaultUICulture="en-US" AuthenticationMethod="User &amp; Password" CanChangePassword="true" PasswordNeverExpires="false">
+      <Picture />
+    </User>
+    <User UserId="nans" Abbreviation="15" Title="" FirstName="Suzanne" LastName="Nantel" DescriptionKey="AO" Department="" DefaultCulture="en-US" DefaultUICulture="en-US" AuthenticationMethod="User &amp; Password" CanChangePassword="true" PasswordNeverExpires="false">
+      <Picture />
+    </User>
+    <User UserId="pare" Abbreviation="36" Title="" FirstName="Julie" LastName="Parent" DescriptionKey="AO" Department="" DefaultCulture="en-US" DefaultUICulture="en-US" AuthenticationMethod="User &amp; Password" CanChangePassword="true" PasswordNeverExpires="false">
+      <Picture />
+    </User>
+    <User UserId="pieo" Abbreviation="60" Title="" FirstName="Nancy" LastName="Pierre" DescriptionKey="AO" Department="" DefaultCulture="en-US" DefaultUICulture="en-US" AuthenticationMethod="User &amp; Password" CanChangePassword="true" PasswordNeverExpires="false">
+      <Picture />
+    </User>
+    <User UserId="reda" Abbreviation="85" Title="" FirstName="Maria" LastName="Reda" DescriptionKey="SV (Team Leader)" Department="" DefaultCulture="en-US" DefaultUICulture="en-US" AuthenticationMethod="User &amp; Password" CanChangePassword="true" PasswordNeverExpires="false" PermissionToModifyUser="Special.Level3">
+      <Picture />
+    </User>
+    <User UserId="ricb" Abbreviation="34" Title="" FirstName="Josee" LastName="Ricard" DescriptionKey="AO" Department="" DefaultCulture="en-US" DefaultUICulture="en-US" AuthenticationMethod="User &amp; Password" CanChangePassword="true" PasswordNeverExpires="false">
+      <Picture />
+    </User>
+    <User UserId="ricm" Abbreviation="24" Title="" FirstName="Lise" LastName="Richer" DescriptionKey="AO" Department="" DefaultCulture="en-US" DefaultUICulture="en-US" AuthenticationMethod="User &amp; Password" CanChangePassword="true" PasswordNeverExpires="false">
+      <Picture />
+    </User>
+    <User UserId="roua" Abbreviation="98" Title="" FirstName="Mario" LastName="Rousseau" DescriptionKey="SSO (Analyste)" Department="" DefaultCulture="en-US" DefaultUICulture="en-US" AuthenticationMethod="User &amp; Password" CanChangePassword="true" PasswordNeverExpires="false">
+      <Picture />
+    </User>
+    <User UserId="roya" Abbreviation="59" Title="" FirstName="Marilyn" LastName="Roy" DescriptionKey="AO" Department="" DefaultCulture="en-US" DefaultUICulture="en-US" AuthenticationMethod="User &amp; Password" CanChangePassword="true" PasswordNeverExpires="false">
+      <Picture />
+    </User>
+    <User UserId="stpn" Abbreviation="67" Title="" FirstName="Normand" LastName="St-Pierre" DescriptionKey="AO" Department="" DefaultCulture="en-US" DefaultUICulture="en-US" AuthenticationMethod="User &amp; Password" CanChangePassword="true" PasswordNeverExpires="false">
+      <Picture />
+    </User>
+    <User UserId="trud" Abbreviation="87" Title="" FirstName="Isabelle" LastName="Trudeau" DescriptionKey="AO" Department="" DefaultCulture="en-US" DefaultUICulture="en-US" AuthenticationMethod="User &amp; Password" CanChangePassword="true" PasswordNeverExpires="false">
+      <Picture />
+    </User>
+    <User UserId="vach" Abbreviation="01" Title="" FirstName="Stephane" LastName="Vachon" DescriptionKey="SV (Team Leader)" Department="" DefaultCulture="en-US" DefaultUICulture="en-US" AuthenticationMethod="User &amp; Password" CanChangePassword="true" PasswordNeverExpires="false" PermissionToModifyUser="Special.Level2">
+      <Picture />
+    </User>
+    <User UserId="vers" Abbreviation="27" Title="" FirstName="Claude" LastName="Versailles" DescriptionKey="AO" Department="" DefaultCulture="en-US" DefaultUICulture="en-US" AuthenticationMethod="User &amp; Password" CanChangePassword="true" PasswordNeverExpires="false">
+      <Picture />
+    </User>
+    <User UserId="vrom" Abbreviation="09" Title="" FirstName="Julie" LastName="Vromet" DescriptionKey="AO" Department="" DefaultCulture="en-US" DefaultUICulture="en-US" AuthenticationMethod="User &amp; Password" CanChangePassword="true" PasswordNeverExpires="false">
+      <Picture />
+    </User>
+    <User UserId="haff" Abbreviation="90" Title="" FirstName="Amine" LastName="Haffaf" DescriptionKey="SSO (Analyste)" Department="" DefaultCulture="en-US" DefaultUICulture="en-US" AuthenticationMethod="User &amp; Password" CanChangePassword="true" PasswordNeverExpires="false">
+      <Picture />
+    </User>
+    <User UserId="camc4" Abbreviation="324" Title="" FirstName="Manon" LastName="Cartier" DescriptionKey="AO4" Department="" DefaultCulture="en-US" DefaultUICulture="en-US" AuthenticationMethod="User &amp; Password" CanChangePassword="true" PasswordNeverExpires="false">
+      <Picture />
+    </User>
+    <User UserId="chca4" Abbreviation="454" Title="" FirstName="Carole" LastName="Champoux" DescriptionKey="AO4" Department="" DefaultCulture="en-US" DefaultUICulture="en-US" AuthenticationMethod="User &amp; Password" CanChangePassword="true" PasswordNeverExpires="false">
+      <Picture />
+    </User>
+    <User UserId="desf" Abbreviation="16" Title="" FirstName="Johanne" LastName="Desparois" DescriptionKey="SV (Team Leader)" Department="" DefaultCulture="en-US" DefaultUICulture="en-US" AuthenticationMethod="User &amp; Password" CanChangePassword="true" PasswordNeverExpires="false" PermissionToModifyUser="Special.Level1">
+      <Picture />
+    </User>
+    <User UserId="filj4" Abbreviation="034" Title="" FirstName="Joanne" LastName="Filiatrault" DescriptionKey="AO4" Department="" DefaultCulture="en-US" DefaultUICulture="en-US" AuthenticationMethod="User &amp; Password" CanChangePassword="true" PasswordNeverExpires="false">
+      <Picture />
+    </User>
+    <User UserId="fise4" Abbreviation="764" Title="" FirstName="Lise" LastName="Fiset" DescriptionKey="AO4" Department="" DefaultCulture="en-US" DefaultUICulture="en-US" AuthenticationMethod="User &amp; Password" CanChangePassword="true" PasswordNeverExpires="false">
+      <Picture />
+    </User>
+    <User UserId="gina4" Abbreviation="414" Title="" FirstName="Andre" LastName="Gingras" DescriptionKey="AO4" Department="" DefaultCulture="en-US" DefaultUICulture="en-US" AuthenticationMethod="User &amp; Password" CanChangePassword="true" PasswordNeverExpires="false">
+      <Picture />
+    </User>
+    <User UserId="laur4" Abbreviation="044" Title="" FirstName="Jacques" LastName="Laurence" DescriptionKey="AO4" Department="" DefaultCulture="en-US" DefaultUICulture="en-US" AuthenticationMethod="User &amp; Password" CanChangePassword="true" PasswordNeverExpires="false">
+      <Picture />
+    </User>
+    <User UserId="lerf4" Abbreviation="194" Title="" FirstName="Francine" LastName="Leroux" DescriptionKey="AO4" Department="" DefaultCulture="en-US" DefaultUICulture="en-US" AuthenticationMethod="User &amp; Password" CanChangePassword="true" PasswordNeverExpires="false">
+      <Picture />
+    </User>
+    <User UserId="merd4" Abbreviation="204" Title="" FirstName="Carole" LastName="Mercier" DescriptionKey="AO4" Department="" DefaultCulture="en-US" DefaultUICulture="en-US" AuthenticationMethod="User &amp; Password" CanChangePassword="true" PasswordNeverExpires="false">
+      <Picture />
+    </User>
+    <User UserId="ricb4" Abbreviation="344" Title="" FirstName="Josee" LastName="Ricard" DescriptionKey="AO4" Department="" DefaultCulture="en-US" DefaultUICulture="en-US" AuthenticationMethod="User &amp; Password" CanChangePassword="true" PasswordNeverExpires="false">
+      <Picture />
+    </User>
+    <User UserId="ricm4" Abbreviation="244" Title="" FirstName="Lise" LastName="Richer" DescriptionKey="AO4" Department="" DefaultCulture="en-US" DefaultUICulture="en-US" AuthenticationMethod="User &amp; Password" CanChangePassword="true" PasswordNeverExpires="false">
+      <Picture />
+    </User>
+    <User UserId="stpn4" Abbreviation="674" Title="" FirstName="Normand" LastName="St-Pierre" DescriptionKey="AO4" Department="" DefaultCulture="en-US" DefaultUICulture="en-US" AuthenticationMethod="User &amp; Password" CanChangePassword="true" PasswordNeverExpires="false">
+      <Picture />
+    </User>
+    <User UserId="bonf" Abbreviation="28" Title="" FirstName="Francis" LastName="Bonin" DescriptionKey="SV (Team Leader)" Department="" DefaultCulture="en-US" DefaultUICulture="en-US" AuthenticationMethod="User &amp; Password" CanChangePassword="true" PasswordNeverExpires="false">
+      <Picture />
+    </User>
+    <User UserId="xopo" Abbreviation="FE1" Title="" FirstName="Alex" LastName="Alexopoulos" DescriptionKey="" Department="" DefaultCulture="en-US" DefaultUICulture="en-US" AuthenticationMethod="User &amp; Password" CanChangePassword="true" PasswordNeverExpires="false">
+      <Picture />
+    </User>
+    <User UserId="KCS1" Abbreviation="K1" Title="Mr." FirstName="Kimball" LastName="Sampson" DescriptionKey="Testing Account for Kimball Sampson&#xD;&#xA;" Department="" DefaultCulture="en-US" DefaultUICulture="en-US" AuthenticationMethod="User &amp; Password" CanChangePassword="true" PasswordNeverExpires="true">
+      <Picture />
+    </User>
+    <User UserId="KCS2" Abbreviation="K2" Title="Mr." FirstName="Kimball2" LastName="Sampson2" DescriptionKey="" Department="" DefaultCulture="en-US" DefaultUICulture="en-US" AuthenticationMethod="User &amp; Password" CanChangePassword="true" PasswordNeverExpires="true">
+      <Picture />
+    </User>
+    <User UserId="george" Abbreviation="g1" Title="" FirstName="" LastName="" DescriptionKey="" Department="" DefaultCulture="en-US" DefaultUICulture="en-US" AuthenticationMethod="User &amp; Password" CanChangePassword="true" PasswordNeverExpires="false">
+      <Picture />
+    </User>
+    <User UserId="BOBG" Abbreviation="BOBG" Title="Dr." FirstName="BOB" LastName="GUSSMANN" DescriptionKey="" Department="GD" DefaultCulture="en-US" DefaultUICulture="en-US" AuthenticationMethod="User &amp; Password" CanChangePassword="true" PasswordNeverExpires="true">
+      <Picture />
+    </User>
+    <UserGroup UserGroupId="CTO" Abbreviation="CTO" DescriptionKey="Currency Technology Office Group." DataAreaDescriptor="Production" AutoLockControlCenterOnIdle="false" />
+    <UserGroup UserGroupId="CTOADV" Abbreviation="CTOADV" DescriptionKey="Currency Technology Advanced User Group." DataAreaDescriptor="Production" AutoLockControlCenterOnIdle="false" />
+    <UserGroup UserGroupId="CF" Abbreviation="CF" DescriptionKey="Configurator Group - This group will be assigned to users having access to the Configurator Plug-in" DataAreaDescriptor="Production" AutoLockControlCenterOnIdle="false" />
+    <UserGroup UserGroupId="FE" Abbreviation="FE" DescriptionKey="Field Engineer Group" DataAreaDescriptor="Service" AutoLockControlCenterOnIdle="false" />
+    <UserGroup UserGroupId="SSO" Abbreviation="SSO" DescriptionKey="Site Security Officer (AOC Analysts)" PermissionToModifyUserGroup="Special.Level5" DataAreaDescriptor="Production" AutoLockControlCenterOnIdle="false" />
+    <UserGroup UserGroupId="SV" Abbreviation="SV" DescriptionKey="Supervisor (AOC Team Leaders)" DataAreaDescriptor="Production" AutoLockControlCenterOnIdle="false" />
+    <UserGroup UserGroupId="OA4" Abbreviation="OA4" DescriptionKey="Operations Agents 4" DataAreaDescriptor="Production" AutoLockControlCenterOnIdle="false" />
+    <UserGroup UserGroupId="OA" Abbreviation="OA" DescriptionKey="Operations Agent" DataAreaDescriptor="Production" AutoLockControlCenterOnIdle="false" />
+    <UserGroup UserGroupId="SP5" Abbreviation="SP5" DescriptionKey="SPECIAL PERMISSION GROUP 5" DataAreaDescriptor="Production" AutoLockControlCenterOnIdle="false" />
+    <UserGroup UserGroupId="SP1" Abbreviation="SP1" DescriptionKey="SPECIAL PERMISSION GROUP 1" DataAreaDescriptor="Production" AutoLockControlCenterOnIdle="false" />
+    <UserGroup UserGroupId="SP2" Abbreviation="SP2" DescriptionKey="SPECIAL PERMISSION GROUP 2" DataAreaDescriptor="Production" AutoLockControlCenterOnIdle="false" />
+    <UserGroup UserGroupId="SP3" Abbreviation="SP3" DescriptionKey="SPECIAL PERMISSION GROUP 3" DataAreaDescriptor="Production" AutoLockControlCenterOnIdle="false" />
+    <UserGroup UserGroupId="SP4" Abbreviation="SP4" DescriptionKey="SPECIAL PERMISSION GROUP 4" DataAreaDescriptor="Production" AutoLockControlCenterOnIdle="false" />
+    <Permission PermissionId="ControlCenter.AdaptationTool" Type="BuiltIn" DescriptionKey="Permission to run the AdaptationTool plug-in." />
+    <Permission PermissionId="ControlCenter.AdaptationTool.Developer" Type="BuiltIn" DescriptionKey="Permission to run the AdaptationTool plug-in in developer mode." />
+    <Permission PermissionId="ControlCenter.AdaptationTool.Standard" Type="BuiltIn" DescriptionKey="Permission to run the AdaptationTool plug-in in standard mode." />
+    <Permission PermissionId="ControlCenter.AdaptationTool.Service" Type="BuiltIn" DescriptionKey="Permission to run the AdaptationTool plug-in in service mode." />
+    <Permission PermissionId="ControlCenter.SoftwareAnalyzer" Type="BuiltIn" DescriptionKey="Permission to run the Software Analyzer plug-in." />
+    <Permission PermissionId="ControlCenter.Adjustment" Type="BuiltIn" DescriptionKey="Permission to run the Control Center Adjustment plug-in." />
+    <Permission PermissionId="ControlCenter.BPSGatewayAdministration" Type="BuiltIn" DescriptionKey="Permission to run the Control Center BPS Gateway Administration plug-in." />
+    <Permission PermissionId="ControlCenter.Configurator" Type="BuiltIn" DescriptionKey="Permission to run the Control Center Configurator plug-in." />
+    <Permission PermissionId="ControlCenter.Configurator.OlympCCCBaseObject.Write" Type="BuiltIn" DescriptionKey="General Permission to Create/Modify/Delete Configurator Objects." />
+    <Permission PermissionId="ControlCenter.Configurator.OlympCCCTMPSectTrigColl.Write" Type="BuiltIn" DescriptionKey="Permission to Create/Modify/Delete Reporting Section/Trigger Types." />
+    <Permission PermissionId="ControlCenter.Configurator.OlympCCCTMPReportsColl.Write" Type="BuiltIn" DescriptionKey="Permission to Create/Modify/Delete Report Assemblies." />
+    <Permission PermissionId="ControlCenter.Configurator.OlympCCCBaseMachinePropertyCollection.Write" Type="BuiltIn" DescriptionKey="Permission to Create/Modify/Delete Machine Properties." />
+    <Permission PermissionId="ControlCenter.BanknoteAnalyzer" Type="BuiltIn" DescriptionKey="Permission to run the Control Center Banknote Analyzer plug-in." />
+    <Permission PermissionId="ControlCenter.BanknoteAnalyzer.SetStoringMode" Type="BuiltIn" DescriptionKey="Permission to set the machine's banknote data storing mode in the Control Center Banknote Analyzer plug-in." />
+    <Permission PermissionId="ControlCenter.GSLDesigner" Type="BuiltIn" DescriptionKey="Permission to run the Control Center GSL Designer plug-in." />
+    <Permission PermissionId="ControlCenter.Production" Type="BuiltIn" DescriptionKey="Permission to run the Control Center Production plug-in." />
+    <Permission PermissionId="ControlCenter.Production.LiveViewer" Type="BuiltIn" DescriptionKey="Permission to do live monitoring in the Control Center Production plug-in." />
+    <Permission PermissionId="ControlCenter.Production.ManualReports" Type="BuiltIn" DescriptionKey="Permission to do manual reports in the Control Center Production plug-in." />
+    <Permission PermissionId="ControlCenter.Production.StorageMaintenance" Type="BuiltIn" DescriptionKey="Permission to do manual storage maintenance in the Control Center Production plug-in." />
+    <Permission PermissionId="ControlCenter.Production.DowntimeIdletimeEdit" Type="BuiltIn" DescriptionKey="Permission to edit downtime / idletime records in the Control Center Production plug-in." />
+    <Permission PermissionId="ControlCenter.SenOpModeConfigurator" Type="BuiltIn" DescriptionKey="Permission to run the SenOpModeConfigurator plug-in." />
+    <Permission PermissionId="ControlCenter.StorageManagement" Type="BuiltIn" DescriptionKey="Permission to run the Control Center Storage Management plug-in." />
+    <Permission PermissionId="ControlCenter.StorageManagement.DeleteDB" Type="BuiltIn" DescriptionKey="Permission to delete database data using the Control Center Storage Management plug-in." />
+    <Permission PermissionId="ControlCenter.StorageManagement.ViewTables" Type="BuiltIn" DescriptionKey="Permission to view database tables using the Control Center Storage Management plug-in." />
+    <Permission PermissionId="ControlCenter.StorageManagement.ViewTables.EditRows" Type="BuiltIn" DescriptionKey="Permission to edit rows of database tables using the Control Center Storage Management plug-in." />
+    <Permission PermissionId="ControlCenter.StorageManagement.ObjectView" Type="BuiltIn" DescriptionKey="Permission to use the object view within the Control Center Storage Management plug-in." />
+    <Permission PermissionId="ControlCenter.StorageManagement.RunSQL" Type="BuiltIn" DescriptionKey="Permission to run SQL statements using the Control Center Storage Management plug-in." />
+    <Permission PermissionId="ControlCenter.StorageManagement.ImportDB" Type="BuiltIn" DescriptionKey="Permission to import data into the database using the Control Center Storage Management plug-in." />
+    <Permission PermissionId="ControlCenter.StorageManagement.ExportDB" Type="BuiltIn" DescriptionKey="Permission to export database data using the Control Center Storage Management plug-in." />
+    <Permission PermissionId="ControlCenter.StorageManagement.CreateDBScript" Type="BuiltIn" DescriptionKey="Permission to create database scripts using the Control Center Storage Management plug-in." />
+    <Permission PermissionId="ControlCenter.StorageManagement.ImportConfigIntoDB" Type="BuiltIn" DescriptionKey="Permission to import configuration data into the database using the Control Center Storage Management plug-in." />
+    <Permission PermissionId="ControlCenter.StorageManagement.EditConfigInDB" Type="BuiltIn" DescriptionKey="Permission to edit configuration data in the database using the Control Center Storage Management plug-in." />
+    <Permission PermissionId="ControlCenter.Security" Type="BuiltIn" DescriptionKey="Permission to run the Control Center Security plug-in." />
+    <Permission PermissionId="ControlCenter.Security.EnterpriseManagement.Deploy" Type="BuiltIn" DescriptionKey="Permission that gives access to deploy (via BPS Gateway hierarchies) enterprise definitions (like permission, user group and rules) in the Control Center Security plug-in." />
+    <Permission PermissionId="ControlCenter.Security.EnterpriseManagement.Export" Type="BuiltIn" DescriptionKey="Permission that gives access to export enterprise definitions (like permission, user group and rules) in the Control Center Security plug-in." />
+    <Permission PermissionId="ControlCenter.Security.EnterpriseManagement.Import" Type="BuiltIn" DescriptionKey="Permission that gives access to import enterprise definitions (like permission, user group and rules) in the Control Center Security plug-in." />
+    <Permission PermissionId="ControlCenter.Security.EventLog" Type="BuiltIn" DescriptionKey="Permission that gives access to the security event log in the Control Security Center plug-in." />
+    <Permission PermissionId="ControlCenter.Security.UserGroupManagement" Type="BuiltIn" DescriptionKey="Permission to do user group management in the Control Center Security plug-in." />
+    <Permission PermissionId="ControlCenter.Security.UserManagement" Type="BuiltIn" DescriptionKey="Permission to do user management in the Control Center Security plug-in." />
+    <Permission PermissionId="ControlCenter.Security.RulesManagement" Type="BuiltIn" DescriptionKey="Permission to do rules management in the Control Center Security plug-in." />
+    <Permission PermissionId="ControlCenter.Security.UnLockUsers" Type="BuiltIn" DescriptionKey="Permission to lock and unlock users in the Control Center Security plug-in." />
+    <Permission PermissionId="ControlCenter.Security.ResetPassword" Type="BuiltIn" DescriptionKey="Permission to reset a user's password or force a password change in the Control Center Security plug-in." />
+    <Permission PermissionId="ControlCenter.Security.ForcedUndoCheckout" Type="BuiltIn" DescriptionKey="Permission to force an undo checkout of the account repository (checked out by another user for instance) in the Control Center Security plug-in." />
+    <Permission PermissionId="ControlCenter.Security.ForcePasswordChangeOnNextLogonSettingPermitted" Type="BuiltIn" DescriptionKey="Permission to have access to the 'Force password change on next logon' setting in the user definition of the Control Center Security plug-in." />
+    <Permission PermissionId="ControlCenter.Security.UserCannotChangePasswordSettingPermitted" Type="BuiltIn" DescriptionKey="Permission to have access to the 'User cannot change password' setting in the user definition of the Control Center Security plug-in." />
+    <Permission PermissionId="ControlCenter.Security.PasswordNeverExpiresSettingPermitted" Type="BuiltIn" DescriptionKey="Permission to have access to the 'Password never expires' setting in the user definition of the Control Center Security plug-in." />
+    <Permission PermissionId="ControlCenter.OperationSettings" Type="BuiltIn" DescriptionKey="Permission to run the Control Center Operation Settings plug-in." />
+    <Permission PermissionId="ControlCenter.OperationSettings.Edit" Type="BuiltIn" DescriptionKey="Permission to edit and deploy machine configurations." />
+    <Permission PermissionId="ControlCenter.OperationSettings.Testing" Type="BuiltIn" DescriptionKey="Permission to override and deploy machine configurations for testing." />
+    <Permission PermissionId="ControlCenter.OperationSettings.Import" Type="BuiltIn" DescriptionKey="Permission to Import and Activate/De-activate CTO deployed configurations." />
+    <Permission PermissionId="ControlCenter.TraceAnalyzer" Type="BuiltIn" DescriptionKey="Permission to run the Control Center Trace Analyzer plug-in." />
+    <Permission PermissionId="Machine.AccessClass1" Type="BuiltIn" DescriptionKey="Permission that gives access to certain machine functions (grouped into class 1) that are grouped for ease of use (configurable in the Control Center Configurator plug-in)." />
+    <Permission PermissionId="Machine.AccessClass2" Type="BuiltIn" DescriptionKey="Permission that gives access to certain machine functions (grouped into class 2) that are grouped for ease of use (configurable in the Control Center Configurator plug-in)." />
+    <Permission PermissionId="Machine.AccessClass3" Type="BuiltIn" DescriptionKey="Permission that gives access to certain machine functions (grouped into class 3) that are grouped for ease of use (configurable in the Control Center Configurator plug-in)." />
+    <Permission PermissionId="Machine.AccessClass4" Type="BuiltIn" DescriptionKey="Permission that gives access to certain machine functions (grouped into class 4) that are grouped for ease of use (configurable in the Control Center Configurator plug-in)." />
+    <Permission PermissionId="Machine.AccessClass5" Type="BuiltIn" DescriptionKey="Permission that gives access to certain machine functions (grouped into class 5) that are grouped for ease of use (configurable in the Control Center Configurator plug-in)." />
+    <Permission PermissionId="Machine.Accounting.Exception" Type="BuiltIn" DescriptionKey="Permission to handle an accounting exception." />
+    <Permission PermissionId="Machine.BanknoteProcessing" Type="BuiltIn" DescriptionKey="Permission to do banknote processing on a CP." />
+    <Permission PermissionId="Machine.ComponentFailureRecovery" Type="BuiltIn" DescriptionKey="Permission to recover from a component failure." />
+    <Permission PermissionId="Machine.Confirmation.BatteryLow" Type="BuiltIn" DescriptionKey="Permission to confirm the battery low system event." />
+    <Permission PermissionId="Machine.Confirmation.DiskFull" Type="BuiltIn" DescriptionKey="Permission to confirm the disk full system event." />
+    <Permission PermissionId="Machine.ControlCenter" Type="BuiltIn" DescriptionKey="Permission to access the Control Center via the operating panel." />
+    <Permission PermissionId="Machine.Downtime.Start" Type="BuiltIn" DescriptionKey="Permission to start downtime recording." />
+    <Permission PermissionId="Machine.Downtime.End" Type="BuiltIn" DescriptionKey="Permission to end downtime recording." />
+    <Permission PermissionId="Machine.ForceEndPause" Type="BuiltIn" DescriptionKey="Permission to force ending the pause of a logged on user. Normally only the logged on user can end his/her pause." />
+    <Permission PermissionId="Machine.IDA" Type="BuiltIn" DescriptionKey="Permission to start the Independent Destroy All mode." />
+    <Permission PermissionId="Machine.Idletime.Start" Type="BuiltIn" DescriptionKey="Permission to start idletime recording." />
+    <Permission PermissionId="Machine.Idletime.End" Type="BuiltIn" DescriptionKey="Permission to end idletime recording." />
+    <Permission PermissionId="Machine.JamRecovery" Type="BuiltIn" DescriptionKey="Permission to recover from a jam." />
+    <Permission PermissionId="Machine.JamRecovery.Security" Type="BuiltIn" DescriptionKey="Permission to recover from a jam in the security area." />
+    <Permission PermissionId="Machine.LockTimeRecording" Type="BuiltIn" DescriptionKey="Permission to lock the time recording." />
+    <Permission PermissionId="Machine.Reconciliation" Type="BuiltIn" DescriptionKey="Permission to do banknote processing on a RS." />
+    <Permission PermissionId="Machine.Reporting.Report.ModifyLog" Type="BuiltIn" DescriptionKey="Permission to view the shift modify log." />
+    <Permission PermissionId="Machine.Reporting.Report.PerformanceMonitoringReport" Type="BuiltIn" DescriptionKey="Permission to view the performance monitoring report." />
+    <Permission PermissionId="Machine.Reporting.Report.IRMBalanceReport" Type="BuiltIn" DescriptionKey="Permission to view the IRM balance report." />
+    <Permission PermissionId="Machine.Reporting.Report.BalanceReport" Type="BuiltIn" DescriptionKey="Permission to view the balance report." />
+    <Permission PermissionId="Machine.Reporting.Report.DbUsageReport" Type="BuiltIn" DescriptionKey="Permission to view the database usage report." />
+    <Permission PermissionId="Machine.Reporting.Report.ExceptionLog" Type="BuiltIn" DescriptionKey="Permission to view the exception log." />
+    <Permission PermissionId="Machine.Reporting.Report.ExceptionReport" Type="BuiltIn" DescriptionKey="Permission to view the exception report." />
+    <Permission PermissionId="Machine.Reporting.Report.ReleaseReport" Type="BuiltIn" DescriptionKey="Permission to view the release report." />
+    <Permission PermissionId="Machine.Reporting.Report.ReleaseReportDetailed" Type="BuiltIn" DescriptionKey="Permission to view the detailed release report." />
+    <Permission PermissionId="Machine.Reporting.Report.SoftwareVersionLog" Type="BuiltIn" DescriptionKey="Permission to view the software version log." />
+    <Permission PermissionId="Machine.Reporting.Report.OperationLog" Type="BuiltIn" DescriptionKey="Permission to view the operation log." />
+    <Permission PermissionId="Machine.Reporting.Report.OperationReport" Type="BuiltIn" DescriptionKey="Permission to view the operation report." />
+    <Permission PermissionId="Machine.Reporting.Report.RejectReport" Type="BuiltIn" DescriptionKey="Permission to view the reject report." />
+    <Permission PermissionId="Machine.Reporting.Report.AutomaticRejectReport" Type="BuiltIn" DescriptionKey="Permission to view the Automatic Reject report." />
+    <Permission PermissionId="Machine.Reporting.Report.AutomaticDefectReport" Type="BuiltIn" DescriptionKey="Permission to view the Automatic Defect report." />
+    <Permission PermissionId="Machine.Reporting.Report.FitnessReport" Type="BuiltIn" DescriptionKey="Permission to view the fitness report." />
+    <Permission PermissionId="Machine.Reporting.Report.StrapLog" Type="BuiltIn" DescriptionKey="Permission to view the strap log." />
+    <Permission PermissionId="Machine.Reporting.Report.CPTimeLog" Type="BuiltIn" DescriptionKey="Permission to view the CP time log." />
+    <Permission PermissionId="Machine.Reporting.Report.RSTimeLog" Type="BuiltIn" DescriptionKey="Permission to view the RS time log." />
+    <Permission PermissionId="Machine.Reporting.Report.RejectLog" Type="BuiltIn" DescriptionKey="Permission to view the reject log." />
+    <Permission PermissionId="Machine.Reporting.Report.SensorTestReport" Type="BuiltIn" DescriptionKey="Permission to view the sensor test report." />
+    <Permission PermissionId="Machine.Reporting.Report.ErrorMessageReport" Type="BuiltIn" DescriptionKey="Permission to view the error message report." />
+    <Permission PermissionId="Machine.Reporting.Report.SystemStatusReport" Type="BuiltIn" DescriptionKey="Permission to view the system status report." />
+    <Permission PermissionId="Machine.Reporting.Report.PerformanceReport" Type="BuiltIn" DescriptionKey="Permission to view the performance report." />
+    <Permission PermissionId="Machine.Reporting.Report.SeriesPopulationReport" Type="BuiltIn" DescriptionKey="Permission to view the series population report." />
+    <Permission PermissionId="Machine.Reporting.Report.StatusSummaryReport" Type="BuiltIn" DescriptionKey="Permission to view the status summary report." />
+    <Permission PermissionId="Machine.Reporting.Report.ReelStatusReport" Type="BuiltIn" DescriptionKey="Permission to view the reel status report." />
+    <Permission PermissionId="Machine.Reporting.Report.JamLog" Type="BuiltIn" DescriptionKey="Permission to view the jam log." />
+    <Permission PermissionId="Machine.Reporting.Report.LogonLog" Type="BuiltIn" DescriptionKey="Permission to view the logon log." />
+    <Permission PermissionId="Machine.Reporting.Report.UserList" Type="BuiltIn" DescriptionKey="Permission to view the user list." />
+    <Permission PermissionId="Machine.Reporting.Report.IDABalanceReport" Type="BuiltIn" DescriptionKey="Permission to view the IDA balance report." />
+    <Permission PermissionId="Machine.Reporting.Report.ReentryBalanceReport" Type="BuiltIn" DescriptionKey="Permission to view the reentry balance report." />
+    <Permission PermissionId="Machine.Reporting.Report.PerNoteReport" Type="BuiltIn" DescriptionKey="Permission to view the per note report." />
+    <Permission PermissionId="Machine.Reporting.Report.DowntimeLog" Type="BuiltIn" DescriptionKey="Permission to view the downtime log." />
+    <Permission PermissionId="Machine.Reporting.Report.UserTableModificationLog" Type="BuiltIn" DescriptionKey="Permission to view the user table modification log." />
+    <Permission PermissionId="Machine.Reporting.Report.SerialNrReport" Type="BuiltIn" DescriptionKey="Permission to view the serial number report." />
+    <Permission PermissionId="Machine.Reporting.Report.SpecialStackerReport" Type="BuiltIn" DescriptionKey="Permission to view the special stacker report." />
+    <Permission PermissionId="Machine.Reporting.Report.ShiftBalanceWorksheet" Type="BuiltIn" DescriptionKey="Permission to view the shift balance worksheet." />
+    <Permission PermissionId="Machine.Reporting.Report.CFRLog" Type="BuiltIn" DescriptionKey="Permission to view the component failure recovery log." />
+    <Permission PermissionId="Machine.Reporting.Report.CPReentryDestroyLog" Type="BuiltIn" DescriptionKey="Permission to view the CP reentry/destroy log." />
+    <Permission PermissionId="Machine.RunTest" Type="BuiltIn" DescriptionKey="Permission to run the machine OCIS and test sheet code." />
+    <Permission PermissionId="Machine.Service" Type="BuiltIn" DescriptionKey="Permission to access functions that are related to service the machine." />
+    <Permission PermissionId="Machine.ServiceKey" Type="BuiltIn" DescriptionKey="Permission to run the machine with open doors (service key needed)." />
+    <Permission PermissionId="Machine.StartPause" Type="BuiltIn" DescriptionKey="Permission to enter pause mode." />
+    <Permission PermissionId="Machine.Shutdown" Type="BuiltIn" DescriptionKey="Permission to shutdown the system." />
+    <Permission PermissionId="Machine.ShutdownApplicationOnly" Type="BuiltIn" DescriptionKey="Permission to shutdown the BPS application only (gain access to the windows level)." />
+    <Permission PermissionId="Machine.StartWindowsExplorer" Type="BuiltIn" DescriptionKey="Permission to start the windows explorer." />
+    <Permission PermissionId="Machine.SystemStatus" Type="BuiltIn" DescriptionKey="Permission to view the system status screen." />
+    <Permission PermissionId="Machine.ViewPendingJobs" Type="BuiltIn" DescriptionKey="Permission to view pending machine jobs." />
+    <Permission PermissionId="Machine.ViewPendingStops" Type="BuiltIn" DescriptionKey="Permission to view pending machine stops." />
+    <Permission PermissionId="Machine.UnlockSystem" Type="BuiltIn" DescriptionKey="Permission to unlock the system after it has been locked during logon attemps." />
+    <Permission PermissionId="Special.Level1" Type="Custom" DescriptionKey="Special permission named level 1." />
+    <Permission PermissionId="Special.Level2" Type="Custom" DescriptionKey="Special permission named level 2." />
+    <Permission PermissionId="Special.Level3" Type="Custom" DescriptionKey="Special permission named level 3." />
+    <Permission PermissionId="Special.Level4" Type="Custom" DescriptionKey="Special permission named level 4." />
+    <Permission PermissionId="Special.Level5" Type="Custom" DescriptionKey="Special permission named level 5." />
+    <Permission2UserGroup PermissionId="ControlCenter.Configurator.OlympCCCBaseObject.Write" UserGroupId="CF" />
+    <Permission2UserGroup PermissionId="ControlCenter.Configurator.OlympCCCTMPReportsColl.Write" UserGroupId="CF" />
+    <Permission2UserGroup PermissionId="ControlCenter.TraceAnalyzer" UserGroupId="CF" />
+    <Permission2UserGroup PermissionId="ControlCenter.Configurator" UserGroupId="CF" />
+    <Permission2UserGroup PermissionId="ControlCenter.Configurator.OlympCCCTMPSectTrigColl.Write" UserGroupId="CF" />
+    <Permission2UserGroup PermissionId="ControlCenter.BanknoteAnalyzer" UserGroupId="CF" />
+    <Permission2UserGroup PermissionId="ControlCenter.Configurator.OlympCCCBaseMachinePropertyCollection.Write" UserGroupId="CF" />
+    <Permission2UserGroup PermissionId="ControlCenter.OperationSettings.Import" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="ControlCenter.StorageManagement.DeleteDB" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="ControlCenter.Security.ResetPassword" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Machine.Shutdown" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Machine.BanknoteProcessing" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="ControlCenter.Configurator.OlympCCCTMPReportsColl.Write" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Machine.ComponentFailureRecovery" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="ControlCenter.OperationSettings" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="ControlCenter.Production.ManualReports" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.UserList" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="ControlCenter.StorageManagement.ExportDB" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="ControlCenter.Adjustment" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.SensorTestReport" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.CFRLog" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.PerformanceMonitoringReport" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="ControlCenter.AdaptationTool" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.CPReentryDestroyLog" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="ControlCenter.StorageManagement.ImportDB" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.ShiftBalanceWorksheet" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="ControlCenter.Security.RulesManagement" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.DbUsageReport" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="ControlCenter.StorageManagement.RunSQL" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Special.Level3" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Special.Level2" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="ControlCenter.Production.StorageMaintenance" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.UserTableModificationLog" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.AutomaticDefectReport" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Special.Level5" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Special.Level4" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="ControlCenter.Security.UserGroupManagement" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="ControlCenter.BanknoteAnalyzer" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Machine.StartWindowsExplorer" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="ControlCenter.StorageManagement.ViewTables.EditRows" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="ControlCenter.Security.ForcedUndoCheckout" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.StatusSummaryReport" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="ControlCenter.AdaptationTool.Service" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="ControlCenter.Security.EnterpriseManagement.Deploy" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="ControlCenter.GSLDesigner" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="ControlCenter.Configurator.OlympCCCTMPSectTrigColl.Write" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.ReleaseReport" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="ControlCenter.Security.UserCannotChangePasswordSettingPermitted" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Machine.JamRecovery" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="ControlCenter.SenOpModeConfigurator" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.CPTimeLog" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="ControlCenter.BanknoteAnalyzer.SetStoringMode" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.PerNoteReport" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Machine.ShutdownApplicationOnly" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Machine.AccessClass3" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Machine.AccessClass2" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Machine.AccessClass1" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.SpecialStackerReport" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.RejectLog" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Machine.AccessClass5" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Machine.AccessClass4" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Machine.ViewPendingStops" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.ReelStatusReport" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="ControlCenter.StorageManagement" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.SoftwareVersionLog" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="ControlCenter.Security.ForcePasswordChangeOnNextLogonSettingPermitted" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.ErrorMessageReport" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.SeriesPopulationReport" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="ControlCenter.StorageManagement.ImportConfigIntoDB" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.AutomaticRejectReport" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Machine.RunTest" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="ControlCenter.OperationSettings.Edit" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="ControlCenter.Security.PasswordNeverExpiresSettingPermitted" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.PerformanceReport" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="ControlCenter.Security.EnterpriseManagement.Export" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.FitnessReport" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="ControlCenter.Security.UnLockUsers" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="ControlCenter.Security.EventLog" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="ControlCenter.BPSGatewayAdministration" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Machine.Reconciliation" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Machine.ViewPendingJobs" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="ControlCenter.Security.UserManagement" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Machine.LockTimeRecording" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Machine.Accounting.Exception" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="ControlCenter.Production.LiveViewer" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="ControlCenter.Configurator.OlympCCCBaseMachinePropertyCollection.Write" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.OperationReport" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="ControlCenter.Security.EnterpriseManagement.Import" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Machine.ForceEndPause" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="ControlCenter.StorageManagement.CreateDBScript" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Machine.SystemStatus" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Machine.Idletime.Start" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="ControlCenter.TraceAnalyzer" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Machine.Downtime.Start" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="ControlCenter.Configurator.OlympCCCBaseObject.Write" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.OperationLog" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.LogonLog" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.StrapLog" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.BalanceReport" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.ReleaseReportDetailed" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.SerialNrReport" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Machine.JamRecovery.Security" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.ReentryBalanceReport" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="ControlCenter.StorageManagement.ViewTables" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Machine.StartPause" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="ControlCenter.SoftwareAnalyzer" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Machine.Downtime.End" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.ExceptionLog" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Machine.ServiceKey" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Machine.Idletime.End" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Machine.Confirmation.DiskFull" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="ControlCenter.AdaptationTool.Standard" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="ControlCenter.Configurator" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="ControlCenter.Security" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Machine.Service" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="ControlCenter.Production" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.RSTimeLog" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Machine.ControlCenter" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Machine.Confirmation.BatteryLow" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.IDABalanceReport" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.JamLog" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.ModifyLog" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Machine.IDA" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Special.Level1" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Machine.UnlockSystem" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="ControlCenter.Production.DowntimeIdletimeEdit" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="ControlCenter.StorageManagement.EditConfigInDB" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="ControlCenter.AdaptationTool.Developer" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.SystemStatusReport" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.ExceptionReport" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.IRMBalanceReport" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.DowntimeLog" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="ControlCenter.OperationSettings.Testing" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.RejectReport" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="ControlCenter.StorageManagement.ObjectView" UserGroupId="CTO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.SystemStatusReport" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="ControlCenter.StorageManagement.DeleteDB" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="ControlCenter.Security.ResetPassword" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Machine.Shutdown" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Machine.BanknoteProcessing" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="ControlCenter.Configurator.OlympCCCTMPReportsColl.Write" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Machine.ComponentFailureRecovery" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="ControlCenter.OperationSettings" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="ControlCenter.Production.ManualReports" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.UserList" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="ControlCenter.StorageManagement.ExportDB" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="ControlCenter.Adjustment" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.SensorTestReport" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.CFRLog" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.PerformanceMonitoringReport" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="ControlCenter.AdaptationTool" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.CPReentryDestroyLog" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="ControlCenter.StorageManagement.ImportDB" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.ShiftBalanceWorksheet" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="ControlCenter.Security.RulesManagement" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.DbUsageReport" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="ControlCenter.StorageManagement.RunSQL" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Special.Level3" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Special.Level2" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="ControlCenter.Production.StorageMaintenance" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.UserTableModificationLog" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.AutomaticDefectReport" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Special.Level5" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Special.Level4" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="ControlCenter.Security.UserGroupManagement" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="ControlCenter.BanknoteAnalyzer" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Machine.StartWindowsExplorer" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="ControlCenter.StorageManagement.ViewTables.EditRows" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="ControlCenter.Security.ForcedUndoCheckout" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.StatusSummaryReport" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="ControlCenter.AdaptationTool.Service" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="ControlCenter.Security.EnterpriseManagement.Deploy" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="ControlCenter.GSLDesigner" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="ControlCenter.Configurator.OlympCCCTMPSectTrigColl.Write" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.ReleaseReport" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="ControlCenter.Security.UserCannotChangePasswordSettingPermitted" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Machine.JamRecovery" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="ControlCenter.SenOpModeConfigurator" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.CPTimeLog" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="ControlCenter.BanknoteAnalyzer.SetStoringMode" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.PerNoteReport" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Machine.ShutdownApplicationOnly" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Machine.AccessClass3" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Machine.AccessClass2" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Machine.AccessClass1" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.SpecialStackerReport" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.RejectLog" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Machine.AccessClass5" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Machine.AccessClass4" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Machine.ViewPendingStops" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.ReelStatusReport" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="ControlCenter.StorageManagement" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.SoftwareVersionLog" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="ControlCenter.Security.ForcePasswordChangeOnNextLogonSettingPermitted" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.ErrorMessageReport" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.SeriesPopulationReport" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="ControlCenter.StorageManagement.ImportConfigIntoDB" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.AutomaticRejectReport" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Machine.RunTest" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="ControlCenter.OperationSettings.Edit" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="ControlCenter.Security.PasswordNeverExpiresSettingPermitted" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.PerformanceReport" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="ControlCenter.Security.EnterpriseManagement.Export" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.FitnessReport" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="ControlCenter.Security.UnLockUsers" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="ControlCenter.Security.EventLog" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="ControlCenter.BPSGatewayAdministration" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Machine.Reconciliation" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Machine.ViewPendingJobs" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="ControlCenter.Security.UserManagement" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Machine.LockTimeRecording" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Machine.Accounting.Exception" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="ControlCenter.Production.LiveViewer" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="ControlCenter.Configurator.OlympCCCBaseMachinePropertyCollection.Write" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.OperationReport" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="ControlCenter.Security.EnterpriseManagement.Import" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Machine.ForceEndPause" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="ControlCenter.StorageManagement.CreateDBScript" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Machine.SystemStatus" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Machine.Idletime.Start" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="ControlCenter.TraceAnalyzer" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Machine.Downtime.Start" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="ControlCenter.Configurator.OlympCCCBaseObject.Write" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.OperationLog" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.LogonLog" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.StrapLog" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.BalanceReport" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.ReleaseReportDetailed" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.SerialNrReport" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Machine.JamRecovery.Security" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.ReentryBalanceReport" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="ControlCenter.StorageManagement.ViewTables" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Machine.StartPause" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="ControlCenter.SoftwareAnalyzer" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Machine.Downtime.End" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.ExceptionLog" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Machine.ServiceKey" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Machine.Idletime.End" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Machine.Confirmation.DiskFull" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="ControlCenter.AdaptationTool.Standard" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="ControlCenter.Configurator" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="ControlCenter.Security" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Machine.Service" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="ControlCenter.Production" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.RSTimeLog" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Machine.ControlCenter" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Machine.Confirmation.BatteryLow" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.IDABalanceReport" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.JamLog" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.ModifyLog" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Machine.IDA" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Special.Level1" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Machine.UnlockSystem" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="ControlCenter.Production.DowntimeIdletimeEdit" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="ControlCenter.StorageManagement.EditConfigInDB" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="ControlCenter.AdaptationTool.Developer" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.ExceptionReport" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.IRMBalanceReport" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.DowntimeLog" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="ControlCenter.OperationSettings.Testing" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.RejectReport" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="ControlCenter.StorageManagement.ObjectView" UserGroupId="CTOADV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.ErrorMessageReport" UserGroupId="FE" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.StatusSummaryReport" UserGroupId="FE" />
+    <Permission2UserGroup PermissionId="ControlCenter.StorageManagement.EditConfigInDB" UserGroupId="FE" />
+    <Permission2UserGroup PermissionId="Machine.ViewPendingJobs" UserGroupId="FE" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.RSTimeLog" UserGroupId="FE" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.ReelStatusReport" UserGroupId="FE" />
+    <Permission2UserGroup PermissionId="Machine.Confirmation.BatteryLow" UserGroupId="FE" />
+    <Permission2UserGroup PermissionId="ControlCenter.Production.LiveViewer" UserGroupId="FE" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.DowntimeLog" UserGroupId="FE" />
+    <Permission2UserGroup PermissionId="ControlCenter.BanknoteAnalyzer" UserGroupId="FE" />
+    <Permission2UserGroup PermissionId="Machine.RunTest" UserGroupId="FE" />
+    <Permission2UserGroup PermissionId="ControlCenter.StorageManagement.ObjectView" UserGroupId="FE" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.SensorTestReport" UserGroupId="FE" />
+    <Permission2UserGroup PermissionId="Machine.StartWindowsExplorer" UserGroupId="FE" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.ReleaseReportDetailed" UserGroupId="FE" />
+    <Permission2UserGroup PermissionId="Machine.ControlCenter" UserGroupId="FE" />
+    <Permission2UserGroup PermissionId="Machine.ComponentFailureRecovery" UserGroupId="FE" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.AutomaticRejectReport" UserGroupId="FE" />
+    <Permission2UserGroup PermissionId="ControlCenter.OperationSettings.Testing" UserGroupId="FE" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.AutomaticDefectReport" UserGroupId="FE" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.OperationReport" UserGroupId="FE" />
+    <Permission2UserGroup PermissionId="Machine.Downtime.End" UserGroupId="FE" />
+    <Permission2UserGroup PermissionId="Machine.Shutdown" UserGroupId="FE" />
+    <Permission2UserGroup PermissionId="ControlCenter.StorageManagement.ExportDB" UserGroupId="FE" />
+    <Permission2UserGroup PermissionId="ControlCenter.StorageManagement.ImportConfigIntoDB" UserGroupId="FE" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.RejectLog" UserGroupId="FE" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.CFRLog" UserGroupId="FE" />
+    <Permission2UserGroup PermissionId="Machine.AccessClass2" UserGroupId="FE" />
+    <Permission2UserGroup PermissionId="Machine.SystemStatus" UserGroupId="FE" />
+    <Permission2UserGroup PermissionId="ControlCenter.Adjustment" UserGroupId="FE" />
+    <Permission2UserGroup PermissionId="Machine.Service" UserGroupId="FE" />
+    <Permission2UserGroup PermissionId="Machine.ViewPendingStops" UserGroupId="FE" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.SoftwareVersionLog" UserGroupId="FE" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.DbUsageReport" UserGroupId="FE" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.OperationLog" UserGroupId="FE" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.StrapLog" UserGroupId="FE" />
+    <Permission2UserGroup PermissionId="Machine.JamRecovery" UserGroupId="FE" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.PerformanceReport" UserGroupId="FE" />
+    <Permission2UserGroup PermissionId="ControlCenter.StorageManagement" UserGroupId="FE" />
+    <Permission2UserGroup PermissionId="Machine.ServiceKey" UserGroupId="FE" />
+    <Permission2UserGroup PermissionId="ControlCenter.StorageManagement.ViewTables" UserGroupId="FE" />
+    <Permission2UserGroup PermissionId="ControlCenter.Production.StorageMaintenance" UserGroupId="FE" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.ReleaseReport" UserGroupId="FE" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.SeriesPopulationReport" UserGroupId="FE" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.SystemStatusReport" UserGroupId="FE" />
+    <Permission2UserGroup PermissionId="Machine.BanknoteProcessing" UserGroupId="FE" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.CPTimeLog" UserGroupId="FE" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.RejectReport" UserGroupId="FE" />
+    <Permission2UserGroup PermissionId="ControlCenter.Production" UserGroupId="FE" />
+    <Permission2UserGroup PermissionId="ControlCenter.Production.ManualReports" UserGroupId="FE" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.JamLog" UserGroupId="FE" />
+    <Permission2UserGroup PermissionId="ControlCenter.TraceAnalyzer" UserGroupId="FE" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.PerNoteReport" UserGroupId="FE" />
+    <Permission2UserGroup PermissionId="ControlCenter.OperationSettings.Edit" UserGroupId="FE" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.FitnessReport" UserGroupId="FE" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.PerformanceMonitoringReport" UserGroupId="FE" />
+    <Permission2UserGroup PermissionId="Machine.ShutdownApplicationOnly" UserGroupId="FE" />
+    <Permission2UserGroup PermissionId="Machine.Reconciliation" UserGroupId="FE" />
+    <Permission2UserGroup PermissionId="Machine.Idletime.End" UserGroupId="OA" />
+    <Permission2UserGroup PermissionId="Machine.Idletime.Start" UserGroupId="OA" />
+    <Permission2UserGroup PermissionId="Machine.LockTimeRecording" UserGroupId="OA" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.CPTimeLog" UserGroupId="OA" />
+    <Permission2UserGroup PermissionId="Machine.ViewPendingStops" UserGroupId="OA" />
+    <Permission2UserGroup PermissionId="Machine.Reconciliation" UserGroupId="OA" />
+    <Permission2UserGroup PermissionId="Machine.SystemStatus" UserGroupId="OA" />
+    <Permission2UserGroup PermissionId="Machine.ComponentFailureRecovery" UserGroupId="OA" />
+    <Permission2UserGroup PermissionId="ControlCenter.BanknoteAnalyzer" UserGroupId="OA" />
+    <Permission2UserGroup PermissionId="Machine.ControlCenter" UserGroupId="OA" />
+    <Permission2UserGroup PermissionId="Machine.JamRecovery.Security" UserGroupId="OA" />
+    <Permission2UserGroup PermissionId="Machine.JamRecovery" UserGroupId="OA" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.PerformanceReport" UserGroupId="OA" />
+    <Permission2UserGroup PermissionId="Machine.AccessClass1" UserGroupId="OA" />
+    <Permission2UserGroup PermissionId="Machine.ViewPendingJobs" UserGroupId="OA" />
+    <Permission2UserGroup PermissionId="Machine.Confirmation.BatteryLow" UserGroupId="OA" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.DbUsageReport" UserGroupId="OA" />
+    <Permission2UserGroup PermissionId="Machine.Accounting.Exception" UserGroupId="OA" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.DowntimeLog" UserGroupId="OA" />
+    <Permission2UserGroup PermissionId="Machine.StartPause" UserGroupId="OA" />
+    <Permission2UserGroup PermissionId="Machine.Downtime.Start" UserGroupId="OA" />
+    <Permission2UserGroup PermissionId="Machine.BanknoteProcessing" UserGroupId="OA" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.RSTimeLog" UserGroupId="OA" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.ErrorMessageReport" UserGroupId="OA4" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.StatusSummaryReport" UserGroupId="OA4" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.ReentryBalanceReport" UserGroupId="OA4" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.CPReentryDestroyLog" UserGroupId="OA4" />
+    <Permission2UserGroup PermissionId="Machine.ViewPendingJobs" UserGroupId="OA4" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.RSTimeLog" UserGroupId="OA4" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.ExceptionReport" UserGroupId="OA4" />
+    <Permission2UserGroup PermissionId="Machine.Confirmation.BatteryLow" UserGroupId="OA4" />
+    <Permission2UserGroup PermissionId="ControlCenter.Production.LiveViewer" UserGroupId="OA4" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.DowntimeLog" UserGroupId="OA4" />
+    <Permission2UserGroup PermissionId="ControlCenter.BanknoteAnalyzer" UserGroupId="OA4" />
+    <Permission2UserGroup PermissionId="Machine.RunTest" UserGroupId="OA4" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.CFRLog" UserGroupId="OA4" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.SensorTestReport" UserGroupId="OA4" />
+    <Permission2UserGroup PermissionId="Machine.ControlCenter" UserGroupId="OA4" />
+    <Permission2UserGroup PermissionId="Machine.ComponentFailureRecovery" UserGroupId="OA4" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.OperationReport" UserGroupId="OA4" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.AutomaticRejectReport" UserGroupId="OA4" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.DbUsageReport" UserGroupId="OA4" />
+    <Permission2UserGroup PermissionId="Machine.Shutdown" UserGroupId="OA4" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.SpecialStackerReport" UserGroupId="OA4" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.RejectLog" UserGroupId="OA4" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.RejectReport" UserGroupId="OA4" />
+    <Permission2UserGroup PermissionId="Machine.SystemStatus" UserGroupId="OA4" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.ExceptionLog" UserGroupId="OA4" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.BalanceReport" UserGroupId="OA4" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.ShiftBalanceWorksheet" UserGroupId="OA4" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.IDABalanceReport" UserGroupId="OA4" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.OperationLog" UserGroupId="OA4" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.ReelStatusReport" UserGroupId="OA4" />
+    <Permission2UserGroup PermissionId="Machine.JamRecovery" UserGroupId="OA4" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.PerformanceReport" UserGroupId="OA4" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.AutomaticDefectReport" UserGroupId="OA4" />
+    <Permission2UserGroup PermissionId="Machine.ViewPendingStops" UserGroupId="OA4" />
+    <Permission2UserGroup PermissionId="Machine.BanknoteProcessing" UserGroupId="OA4" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.SeriesPopulationReport" UserGroupId="OA4" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.ModifyLog" UserGroupId="OA4" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.SerialNrReport" UserGroupId="OA4" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.SystemStatusReport" UserGroupId="OA4" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.StrapLog" UserGroupId="OA4" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.CPTimeLog" UserGroupId="OA4" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.IRMBalanceReport" UserGroupId="OA4" />
+    <Permission2UserGroup PermissionId="ControlCenter.Production" UserGroupId="OA4" />
+    <Permission2UserGroup PermissionId="ControlCenter.Production.ManualReports" UserGroupId="OA4" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.JamLog" UserGroupId="OA4" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.PerNoteReport" UserGroupId="OA4" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.FitnessReport" UserGroupId="OA4" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.PerformanceMonitoringReport" UserGroupId="OA4" />
+    <Permission2UserGroup PermissionId="Machine.Reconciliation" UserGroupId="OA4" />
+    <Permission2UserGroup PermissionId="Special.Level3" UserGroupId="SP1" />
+    <Permission2UserGroup PermissionId="ControlCenter.Security.ResetPassword" UserGroupId="SP1" />
+    <Permission2UserGroup PermissionId="ControlCenter.Security.UnLockUsers" UserGroupId="SP1" />
+    <Permission2UserGroup PermissionId="Special.Level2" UserGroupId="SP1" />
+    <Permission2UserGroup PermissionId="ControlCenter.Security.ForcePasswordChangeOnNextLogonSettingPermitted" UserGroupId="SP1" />
+    <Permission2UserGroup PermissionId="ControlCenter.Security.UserManagement" UserGroupId="SP1" />
+    <Permission2UserGroup PermissionId="Special.Level4" UserGroupId="SP1" />
+    <Permission2UserGroup PermissionId="ControlCenter.Security" UserGroupId="SP1" />
+    <Permission2UserGroup PermissionId="Special.Level3" UserGroupId="SP2" />
+    <Permission2UserGroup PermissionId="ControlCenter.Security.ResetPassword" UserGroupId="SP2" />
+    <Permission2UserGroup PermissionId="Special.Level1" UserGroupId="SP2" />
+    <Permission2UserGroup PermissionId="ControlCenter.Security.UnLockUsers" UserGroupId="SP2" />
+    <Permission2UserGroup PermissionId="Special.Level4" UserGroupId="SP2" />
+    <Permission2UserGroup PermissionId="ControlCenter.Security.ForcePasswordChangeOnNextLogonSettingPermitted" UserGroupId="SP2" />
+    <Permission2UserGroup PermissionId="ControlCenter.Security.UserManagement" UserGroupId="SP2" />
+    <Permission2UserGroup PermissionId="ControlCenter.Security" UserGroupId="SP2" />
+    <Permission2UserGroup PermissionId="ControlCenter.Security.ResetPassword" UserGroupId="SP3" />
+    <Permission2UserGroup PermissionId="Special.Level1" UserGroupId="SP3" />
+    <Permission2UserGroup PermissionId="ControlCenter.Security.UnLockUsers" UserGroupId="SP3" />
+    <Permission2UserGroup PermissionId="Special.Level2" UserGroupId="SP3" />
+    <Permission2UserGroup PermissionId="ControlCenter.Security.ForcePasswordChangeOnNextLogonSettingPermitted" UserGroupId="SP3" />
+    <Permission2UserGroup PermissionId="ControlCenter.Security.UserManagement" UserGroupId="SP3" />
+    <Permission2UserGroup PermissionId="Special.Level4" UserGroupId="SP3" />
+    <Permission2UserGroup PermissionId="ControlCenter.Security" UserGroupId="SP3" />
+    <Permission2UserGroup PermissionId="Special.Level3" UserGroupId="SP4" />
+    <Permission2UserGroup PermissionId="ControlCenter.Security.ResetPassword" UserGroupId="SP4" />
+    <Permission2UserGroup PermissionId="Special.Level1" UserGroupId="SP4" />
+    <Permission2UserGroup PermissionId="ControlCenter.Security.UnLockUsers" UserGroupId="SP4" />
+    <Permission2UserGroup PermissionId="Special.Level2" UserGroupId="SP4" />
+    <Permission2UserGroup PermissionId="ControlCenter.Security.ForcePasswordChangeOnNextLogonSettingPermitted" UserGroupId="SP4" />
+    <Permission2UserGroup PermissionId="ControlCenter.Security.UserManagement" UserGroupId="SP4" />
+    <Permission2UserGroup PermissionId="ControlCenter.Security" UserGroupId="SP4" />
+    <Permission2UserGroup PermissionId="ControlCenter.Security.UnLockUsers" UserGroupId="SP5" />
+    <Permission2UserGroup PermissionId="ControlCenter.Security.ResetPassword" UserGroupId="SP5" />
+    <Permission2UserGroup PermissionId="Special.Level5" UserGroupId="SP5" />
+    <Permission2UserGroup PermissionId="ControlCenter.Security.ForcePasswordChangeOnNextLogonSettingPermitted" UserGroupId="SP5" />
+    <Permission2UserGroup PermissionId="ControlCenter.Security" UserGroupId="SP5" />
+    <Permission2UserGroup PermissionId="ControlCenter.Security.UserManagement" UserGroupId="SP5" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.ErrorMessageReport" UserGroupId="SSO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.StatusSummaryReport" UserGroupId="SSO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.ReentryBalanceReport" UserGroupId="SSO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.CPReentryDestroyLog" UserGroupId="SSO" />
+    <Permission2UserGroup PermissionId="ControlCenter.Security.RulesManagement" UserGroupId="SSO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.RSTimeLog" UserGroupId="SSO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.ExceptionReport" UserGroupId="SSO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.PerformanceMonitoringReport" UserGroupId="SSO" />
+    <Permission2UserGroup PermissionId="ControlCenter.Production.LiveViewer" UserGroupId="SSO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.DowntimeLog" UserGroupId="SSO" />
+    <Permission2UserGroup PermissionId="ControlCenter.Security" UserGroupId="SSO" />
+    <Permission2UserGroup PermissionId="ControlCenter.BanknoteAnalyzer" UserGroupId="SSO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.UserTableModificationLog" UserGroupId="SSO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.CFRLog" UserGroupId="SSO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.SensorTestReport" UserGroupId="SSO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.UserList" UserGroupId="SSO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.IRMBalanceReport" UserGroupId="SSO" />
+    <Permission2UserGroup PermissionId="ControlCenter.Security.PasswordNeverExpiresSettingPermitted" UserGroupId="SSO" />
+    <Permission2UserGroup PermissionId="ControlCenter.OperationSettings" UserGroupId="SSO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.OperationReport" UserGroupId="SSO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.ReleaseReportDetailed" UserGroupId="SSO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.AutomaticRejectReport" UserGroupId="SSO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.DbUsageReport" UserGroupId="SSO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.SpecialStackerReport" UserGroupId="SSO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.RejectLog" UserGroupId="SSO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.RejectReport" UserGroupId="SSO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.ExceptionLog" UserGroupId="SSO" />
+    <Permission2UserGroup PermissionId="ControlCenter.Security.EnterpriseManagement.Import" UserGroupId="SSO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.BalanceReport" UserGroupId="SSO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.SoftwareVersionLog" UserGroupId="SSO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.ShiftBalanceWorksheet" UserGroupId="SSO" />
+    <Permission2UserGroup PermissionId="ControlCenter.Security.EventLog" UserGroupId="SSO" />
+    <Permission2UserGroup PermissionId="ControlCenter.BanknoteAnalyzer.SetStoringMode" UserGroupId="SSO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.IDABalanceReport" UserGroupId="SSO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.OperationLog" UserGroupId="SSO" />
+    <Permission2UserGroup PermissionId="ControlCenter.OperationSettings.Import" UserGroupId="SSO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.ReelStatusReport" UserGroupId="SSO" />
+    <Permission2UserGroup PermissionId="ControlCenter.Security.ForcedUndoCheckout" UserGroupId="SSO" />
+    <Permission2UserGroup PermissionId="ControlCenter.Security.EnterpriseManagement.Export" UserGroupId="SSO" />
+    <Permission2UserGroup PermissionId="ControlCenter.Security.UserCannotChangePasswordSettingPermitted" UserGroupId="SSO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.SeriesPopulationReport" UserGroupId="SSO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.SystemStatusReport" UserGroupId="SSO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.LogonLog" UserGroupId="SSO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.ReleaseReport" UserGroupId="SSO" />
+    <Permission2UserGroup PermissionId="ControlCenter.Security.UserGroupManagement" UserGroupId="SSO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.ModifyLog" UserGroupId="SSO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.SerialNrReport" UserGroupId="SSO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.StrapLog" UserGroupId="SSO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.CPTimeLog" UserGroupId="SSO" />
+    <Permission2UserGroup PermissionId="ControlCenter.BPSGatewayAdministration" UserGroupId="SSO" />
+    <Permission2UserGroup PermissionId="ControlCenter.Production" UserGroupId="SSO" />
+    <Permission2UserGroup PermissionId="ControlCenter.Production.ManualReports" UserGroupId="SSO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.JamLog" UserGroupId="SSO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.PerformanceReport" UserGroupId="SSO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.PerNoteReport" UserGroupId="SSO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.FitnessReport" UserGroupId="SSO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.AutomaticDefectReport" UserGroupId="SSO" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.ErrorMessageReport" UserGroupId="SV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.StatusSummaryReport" UserGroupId="SV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.ReentryBalanceReport" UserGroupId="SV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.CPReentryDestroyLog" UserGroupId="SV" />
+    <Permission2UserGroup PermissionId="Machine.ViewPendingJobs" UserGroupId="SV" />
+    <Permission2UserGroup PermissionId="Machine.Confirmation.DiskFull" UserGroupId="SV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.StrapLog" UserGroupId="SV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.RSTimeLog" UserGroupId="SV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.ExceptionReport" UserGroupId="SV" />
+    <Permission2UserGroup PermissionId="Machine.Confirmation.BatteryLow" UserGroupId="SV" />
+    <Permission2UserGroup PermissionId="ControlCenter.Production.LiveViewer" UserGroupId="SV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.DowntimeLog" UserGroupId="SV" />
+    <Permission2UserGroup PermissionId="ControlCenter.Security" UserGroupId="SV" />
+    <Permission2UserGroup PermissionId="ControlCenter.BanknoteAnalyzer" UserGroupId="SV" />
+    <Permission2UserGroup PermissionId="Machine.RunTest" UserGroupId="SV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.UserTableModificationLog" UserGroupId="SV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.CFRLog" UserGroupId="SV" />
+    <Permission2UserGroup PermissionId="ControlCenter.Production.DowntimeIdletimeEdit" UserGroupId="SV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.SensorTestReport" UserGroupId="SV" />
+    <Permission2UserGroup PermissionId="Machine.ComponentFailureRecovery" UserGroupId="SV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.IRMBalanceReport" UserGroupId="SV" />
+    <Permission2UserGroup PermissionId="ControlCenter.Security.UnLockUsers" UserGroupId="SV" />
+    <Permission2UserGroup PermissionId="ControlCenter.OperationSettings" UserGroupId="SV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.OperationReport" UserGroupId="SV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.ReleaseReportDetailed" UserGroupId="SV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.AutomaticRejectReport" UserGroupId="SV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.SoftwareVersionLog" UserGroupId="SV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.DbUsageReport" UserGroupId="SV" />
+    <Permission2UserGroup PermissionId="Machine.Shutdown" UserGroupId="SV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.LogonLog" UserGroupId="SV" />
+    <Permission2UserGroup PermissionId="Machine.ForceEndPause" UserGroupId="SV" />
+    <Permission2UserGroup PermissionId="Machine.IDA" UserGroupId="SV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.RejectLog" UserGroupId="SV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.RejectReport" UserGroupId="SV" />
+    <Permission2UserGroup PermissionId="Machine.AccessClass2" UserGroupId="SV" />
+    <Permission2UserGroup PermissionId="Machine.AccessClass1" UserGroupId="SV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.ExceptionLog" UserGroupId="SV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.SpecialStackerReport" UserGroupId="SV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.BalanceReport" UserGroupId="SV" />
+    <Permission2UserGroup PermissionId="ControlCenter.Security.EnterpriseManagement.Deploy" UserGroupId="SV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.ShiftBalanceWorksheet" UserGroupId="SV" />
+    <Permission2UserGroup PermissionId="Machine.SystemStatus" UserGroupId="SV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.IDABalanceReport" UserGroupId="SV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.OperationLog" UserGroupId="SV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.ReelStatusReport" UserGroupId="SV" />
+    <Permission2UserGroup PermissionId="Machine.JamRecovery" UserGroupId="SV" />
+    <Permission2UserGroup PermissionId="Machine.UnlockSystem" UserGroupId="SV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.PerformanceReport" UserGroupId="SV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.AutomaticDefectReport" UserGroupId="SV" />
+    <Permission2UserGroup PermissionId="Machine.ControlCenter" UserGroupId="SV" />
+    <Permission2UserGroup PermissionId="Machine.ViewPendingStops" UserGroupId="SV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.SeriesPopulationReport" UserGroupId="SV" />
+    <Permission2UserGroup PermissionId="ControlCenter.Production.StorageMaintenance" UserGroupId="SV" />
+    <Permission2UserGroup PermissionId="ControlCenter.Security.ResetPassword" UserGroupId="SV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.ReleaseReport" UserGroupId="SV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.UserList" UserGroupId="SV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.ModifyLog" UserGroupId="SV" />
+    <Permission2UserGroup PermissionId="ControlCenter.Security.ForcePasswordChangeOnNextLogonSettingPermitted" UserGroupId="SV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.SerialNrReport" UserGroupId="SV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.SystemStatusReport" UserGroupId="SV" />
+    <Permission2UserGroup PermissionId="Machine.BanknoteProcessing" UserGroupId="SV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.CPTimeLog" UserGroupId="SV" />
+    <Permission2UserGroup PermissionId="ControlCenter.BPSGatewayAdministration" UserGroupId="SV" />
+    <Permission2UserGroup PermissionId="ControlCenter.Production" UserGroupId="SV" />
+    <Permission2UserGroup PermissionId="ControlCenter.Production.ManualReports" UserGroupId="SV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.JamLog" UserGroupId="SV" />
+    <Permission2UserGroup PermissionId="ControlCenter.Security.UserManagement" UserGroupId="SV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.PerNoteReport" UserGroupId="SV" />
+    <Permission2UserGroup PermissionId="ControlCenter.OperationSettings.Edit" UserGroupId="SV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.FitnessReport" UserGroupId="SV" />
+    <Permission2UserGroup PermissionId="Machine.Reporting.Report.PerformanceMonitoringReport" UserGroupId="SV" />
+    <Permission2UserGroup PermissionId="Machine.Reconciliation" UserGroupId="SV" />
+    <UserGroup2User UserGroupId="OA" UserId="alex" />
+    <UserGroup2User UserGroupId="OA" UserId="ngun" />
+    <UserGroup2User UserGroupId="OA" UserId="brae" />
+    <UserGroup2User UserGroupId="OA" UserId="brud" />
+    <UserGroup2User UserGroupId="OA" UserId="cadp" />
+    <UserGroup2User UserGroupId="OA" UserId="camc" />
+    <UserGroup2User UserGroupId="OA" UserId="chca" />
+    <UserGroup2User UserGroupId="SSO" UserId="chas" />
+    <UserGroup2User UserGroupId="OA" UserId="daim" />
+    <UserGroup2User UserGroupId="OA" UserId="debo" />
+    <UserGroup2User UserGroupId="SSO" UserId="dels" />
+    <UserGroup2User UserGroupId="OA" UserId="deml" />
+    <UserGroup2User UserGroupId="OA" UserId="filj" />
+    <UserGroup2User UserGroupId="OA" UserId="fise" />
+    <UserGroup2User UserGroupId="OA" UserId="gina" />
+    <UserGroup2User UserGroupId="OA" UserId="guea" />
+    <UserGroup2User UserGroupId="OA" UserId="laga" />
+    <UserGroup2User UserGroupId="OA" UserId="lajo" />
+    <UserGroup2User UserGroupId="OA" UserId="lael" />
+    <UserGroup2User UserGroupId="OA" UserId="laur" />
+    <UserGroup2User UserGroupId="OA" UserId="lavh" />
+    <UserGroup2User UserGroupId="OA" UserId="lemd" />
+    <UserGroup2User UserGroupId="OA" UserId="lerf" />
+    <UserGroup2User UserGroupId="OA" UserId="lers" />
+    <UserGroup2User UserGroupId="OA" UserId="merd" />
+    <UserGroup2User UserGroupId="OA" UserId="nans" />
+    <UserGroup2User UserGroupId="OA" UserId="pare" />
+    <UserGroup2User UserGroupId="OA" UserId="pieo" />
+    <UserGroup2User UserGroupId="OA" UserId="ricb" />
+    <UserGroup2User UserGroupId="OA" UserId="ricm" />
+    <UserGroup2User UserGroupId="SSO" UserId="roua" />
+    <UserGroup2User UserGroupId="OA" UserId="roya" />
+    <UserGroup2User UserGroupId="OA" UserId="trud" />
+    <UserGroup2User UserGroupId="OA" UserId="vers" />
+    <UserGroup2User UserGroupId="OA" UserId="vrom" />
+    <UserGroup2User UserGroupId="SSO" UserId="haff" />
+    <UserGroup2User UserGroupId="OA4" UserId="camc4" />
+    <UserGroup2User UserGroupId="OA4" UserId="chca4" />
+    <UserGroup2User UserGroupId="OA4" UserId="filj4" />
+    <UserGroup2User UserGroupId="OA4" UserId="fise4" />
+    <UserGroup2User UserGroupId="OA4" UserId="gina4" />
+    <UserGroup2User UserGroupId="OA4" UserId="laur4" />
+    <UserGroup2User UserGroupId="OA4" UserId="lerf4" />
+    <UserGroup2User UserGroupId="OA4" UserId="merd4" />
+    <UserGroup2User UserGroupId="OA4" UserId="ricb4" />
+    <UserGroup2User UserGroupId="OA4" UserId="ricm4" />
+    <UserGroup2User UserGroupId="OA4" UserId="stpn4" />
+    <UserGroup2User UserGroupId="SV" UserId="bonf" />
+    <UserGroup2User UserGroupId="OA" UserId="stpn" />
+    <UserGroup2User UserGroupId="SP1" UserId="CTO" />
+    <UserGroup2User UserGroupId="SP3" UserId="CTO" />
+    <UserGroup2User UserGroupId="SP2" UserId="CTO" />
+    <UserGroup2User UserGroupId="SP5" UserId="CTO" />
+    <UserGroup2User UserGroupId="SP4" UserId="CTO" />
+    <UserGroup2User UserGroupId="OA" UserId="CTO" />
+    <UserGroup2User UserGroupId="CTO" UserId="CTO" />
+    <UserGroup2User UserGroupId="SV" UserId="CTO" />
+    <UserGroup2User UserGroupId="SSO" UserId="CTO" />
+    <UserGroup2User UserGroupId="CTOADV" UserId="CTO" />
+    <UserGroup2User UserGroupId="SV" UserId="forb" />
+    <UserGroup2User UserGroupId="SP4" UserId="forb" />
+    <UserGroup2User UserGroupId="SV" UserId="desf" />
+    <UserGroup2User UserGroupId="SP1" UserId="desf" />
+    <UserGroup2User UserGroupId="SV" UserId="vach" />
+    <UserGroup2User UserGroupId="SP2" UserId="vach" />
+    <UserGroup2User UserGroupId="SV" UserId="reda" />
+    <UserGroup2User UserGroupId="SP3" UserId="reda" />
+    <UserGroup2User UserGroupId="OA" UserId="KCS1" />
+    <UserGroup2User UserGroupId="CTO" UserId="KCS1" />
+    <UserGroup2User UserGroupId="OA4" UserId="KCS1" />
+    <UserGroup2User UserGroupId="SV" UserId="KCS1" />
+    <UserGroup2User UserGroupId="FE" UserId="KCS1" />
+    <UserGroup2User UserGroupId="CTOADV" UserId="KCS1" />
+    <UserGroup2User UserGroupId="SV" UserId="KCS2" />
+    <UserGroup2User UserGroupId="FE" UserId="george" />
+    <UserGroup2User UserGroupId="OA" UserId="BOBG" />
+    <UserGroup2User UserGroupId="FE" UserId="BOBG" />
+    <UserGroup2User UserGroupId="OA" UserId="xopo" />
+    <UserGroup2User UserGroupId="CTO" UserId="xopo" />
+    <UserGroup2User UserGroupId="OA4" UserId="xopo" />
+    <UserGroup2User UserGroupId="SV" UserId="xopo" />
+    <UserGroup2User UserGroupId="FE" UserId="xopo" />
+    <UserGroup2User UserGroupId="SSO" UserId="xopo" />
+    <UserGroup2User UserGroupId="OA" UserId="CTOADV" />
+    <UserGroup2User UserGroupId="CTO" UserId="CTOADV" />
+    <UserGroup2User UserGroupId="SV" UserId="CTOADV" />
+    <UserGroup2User UserGroupId="CTOADV" UserId="CTOADV" />
+    <UserGroup2User UserGroupId="SSO" UserId="CTOADV" />
+    <UserState UserId="CTO" StateKey="PasswordHash" StateValue="lJro6Mudk7RuohKililMfSNiFuU=" StateValueType="String" StateChangeTime="2008-03-11T11:27:09.0000000-08:00" StateChangeSource="Munich/SIMCC/BPSGateway.Service" />
+    <UserState UserId="CTO" StateKey="Locked" StateValue="False" StateValueType="Boolean" StateChangeTime="2005-10-07T16:49:12.6674188+02:00" StateChangeSource="Munich/D161906/ControlCenter" />
+    <UserState UserId="CTO" StateKey="ForceChangePasswordOnNextLogon" StateValue="False" StateValueType="Boolean" StateChangeTime="2008-03-11T11:27:09.0000000-08:00" StateChangeSource="Munich/SIMCC/BPSGateway.Service" />
+    <UserState UserId="CTO" StateKey="SubsequentLogonAttempts" StateValue="0" StateValueType="Int32" StateChangeTime="2009-07-08T14:51:23.4165427+00:00" StateChangeSource="Munich/SWDEV03/ControlCenter" />
+    <UserState UserId="CTOADV" StateKey="PasswordHash" StateValue="FGN3GBrdhRs+5qtW4smqhfXCWxg=" StateValueType="String" StateChangeTime="2009-07-08T14:55:33.5651722+00:00" StateChangeSource="CTO(CTO)@Munich/SWDEV03/ControlCenter" />
+    <UserState UserId="CTOADV" StateKey="Locked" StateValue="False" StateValueType="Boolean" StateChangeTime="2009-07-08T14:55:10.8300697+00:00" StateChangeSource="CTO(CTO)@Munich/SWDEV03/ControlCenter" />
+    <UserState UserId="CTOADV" StateKey="ForceChangePasswordOnNextLogon" StateValue="False" StateValueType="Boolean" StateChangeTime="2008-03-11T11:22:57.0000000-08:00" StateChangeSource="Munich/SIMCC/BPSGateway.Service" />
+    <UserState UserId="CTOADV" StateKey="SubsequentLogonAttempts" StateValue="10" StateValueType="Int32" StateChangeTime="2009-08-04T17:54:19.2678261+00:00" StateChangeSource="Munich/SWDEV03/ControlCenter" />
+    <UserState UserId="alex" StateKey="PasswordHash" StateValue="zcwk7II6n9OBDpkpKFR1DFytoxQ=" StateValueType="String" StateChangeTime="2008-03-13T01:28:42.6406250-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="alex" StateKey="Locked" StateValue="False" StateValueType="Boolean" StateChangeTime="2008-03-13T01:28:42.6406250-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="alex" StateKey="ForceChangePasswordOnNextLogon" StateValue="True" StateValueType="Boolean" StateChangeTime="2008-03-13T01:28:42.6406250-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="alex" StateKey="SubsequentLogonAttempts" StateValue="0" StateValueType="Int32" StateChangeTime="2008-03-13T01:28:42.6406250-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="ngun" StateKey="PasswordHash" StateValue="lyPmBrzMukOilP7SirnKd31dkMI=" StateValueType="String" StateChangeTime="2008-03-13T01:30:15.7968750-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="ngun" StateKey="Locked" StateValue="False" StateValueType="Boolean" StateChangeTime="2008-03-13T01:30:15.7968750-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="ngun" StateKey="ForceChangePasswordOnNextLogon" StateValue="True" StateValueType="Boolean" StateChangeTime="2008-03-13T01:30:15.7968750-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="ngun" StateKey="SubsequentLogonAttempts" StateValue="0" StateValueType="Int32" StateChangeTime="2008-03-13T01:30:15.7968750-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="brae" StateKey="PasswordHash" StateValue="19fe3oCls+MGhVIt+6YQ8UzNCR0=" StateValueType="String" StateChangeTime="2008-03-13T01:31:28.4218750-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="brae" StateKey="Locked" StateValue="False" StateValueType="Boolean" StateChangeTime="2008-03-13T01:31:28.4218750-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="brae" StateKey="ForceChangePasswordOnNextLogon" StateValue="True" StateValueType="Boolean" StateChangeTime="2008-03-13T01:31:28.4218750-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="brae" StateKey="SubsequentLogonAttempts" StateValue="0" StateValueType="Int32" StateChangeTime="2008-03-13T01:31:28.4218750-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="brud" StateKey="PasswordHash" StateValue="D8MyxQrNQuWgIx49az47ew2enD0=" StateValueType="String" StateChangeTime="2008-03-13T01:32:37.9843750-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="brud" StateKey="Locked" StateValue="False" StateValueType="Boolean" StateChangeTime="2008-03-13T01:32:37.9843750-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="brud" StateKey="ForceChangePasswordOnNextLogon" StateValue="True" StateValueType="Boolean" StateChangeTime="2008-03-13T01:32:37.9843750-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="brud" StateKey="SubsequentLogonAttempts" StateValue="0" StateValueType="Int32" StateChangeTime="2008-03-13T01:32:37.9843750-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="cadp" StateKey="PasswordHash" StateValue="K+zpPckbDGhHL6AYXXS/N3MsGls=" StateValueType="String" StateChangeTime="2008-05-30T14:08:45.6718750+00:00" StateChangeSource="MAOC/RS21/BPSGateway.Service" />
+    <UserState UserId="cadp" StateKey="Locked" StateValue="False" StateValueType="Boolean" StateChangeTime="2008-03-13T01:33:32.8593750-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="cadp" StateKey="ForceChangePasswordOnNextLogon" StateValue="False" StateValueType="Boolean" StateChangeTime="2008-05-30T14:08:45.6718750+00:00" StateChangeSource="MAOC/RS21/BPSGateway.Service" />
+    <UserState UserId="cadp" StateKey="SubsequentLogonAttempts" StateValue="0" StateValueType="Int32" StateChangeTime="2008-06-11T20:31:05.0937500+00:00" StateChangeSource="MAOC/RS21/BPSGateway.Service" />
+    <UserState UserId="camc" StateKey="PasswordHash" StateValue="xFJnazAn2hszWDQLBJOXvgA7nWo=" StateValueType="String" StateChangeTime="2008-03-13T01:34:47.3750000-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="camc" StateKey="Locked" StateValue="False" StateValueType="Boolean" StateChangeTime="2008-03-13T01:34:47.3750000-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="camc" StateKey="ForceChangePasswordOnNextLogon" StateValue="True" StateValueType="Boolean" StateChangeTime="2008-03-13T01:34:47.3750000-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="camc" StateKey="SubsequentLogonAttempts" StateValue="0" StateValueType="Int32" StateChangeTime="2008-03-13T01:34:47.3750000-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="chca" StateKey="PasswordHash" StateValue="6W1eCHJ3LKSRMsqWxDU53U/zJtw=" StateValueType="String" StateChangeTime="2008-03-13T01:35:53.0781250-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="chca" StateKey="Locked" StateValue="False" StateValueType="Boolean" StateChangeTime="2008-03-13T01:35:53.0781250-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="chca" StateKey="ForceChangePasswordOnNextLogon" StateValue="True" StateValueType="Boolean" StateChangeTime="2008-03-13T01:35:53.0781250-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="chca" StateKey="SubsequentLogonAttempts" StateValue="0" StateValueType="Int32" StateChangeTime="2008-03-13T01:35:53.0781250-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="chas" StateKey="PasswordHash" StateValue="qEjL6rnmVQCJVSSEo0OsBqvpjR8=" StateValueType="String" StateChangeTime="2008-03-13T01:37:20.5156250-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="chas" StateKey="Locked" StateValue="False" StateValueType="Boolean" StateChangeTime="2008-03-13T01:37:20.5156250-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="chas" StateKey="ForceChangePasswordOnNextLogon" StateValue="True" StateValueType="Boolean" StateChangeTime="2008-03-13T01:37:20.5156250-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="chas" StateKey="SubsequentLogonAttempts" StateValue="0" StateValueType="Int32" StateChangeTime="2008-03-13T01:37:20.5156250-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="daim" StateKey="PasswordHash" StateValue="D5BWUiBeA5EVEbvV0NHX2Z0ECog=" StateValueType="String" StateChangeTime="2008-03-13T01:39:43.5000000-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="daim" StateKey="Locked" StateValue="False" StateValueType="Boolean" StateChangeTime="2008-03-13T01:39:43.5000000-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="daim" StateKey="ForceChangePasswordOnNextLogon" StateValue="True" StateValueType="Boolean" StateChangeTime="2008-03-13T01:39:43.5000000-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="daim" StateKey="SubsequentLogonAttempts" StateValue="0" StateValueType="Int32" StateChangeTime="2008-03-13T01:39:43.5000000-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="debo" StateKey="PasswordHash" StateValue="jBORwgyfx2rc6QdkHD4wt7BdzFo=" StateValueType="String" StateChangeTime="2008-03-13T01:42:17.4843750-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="debo" StateKey="Locked" StateValue="False" StateValueType="Boolean" StateChangeTime="2008-03-13T01:42:17.4843750-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="debo" StateKey="ForceChangePasswordOnNextLogon" StateValue="True" StateValueType="Boolean" StateChangeTime="2008-03-13T01:42:17.4843750-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="debo" StateKey="SubsequentLogonAttempts" StateValue="0" StateValueType="Int32" StateChangeTime="2008-03-13T01:42:17.4843750-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="dels" StateKey="PasswordHash" StateValue="2mnvCQdXuPzQSXs/6eVJbp4XsMc=" StateValueType="String" StateChangeTime="2008-05-27T20:48:58.3418750+00:00" StateChangeSource="MAOC/RS21/BPSGateway.Service" />
+    <UserState UserId="dels" StateKey="Locked" StateValue="False" StateValueType="Boolean" StateChangeTime="2008-03-13T01:43:47.1718750-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="dels" StateKey="ForceChangePasswordOnNextLogon" StateValue="False" StateValueType="Boolean" StateChangeTime="2008-05-27T20:48:58.3418750+00:00" StateChangeSource="MAOC/RS21/BPSGateway.Service" />
+    <UserState UserId="dels" StateKey="SubsequentLogonAttempts" StateValue="0" StateValueType="Int32" StateChangeTime="2008-03-13T01:43:47.1718750-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="deml" StateKey="PasswordHash" StateValue="6B7bfyLnhYR0EdcKh245V1ACR8s=" StateValueType="String" StateChangeTime="2008-03-13T01:44:36.0468750-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="deml" StateKey="Locked" StateValue="False" StateValueType="Boolean" StateChangeTime="2008-03-13T01:44:36.0468750-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="deml" StateKey="ForceChangePasswordOnNextLogon" StateValue="True" StateValueType="Boolean" StateChangeTime="2008-03-13T01:44:36.0468750-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="deml" StateKey="SubsequentLogonAttempts" StateValue="0" StateValueType="Int32" StateChangeTime="2008-03-13T01:44:36.0468750-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="filj" StateKey="PasswordHash" StateValue="TlXbd3TtSkafao3BYnUjpm0mhwk=" StateValueType="String" StateChangeTime="2008-06-16T12:49:52.3858876+00:00" StateChangeSource="MAOC/RS21/BPSGateway.Service" />
+    <UserState UserId="filj" StateKey="Locked" StateValue="False" StateValueType="Boolean" StateChangeTime="2008-06-18T12:29:49.5468750+00:00" StateChangeSource="MAOC/RS21/BPSGateway.Service" />
+    <UserState UserId="filj" StateKey="ForceChangePasswordOnNextLogon" StateValue="False" StateValueType="Boolean" StateChangeTime="2008-06-16T12:49:52.3858876+00:00" StateChangeSource="MAOC/RS21/BPSGateway.Service" />
+    <UserState UserId="filj" StateKey="SubsequentLogonAttempts" StateValue="0" StateValueType="Int32" StateChangeTime="2008-06-18T13:25:31.6093750+00:00" StateChangeSource="MAOC/RS21/BPSGateway.Service" />
+    <UserState UserId="fise" StateKey="PasswordHash" StateValue="CQHUFC6IE5FcEb+m0eapgL8JuAg=" StateValueType="String" StateChangeTime="2008-03-13T01:47:41.4218750-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="fise" StateKey="Locked" StateValue="False" StateValueType="Boolean" StateChangeTime="2008-03-13T01:47:41.4218750-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="fise" StateKey="ForceChangePasswordOnNextLogon" StateValue="True" StateValueType="Boolean" StateChangeTime="2008-03-13T01:47:41.4218750-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="fise" StateKey="SubsequentLogonAttempts" StateValue="0" StateValueType="Int32" StateChangeTime="2008-03-13T01:47:41.4218750-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="forb" StateKey="PasswordHash" StateValue="O5whoUy+rMtTzt3xThH27fA9amo=" StateValueType="String" StateChangeTime="2008-03-13T01:48:44.9375000-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="forb" StateKey="Locked" StateValue="False" StateValueType="Boolean" StateChangeTime="2008-03-13T01:48:44.9375000-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="forb" StateKey="ForceChangePasswordOnNextLogon" StateValue="True" StateValueType="Boolean" StateChangeTime="2008-03-13T01:48:44.9375000-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="forb" StateKey="SubsequentLogonAttempts" StateValue="0" StateValueType="Int32" StateChangeTime="2008-03-13T01:48:44.9375000-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="gina" StateKey="PasswordHash" StateValue="m1s+7A8ncA9z2Dw0FkiY5XbNBB8=" StateValueType="String" StateChangeTime="2008-03-13T01:49:43.4218750-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="gina" StateKey="Locked" StateValue="False" StateValueType="Boolean" StateChangeTime="2008-03-13T01:49:43.4218750-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="gina" StateKey="ForceChangePasswordOnNextLogon" StateValue="True" StateValueType="Boolean" StateChangeTime="2008-03-13T01:49:43.4218750-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="gina" StateKey="SubsequentLogonAttempts" StateValue="0" StateValueType="Int32" StateChangeTime="2008-03-13T01:49:43.4218750-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="guea" StateKey="PasswordHash" StateValue="EiUrFsA1tS/r6rcb95kLtJ/1/9I=" StateValueType="String" StateChangeTime="2008-03-13T01:52:24.9218750-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="guea" StateKey="Locked" StateValue="False" StateValueType="Boolean" StateChangeTime="2008-03-13T01:52:24.9218750-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="guea" StateKey="ForceChangePasswordOnNextLogon" StateValue="True" StateValueType="Boolean" StateChangeTime="2008-03-13T01:52:24.9218750-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="guea" StateKey="SubsequentLogonAttempts" StateValue="0" StateValueType="Int32" StateChangeTime="2008-03-13T01:52:24.9218750-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="laga" StateKey="PasswordHash" StateValue="4/mFIfW+EO9cqPKzHaPAcse/P9A=" StateValueType="String" StateChangeTime="2008-03-13T01:53:21.0156250-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="laga" StateKey="Locked" StateValue="False" StateValueType="Boolean" StateChangeTime="2008-03-13T01:53:21.0156250-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="laga" StateKey="ForceChangePasswordOnNextLogon" StateValue="True" StateValueType="Boolean" StateChangeTime="2008-03-13T01:53:21.0156250-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="laga" StateKey="SubsequentLogonAttempts" StateValue="0" StateValueType="Int32" StateChangeTime="2008-03-13T01:53:21.0156250-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="lajo" StateKey="PasswordHash" StateValue="16oc1NahQMcqMGAzumztXp45Bck=" StateValueType="String" StateChangeTime="2008-03-13T01:55:00.9531250-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="lajo" StateKey="Locked" StateValue="False" StateValueType="Boolean" StateChangeTime="2008-03-13T01:55:00.9531250-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="lajo" StateKey="ForceChangePasswordOnNextLogon" StateValue="True" StateValueType="Boolean" StateChangeTime="2008-03-13T01:55:00.9531250-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="lajo" StateKey="SubsequentLogonAttempts" StateValue="0" StateValueType="Int32" StateChangeTime="2008-03-13T01:55:00.9531250-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="lael" StateKey="PasswordHash" StateValue="9dkYR0cSfkJZJJug6IuZCcU0edo=" StateValueType="String" StateChangeTime="2008-03-13T01:56:19.9843750-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="lael" StateKey="Locked" StateValue="False" StateValueType="Boolean" StateChangeTime="2008-03-13T01:56:19.9843750-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="lael" StateKey="ForceChangePasswordOnNextLogon" StateValue="True" StateValueType="Boolean" StateChangeTime="2008-03-13T01:56:19.9843750-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="lael" StateKey="SubsequentLogonAttempts" StateValue="0" StateValueType="Int32" StateChangeTime="2008-03-13T01:56:19.9843750-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="laur" StateKey="PasswordHash" StateValue="w2DvNj6PXJyo1yOKJCLrYP3wKWc=" StateValueType="String" StateChangeTime="2008-05-15T17:28:39.2812500+00:00" StateChangeSource="MAOC/RS21/BPSGateway.Service" />
+    <UserState UserId="laur" StateKey="Locked" StateValue="False" StateValueType="Boolean" StateChangeTime="2008-05-15T17:24:30.2031250+00:00" StateChangeSource="MAOC/RS21/BPSGateway.Service" />
+    <UserState UserId="laur" StateKey="ForceChangePasswordOnNextLogon" StateValue="False" StateValueType="Boolean" StateChangeTime="2008-05-15T17:28:39.2812500+00:00" StateChangeSource="MAOC/RS21/BPSGateway.Service" />
+    <UserState UserId="laur" StateKey="SubsequentLogonAttempts" StateValue="0" StateValueType="Int32" StateChangeTime="2008-06-19T20:03:59.7656250+00:00" StateChangeSource="MAOC/RS21/BPSGateway.Service" />
+    <UserState UserId="lavh" StateKey="PasswordHash" StateValue="8bGWmNZnVefFdwbXY71KZkmOR/A=" StateValueType="String" StateChangeTime="2008-03-13T01:58:21.8906250-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="lavh" StateKey="Locked" StateValue="False" StateValueType="Boolean" StateChangeTime="2008-03-13T01:58:21.8906250-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="lavh" StateKey="ForceChangePasswordOnNextLogon" StateValue="True" StateValueType="Boolean" StateChangeTime="2008-03-13T01:58:21.8906250-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="lavh" StateKey="SubsequentLogonAttempts" StateValue="0" StateValueType="Int32" StateChangeTime="2008-03-13T01:58:21.8906250-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="lemd" StateKey="PasswordHash" StateValue="OCB3F+krJycD1VWeTiKc7Oo/Al4=" StateValueType="String" StateChangeTime="2008-03-13T01:59:13.4531250-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="lemd" StateKey="Locked" StateValue="False" StateValueType="Boolean" StateChangeTime="2008-03-13T01:59:13.4531250-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="lemd" StateKey="ForceChangePasswordOnNextLogon" StateValue="True" StateValueType="Boolean" StateChangeTime="2008-03-13T01:59:13.4531250-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="lemd" StateKey="SubsequentLogonAttempts" StateValue="0" StateValueType="Int32" StateChangeTime="2008-03-13T01:59:13.4531250-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="lerf" StateKey="PasswordHash" StateValue="RjmmBAEDIfSDqy8QYtkx3snD9u8=" StateValueType="String" StateChangeTime="2008-03-13T04:23:10.7656250-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="lerf" StateKey="Locked" StateValue="False" StateValueType="Boolean" StateChangeTime="2008-03-13T04:23:10.7656250-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="lerf" StateKey="ForceChangePasswordOnNextLogon" StateValue="True" StateValueType="Boolean" StateChangeTime="2008-03-13T04:23:10.7656250-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="lerf" StateKey="SubsequentLogonAttempts" StateValue="0" StateValueType="Int32" StateChangeTime="2008-03-13T04:23:10.7656250-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="lers" StateKey="PasswordHash" StateValue="zpd7TMEgfdKFWhzbyB408IfX+BM=" StateValueType="String" StateChangeTime="2008-03-13T04:23:53.8437500-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="lers" StateKey="Locked" StateValue="False" StateValueType="Boolean" StateChangeTime="2008-03-13T04:23:53.8437500-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="lers" StateKey="ForceChangePasswordOnNextLogon" StateValue="True" StateValueType="Boolean" StateChangeTime="2008-03-13T04:23:53.8437500-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="lers" StateKey="SubsequentLogonAttempts" StateValue="0" StateValueType="Int32" StateChangeTime="2008-03-13T04:23:53.8437500-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="merd" StateKey="PasswordHash" StateValue="EJFeXak0ZIrKmtZOItBff7p+puQ=" StateValueType="String" StateChangeTime="2008-05-26T13:50:39.9375000+00:00" StateChangeSource="MAOC/RS21/BPSGateway.Service" />
+    <UserState UserId="merd" StateKey="Locked" StateValue="True" StateValueType="Boolean" StateChangeTime="2008-06-18T12:33:29.7343750+00:00" StateChangeSource="MAOC/RS21/BPSGateway.Service" />
+    <UserState UserId="merd" StateKey="ForceChangePasswordOnNextLogon" StateValue="False" StateValueType="Boolean" StateChangeTime="2008-05-15T17:25:27.3906250+00:00" StateChangeSource="MAOC/RS21/BPSGateway.Service" />
+    <UserState UserId="merd" StateKey="SubsequentLogonAttempts" StateValue="0" StateValueType="Int32" StateChangeTime="2008-06-16T19:23:10.2656250+00:00" StateChangeSource="MAOC/RS21/BPSGateway.Service" />
+    <UserState UserId="nans" StateKey="PasswordHash" StateValue="vpG3ZyweYA3FBwwSIi+tobhm+oQ=" StateValueType="String" StateChangeTime="2008-03-13T04:25:31.9687500-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="nans" StateKey="Locked" StateValue="False" StateValueType="Boolean" StateChangeTime="2008-03-13T04:25:31.9687500-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="nans" StateKey="ForceChangePasswordOnNextLogon" StateValue="True" StateValueType="Boolean" StateChangeTime="2008-03-13T04:25:31.9687500-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="nans" StateKey="SubsequentLogonAttempts" StateValue="0" StateValueType="Int32" StateChangeTime="2008-03-13T04:25:31.9687500-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="pare" StateKey="PasswordHash" StateValue="KZmmS8n9ueJO5DfpDnzUtFtiVDg=" StateValueType="String" StateChangeTime="2008-03-13T04:26:34.4375000-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="pare" StateKey="Locked" StateValue="False" StateValueType="Boolean" StateChangeTime="2008-03-13T04:26:34.4375000-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="pare" StateKey="ForceChangePasswordOnNextLogon" StateValue="True" StateValueType="Boolean" StateChangeTime="2008-03-13T04:26:34.4375000-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="pare" StateKey="SubsequentLogonAttempts" StateValue="0" StateValueType="Int32" StateChangeTime="2008-03-13T04:26:34.4375000-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="pieo" StateKey="PasswordHash" StateValue="TQDvyYwDbsJO5fwIqcHI0DBH3yk=" StateValueType="String" StateChangeTime="2008-03-13T04:30:09.6718750-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="pieo" StateKey="Locked" StateValue="False" StateValueType="Boolean" StateChangeTime="2008-03-13T04:30:09.6718750-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="pieo" StateKey="ForceChangePasswordOnNextLogon" StateValue="True" StateValueType="Boolean" StateChangeTime="2008-03-13T04:30:09.6718750-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="pieo" StateKey="SubsequentLogonAttempts" StateValue="0" StateValueType="Int32" StateChangeTime="2008-03-13T04:30:09.6718750-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="reda" StateKey="PasswordHash" StateValue="NAaqEmaeRE2Z2hLGu4WSkC80b9w=" StateValueType="String" StateChangeTime="2008-03-13T04:31:24.5156250-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="reda" StateKey="Locked" StateValue="False" StateValueType="Boolean" StateChangeTime="2008-03-13T04:31:24.5156250-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="reda" StateKey="ForceChangePasswordOnNextLogon" StateValue="True" StateValueType="Boolean" StateChangeTime="2008-03-13T04:31:24.5156250-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="reda" StateKey="SubsequentLogonAttempts" StateValue="0" StateValueType="Int32" StateChangeTime="2008-03-13T04:31:24.5156250-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="ricb" StateKey="PasswordHash" StateValue="v+SQRiTTBvpa0uvuc6KHIVKl6Sg=" StateValueType="String" StateChangeTime="2008-03-13T04:33:05.0625000-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="ricb" StateKey="Locked" StateValue="False" StateValueType="Boolean" StateChangeTime="2008-03-13T04:33:05.0625000-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="ricb" StateKey="ForceChangePasswordOnNextLogon" StateValue="True" StateValueType="Boolean" StateChangeTime="2008-03-13T04:33:05.0625000-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="ricb" StateKey="SubsequentLogonAttempts" StateValue="0" StateValueType="Int32" StateChangeTime="2008-03-13T04:33:05.0625000-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="ricm" StateKey="PasswordHash" StateValue="UVt9EFIA2IOso5Q1l+ueDawl/KE=" StateValueType="String" StateChangeTime="2008-05-26T15:11:21.2656250+00:00" StateChangeSource="MAOC/RS21/BPSGateway.Service" />
+    <UserState UserId="ricm" StateKey="Locked" StateValue="False" StateValueType="Boolean" StateChangeTime="2008-03-13T04:33:58.1406250-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="ricm" StateKey="ForceChangePasswordOnNextLogon" StateValue="False" StateValueType="Boolean" StateChangeTime="2008-05-26T15:11:21.2656250+00:00" StateChangeSource="MAOC/RS21/BPSGateway.Service" />
+    <UserState UserId="ricm" StateKey="SubsequentLogonAttempts" StateValue="0" StateValueType="Int32" StateChangeTime="2008-06-17T12:08:23.4843750+00:00" StateChangeSource="MAOC/RS21/BPSGateway.Service" />
+    <UserState UserId="roua" StateKey="PasswordHash" StateValue="SfipJVKpg/pUykUyHe6Yo04Rxng=" StateValueType="String" StateChangeTime="2008-05-16T13:48:45.2044946+00:00" StateChangeSource="MAOC/RS21/BPSGateway.Service" />
+    <UserState UserId="roua" StateKey="Locked" StateValue="False" StateValueType="Boolean" StateChangeTime="2008-03-13T04:34:49.1093750-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="roua" StateKey="ForceChangePasswordOnNextLogon" StateValue="False" StateValueType="Boolean" StateChangeTime="2008-05-16T13:48:45.2044946+00:00" StateChangeSource="MAOC/RS21/BPSGateway.Service" />
+    <UserState UserId="roua" StateKey="SubsequentLogonAttempts" StateValue="0" StateValueType="Int32" StateChangeTime="2008-05-28T15:24:16.4177695+00:00" StateChangeSource="MAOC/RS21/BPSGateway.Service" />
+    <UserState UserId="roya" StateKey="PasswordHash" StateValue="U2FjEi6EVweqHmzIKKIzZI2ecgA=" StateValueType="String" StateChangeTime="2008-03-13T04:36:09.3593750-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="roya" StateKey="Locked" StateValue="False" StateValueType="Boolean" StateChangeTime="2008-03-13T04:36:09.3593750-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="roya" StateKey="ForceChangePasswordOnNextLogon" StateValue="True" StateValueType="Boolean" StateChangeTime="2008-03-13T04:36:09.3593750-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="roya" StateKey="SubsequentLogonAttempts" StateValue="0" StateValueType="Int32" StateChangeTime="2008-03-13T04:36:09.3593750-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="stpn" StateKey="PasswordHash" StateValue="VRmvnjXrAZKUE80iuN6F3usV7wQ=" StateValueType="String" StateChangeTime="2008-03-13T04:37:16.1718750-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="stpn" StateKey="Locked" StateValue="False" StateValueType="Boolean" StateChangeTime="2008-03-13T04:37:16.1718750-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="stpn" StateKey="ForceChangePasswordOnNextLogon" StateValue="True" StateValueType="Boolean" StateChangeTime="2008-03-13T04:37:16.1718750-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="stpn" StateKey="SubsequentLogonAttempts" StateValue="0" StateValueType="Int32" StateChangeTime="2008-03-13T04:37:16.1718750-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="trud" StateKey="PasswordHash" StateValue="buiBr25bnzmqBV5vXwyibeHrcXc=" StateValueType="String" StateChangeTime="2008-03-13T04:38:25.3593750-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="trud" StateKey="Locked" StateValue="False" StateValueType="Boolean" StateChangeTime="2008-03-13T04:38:25.3593750-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="trud" StateKey="ForceChangePasswordOnNextLogon" StateValue="True" StateValueType="Boolean" StateChangeTime="2008-03-13T04:38:25.3593750-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="trud" StateKey="SubsequentLogonAttempts" StateValue="0" StateValueType="Int32" StateChangeTime="2008-03-13T04:38:25.3593750-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="vach" StateKey="PasswordHash" StateValue="QntGsj023AYhHiW/kxKQANmF1ZY=" StateValueType="String" StateChangeTime="2008-05-16T15:02:10.9056994+00:00" StateChangeSource="MAOC/RS21/BPSGateway.Service" />
+    <UserState UserId="vach" StateKey="Locked" StateValue="False" StateValueType="Boolean" StateChangeTime="2008-05-16T14:58:09.3437578+00:00" StateChangeSource="MAOC/RS21/BPSGateway.Service" />
+    <UserState UserId="vach" StateKey="ForceChangePasswordOnNextLogon" StateValue="False" StateValueType="Boolean" StateChangeTime="2008-05-16T15:02:10.9056994+00:00" StateChangeSource="MAOC/RS21/BPSGateway.Service" />
+    <UserState UserId="vach" StateKey="SubsequentLogonAttempts" StateValue="0" StateValueType="Int32" StateChangeTime="2008-06-20T18:03:16.5631248+00:00" StateChangeSource="MAOC/RS21/BPSGateway.Service" />
+    <UserState UserId="vers" StateKey="PasswordHash" StateValue="67HGcoYiouFh0EuHZIKBwPXr5kE=" StateValueType="String" StateChangeTime="2008-03-13T04:40:16.8750000-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="vers" StateKey="Locked" StateValue="False" StateValueType="Boolean" StateChangeTime="2008-03-13T04:40:16.8750000-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="vers" StateKey="ForceChangePasswordOnNextLogon" StateValue="True" StateValueType="Boolean" StateChangeTime="2008-03-13T04:40:16.8750000-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="vers" StateKey="SubsequentLogonAttempts" StateValue="0" StateValueType="Int32" StateChangeTime="2008-03-13T04:40:16.8750000-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="vrom" StateKey="PasswordHash" StateValue="tB5YSWUW/CL2vpmc5g9Xb0UWnrE=" StateValueType="String" StateChangeTime="2008-03-13T04:41:06.5781250-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="vrom" StateKey="Locked" StateValue="False" StateValueType="Boolean" StateChangeTime="2008-03-13T04:41:06.5781250-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="vrom" StateKey="ForceChangePasswordOnNextLogon" StateValue="True" StateValueType="Boolean" StateChangeTime="2008-03-13T04:41:06.5781250-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="vrom" StateKey="SubsequentLogonAttempts" StateValue="0" StateValueType="Int32" StateChangeTime="2008-03-13T04:41:06.5781250-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="haff" StateKey="PasswordHash" StateValue="mmfbSZ3uv5kDyLVIUlZRMrx3Rrc=" StateValueType="String" StateChangeTime="2008-03-13T04:41:59.4218750-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="haff" StateKey="Locked" StateValue="False" StateValueType="Boolean" StateChangeTime="2008-03-13T04:41:59.4218750-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="haff" StateKey="ForceChangePasswordOnNextLogon" StateValue="True" StateValueType="Boolean" StateChangeTime="2008-03-13T04:41:59.4218750-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="haff" StateKey="SubsequentLogonAttempts" StateValue="0" StateValueType="Int32" StateChangeTime="2008-03-13T04:41:59.4218750-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="camc4" StateKey="PasswordHash" StateValue="QdWEATcGCjMh/pcoEXCDeHG6SNc=" StateValueType="String" StateChangeTime="2008-03-13T04:45:31.3437500-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="camc4" StateKey="Locked" StateValue="False" StateValueType="Boolean" StateChangeTime="2008-03-13T04:45:31.3437500-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="camc4" StateKey="ForceChangePasswordOnNextLogon" StateValue="True" StateValueType="Boolean" StateChangeTime="2008-03-13T04:45:31.3437500-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="camc4" StateKey="SubsequentLogonAttempts" StateValue="0" StateValueType="Int32" StateChangeTime="2008-03-13T04:45:31.3437500-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="chca4" StateKey="PasswordHash" StateValue="xXo2XCcPQMc/5Y14eDtSQCCECIM=" StateValueType="String" StateChangeTime="2008-03-13T04:46:48.0312500-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="chca4" StateKey="Locked" StateValue="False" StateValueType="Boolean" StateChangeTime="2008-03-13T04:46:48.0312500-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="chca4" StateKey="ForceChangePasswordOnNextLogon" StateValue="True" StateValueType="Boolean" StateChangeTime="2008-03-13T04:46:48.0312500-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="chca4" StateKey="SubsequentLogonAttempts" StateValue="0" StateValueType="Int32" StateChangeTime="2008-03-13T04:46:48.0312500-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="desf" StateKey="PasswordHash" StateValue="7gM/1LLPi2piIGOxrutXUUYKBoo=" StateValueType="String" StateChangeTime="2008-03-13T04:47:55.8437500-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="desf" StateKey="Locked" StateValue="False" StateValueType="Boolean" StateChangeTime="2008-03-13T04:47:55.8437500-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="desf" StateKey="ForceChangePasswordOnNextLogon" StateValue="True" StateValueType="Boolean" StateChangeTime="2008-03-13T04:47:55.8437500-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="desf" StateKey="SubsequentLogonAttempts" StateValue="0" StateValueType="Int32" StateChangeTime="2008-03-13T04:47:55.8437500-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="filj4" StateKey="PasswordHash" StateValue="K2zPWp+qn60Olfjq7MG58wiiv6o=" StateValueType="String" StateChangeTime="2008-05-16T16:53:40.2324944+00:00" StateChangeSource="MAOC/RS21/BPSGateway.Service" />
+    <UserState UserId="filj4" StateKey="Locked" StateValue="True" StateValueType="Boolean" StateChangeTime="2008-06-18T12:32:53.0625000+00:00" StateChangeSource="MAOC/RS21/BPSGateway.Service" />
+    <UserState UserId="filj4" StateKey="ForceChangePasswordOnNextLogon" StateValue="False" StateValueType="Boolean" StateChangeTime="2008-05-16T16:53:40.2324944+00:00" StateChangeSource="MAOC/RS21/BPSGateway.Service" />
+    <UserState UserId="filj4" StateKey="SubsequentLogonAttempts" StateValue="0" StateValueType="Int32" StateChangeTime="2008-06-06T12:31:53.7371070+00:00" StateChangeSource="MAOC/RS21/BPSGateway.Service" />
+    <UserState UserId="fise4" StateKey="PasswordHash" StateValue="qCRQSSwNlx1lUtwhdm/gId3BN40=" StateValueType="String" StateChangeTime="2008-03-13T04:49:40.9843750-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="fise4" StateKey="Locked" StateValue="False" StateValueType="Boolean" StateChangeTime="2008-03-13T04:49:40.9843750-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="fise4" StateKey="ForceChangePasswordOnNextLogon" StateValue="True" StateValueType="Boolean" StateChangeTime="2008-03-13T04:49:40.9843750-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="fise4" StateKey="SubsequentLogonAttempts" StateValue="0" StateValueType="Int32" StateChangeTime="2008-03-13T04:49:40.9843750-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="gina4" StateKey="PasswordHash" StateValue="zlKY1i0ZFwRBXzzmjk11cUnamog=" StateValueType="String" StateChangeTime="2008-03-13T04:50:27.3437500-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="gina4" StateKey="Locked" StateValue="False" StateValueType="Boolean" StateChangeTime="2008-03-13T04:50:27.3437500-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="gina4" StateKey="ForceChangePasswordOnNextLogon" StateValue="True" StateValueType="Boolean" StateChangeTime="2008-03-13T04:50:27.3437500-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="gina4" StateKey="SubsequentLogonAttempts" StateValue="0" StateValueType="Int32" StateChangeTime="2008-03-13T04:50:27.3437500-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="laur4" StateKey="PasswordHash" StateValue="1gSJZbPFI/aaakGljJEKFsegXMc=" StateValueType="String" StateChangeTime="2008-03-13T04:51:11.9531250-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="laur4" StateKey="Locked" StateValue="False" StateValueType="Boolean" StateChangeTime="2008-03-13T04:51:11.9531250-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="laur4" StateKey="ForceChangePasswordOnNextLogon" StateValue="True" StateValueType="Boolean" StateChangeTime="2008-03-13T04:51:11.9531250-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="laur4" StateKey="SubsequentLogonAttempts" StateValue="0" StateValueType="Int32" StateChangeTime="2008-03-13T04:51:11.9531250-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="lerf4" StateKey="PasswordHash" StateValue="OhypjhJCWy6JhE6pM4MZopab3HQ=" StateValueType="String" StateChangeTime="2008-03-13T04:51:50.8437500-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="lerf4" StateKey="Locked" StateValue="False" StateValueType="Boolean" StateChangeTime="2008-03-13T04:51:50.8437500-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="lerf4" StateKey="ForceChangePasswordOnNextLogon" StateValue="True" StateValueType="Boolean" StateChangeTime="2008-03-13T04:51:50.8437500-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="lerf4" StateKey="SubsequentLogonAttempts" StateValue="0" StateValueType="Int32" StateChangeTime="2008-03-13T04:51:50.8437500-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="merd4" StateKey="PasswordHash" StateValue="QUKqqrZLnXy8QgVxj0WifSkgtQo=" StateValueType="String" StateChangeTime="2008-06-18T12:39:44.4399714+00:00" StateChangeSource="MAOC/RS21/BPSGateway.Service" />
+    <UserState UserId="merd4" StateKey="Locked" StateValue="False" StateValueType="Boolean" StateChangeTime="2008-06-18T12:32:22.2343750+00:00" StateChangeSource="MAOC/RS21/BPSGateway.Service" />
+    <UserState UserId="merd4" StateKey="ForceChangePasswordOnNextLogon" StateValue="False" StateValueType="Boolean" StateChangeTime="2008-06-18T12:39:44.4399714+00:00" StateChangeSource="MAOC/RS21/BPSGateway.Service" />
+    <UserState UserId="merd4" StateKey="SubsequentLogonAttempts" StateValue="0" StateValueType="Int32" StateChangeTime="2008-06-18T12:37:39.8023032+00:00" StateChangeSource="MAOC/RS21/BPSGateway.Service" />
+    <UserState UserId="ricb4" StateKey="PasswordHash" StateValue="pwTaTvh2yo7yjg0pdcWDx71BUyA=" StateValueType="String" StateChangeTime="2008-03-13T04:53:52.9375000-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="ricb4" StateKey="Locked" StateValue="False" StateValueType="Boolean" StateChangeTime="2008-03-13T04:53:52.9375000-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="ricb4" StateKey="ForceChangePasswordOnNextLogon" StateValue="True" StateValueType="Boolean" StateChangeTime="2008-03-13T04:53:52.9375000-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="ricb4" StateKey="SubsequentLogonAttempts" StateValue="0" StateValueType="Int32" StateChangeTime="2008-03-13T04:53:52.9375000-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="ricm4" StateKey="PasswordHash" StateValue="fSw8+J8LpWiyDJmf3YTl3LCddt0=" StateValueType="String" StateChangeTime="2008-03-13T04:54:31.8906250-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="ricm4" StateKey="Locked" StateValue="False" StateValueType="Boolean" StateChangeTime="2008-03-13T04:54:31.8906250-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="ricm4" StateKey="ForceChangePasswordOnNextLogon" StateValue="True" StateValueType="Boolean" StateChangeTime="2008-03-13T04:54:31.8906250-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="ricm4" StateKey="SubsequentLogonAttempts" StateValue="0" StateValueType="Int32" StateChangeTime="2008-03-13T04:54:31.8906250-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="stpn4" StateKey="PasswordHash" StateValue="tNAQp64GaAFRsSBXQ1akAG74JTw=" StateValueType="String" StateChangeTime="2008-03-13T04:55:32.3281250-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="stpn4" StateKey="Locked" StateValue="False" StateValueType="Boolean" StateChangeTime="2008-03-13T04:55:32.3281250-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="stpn4" StateKey="ForceChangePasswordOnNextLogon" StateValue="True" StateValueType="Boolean" StateChangeTime="2008-03-13T04:55:32.3281250-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="stpn4" StateKey="SubsequentLogonAttempts" StateValue="0" StateValueType="Int32" StateChangeTime="2008-03-13T04:55:32.3281250-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="bonf" StateKey="PasswordHash" StateValue="/dXrOvjOBAIaDA99ETTlTLsi/lE=" StateValueType="String" StateChangeTime="2008-03-13T04:58:04.8906250-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="bonf" StateKey="Locked" StateValue="False" StateValueType="Boolean" StateChangeTime="2008-03-13T04:58:04.8906250-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="bonf" StateKey="ForceChangePasswordOnNextLogon" StateValue="True" StateValueType="Boolean" StateChangeTime="2008-03-13T04:58:04.8906250-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="bonf" StateKey="SubsequentLogonAttempts" StateValue="0" StateValueType="Int32" StateChangeTime="2008-03-13T04:58:04.8906250-08:00" StateChangeSource="CTO(CTO)@Munich/CPSIM/ControlCenter" />
+    <UserState UserId="xopo" StateKey="PasswordHash" StateValue="48LVohnX2a+QJVUekZN5+dIma28=" StateValueType="String" StateChangeTime="2008-05-13T14:21:12.4687500+00:00" StateChangeSource="MAOC/RS21/BPSGateway.Service" />
+    <UserState UserId="xopo" StateKey="Locked" StateValue="False" StateValueType="Boolean" StateChangeTime="2008-05-13T14:20:45.6406250+00:00" StateChangeSource="MAOC/RS21/BPSGateway.Service" />
+    <UserState UserId="xopo" StateKey="ForceChangePasswordOnNextLogon" StateValue="False" StateValueType="Boolean" StateChangeTime="2008-05-13T14:21:12.4687500+00:00" StateChangeSource="MAOC/RS21/BPSGateway.Service" />
+    <UserState UserId="xopo" StateKey="SubsequentLogonAttempts" StateValue="0" StateValueType="Int32" StateChangeTime="2008-06-19T21:47:08.6093750+00:00" StateChangeSource="MAOC/RS21/BPSGateway.Service" />
+    <UserState UserId="KCS1" StateKey="PasswordHash" StateValue="k/FZN+dRvuDusSlEADOJg4dEZ9U=" StateValueType="String" StateChangeTime="2008-05-12T14:25:24.3906250+00:00" StateChangeSource="CTO(CTO)@MAOC/RS21/ControlCenter" />
+    <UserState UserId="KCS1" StateKey="Locked" StateValue="False" StateValueType="Boolean" StateChangeTime="2008-05-12T14:25:24.3906250+00:00" StateChangeSource="CTO(CTO)@MAOC/RS21/ControlCenter" />
+    <UserState UserId="KCS1" StateKey="ForceChangePasswordOnNextLogon" StateValue="False" StateValueType="Boolean" StateChangeTime="2008-05-12T14:25:24.3906250+00:00" StateChangeSource="CTO(CTO)@MAOC/RS21/ControlCenter" />
+    <UserState UserId="KCS1" StateKey="SubsequentLogonAttempts" StateValue="0" StateValueType="Int32" StateChangeTime="2008-05-14T20:45:27.8125000+00:00" StateChangeSource="MAOC/RS21/BPSGateway.Service" />
+    <UserState UserId="KCS2" StateKey="PasswordHash" StateValue="Z03S0FTE4uLAcr6yJLYFYAdyaCQ=" StateValueType="String" StateChangeTime="2008-05-12T15:04:49.9531250+00:00" StateChangeSource="CTO(CTO)@MAOC/RS21/ControlCenter" />
+    <UserState UserId="KCS2" StateKey="Locked" StateValue="False" StateValueType="Boolean" StateChangeTime="2008-05-12T15:04:49.9531250+00:00" StateChangeSource="CTO(CTO)@MAOC/RS21/ControlCenter" />
+    <UserState UserId="KCS2" StateKey="ForceChangePasswordOnNextLogon" StateValue="False" StateValueType="Boolean" StateChangeTime="2008-05-12T15:04:49.9531250+00:00" StateChangeSource="CTO(CTO)@MAOC/RS21/ControlCenter" />
+    <UserState UserId="KCS2" StateKey="SubsequentLogonAttempts" StateValue="0" StateValueType="Int32" StateChangeTime="2008-05-12T15:04:49.9531250+00:00" StateChangeSource="CTO(CTO)@MAOC/RS21/ControlCenter" />
+    <UserState UserId="george" StateKey="PasswordHash" StateValue="QQeSt2KCK8bGKY94eFuaJS2U1dg=" StateValueType="String" StateChangeTime="2008-05-12T18:19:55.7812500+00:00" StateChangeSource="CTO(CTO)@MAOC/RS21/ControlCenter" />
+    <UserState UserId="george" StateKey="Locked" StateValue="False" StateValueType="Boolean" StateChangeTime="2008-05-12T18:19:55.7812500+00:00" StateChangeSource="CTO(CTO)@MAOC/RS21/ControlCenter" />
+    <UserState UserId="george" StateKey="ForceChangePasswordOnNextLogon" StateValue="False" StateValueType="Boolean" StateChangeTime="2008-05-12T18:19:55.7812500+00:00" StateChangeSource="CTO(CTO)@MAOC/RS21/ControlCenter" />
+    <UserState UserId="george" StateKey="SubsequentLogonAttempts" StateValue="0" StateValueType="Int32" StateChangeTime="2008-06-19T12:29:44.6718750+00:00" StateChangeSource="MAOC/RS21/BPSGateway.Service" />
+    <UserState UserId="BOBG" StateKey="PasswordHash" StateValue="TMI66yT2TSN2khOInOAFujo+bvQ=" StateValueType="String" StateChangeTime="2008-05-12T19:51:34.6093750+00:00" StateChangeSource="CTO(CTO)@MAOC/CP21/ControlCenter" />
+    <UserState UserId="BOBG" StateKey="Locked" StateValue="False" StateValueType="Boolean" StateChangeTime="2008-05-12T19:51:34.6093750+00:00" StateChangeSource="CTO(CTO)@MAOC/CP21/ControlCenter" />
+    <UserState UserId="BOBG" StateKey="ForceChangePasswordOnNextLogon" StateValue="False" StateValueType="Boolean" StateChangeTime="2008-05-12T19:51:34.6093750+00:00" StateChangeSource="CTO(CTO)@MAOC/CP21/ControlCenter" />
+    <UserState UserId="BOBG" StateKey="SubsequentLogonAttempts" StateValue="0" StateValueType="Int32" StateChangeTime="2008-05-13T20:25:39.2968750+00:00" StateChangeSource="MAOC/RS21/BPSGateway.Service" />
+  </AccountsRepository>
+  <AccountRules xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <UserConstraints>
+      <UserIdRule MinLength="1" MaxLength="8" MinLetters="0" MinDigits="0" MinSpecial="0" RegExMatchPattern="" />
+      <UserAbbreviationRule MinLength="1" MaxLength="8" MinLetters="0" MinDigits="0" MinSpecial="0" RegExMatchPattern="" />
+    </UserConstraints>
+    <UserGroupConstraints>
+      <UserGroupIdRule MinLength="1" MaxLength="8" MinLetters="0" MinDigits="0" MinSpecial="0" RegExMatchPattern="" />
+      <UserGroupAbbreviationRule MinLength="1" MaxLength="8" MinLetters="0" MinDigits="0" MinSpecial="0" RegExMatchPattern="" />
+    </UserGroupConstraints>
+    <PasswordConstraints PasswordHistoryLengthToMaintain="0" PasswordExpiresAfter="360" PasswordExpirationWarning="5">
+      <PasswordRule MinLength="1" MaxLength="32" MinLetters="0" MinDigits="0" MinSpecial="0" RegExMatchPattern="" />
+      <ProhibitedPassword>1</ProhibitedPassword>
+      <ProhibitedPassword>12</ProhibitedPassword>
+      <ProhibitedPassword>123</ProhibitedPassword>
+      <ProhibitedPassword>1234</ProhibitedPassword>
+      <ProhibitedPassword>12345</ProhibitedPassword>
+      <ProhibitedPassword>123456</ProhibitedPassword>
+      <ProhibitedPassword>1234567</ProhibitedPassword>
+      <ProhibitedPassword>12345678</ProhibitedPassword>
+      <ProhibitedPassword>2</ProhibitedPassword>
+      <ProhibitedPassword>23</ProhibitedPassword>
+      <ProhibitedPassword>234</ProhibitedPassword>
+      <ProhibitedPassword>2345</ProhibitedPassword>
+      <ProhibitedPassword>23456</ProhibitedPassword>
+      <ProhibitedPassword>234567</ProhibitedPassword>
+      <ProhibitedPassword>2345678</ProhibitedPassword>
+      <ProhibitedPassword>23456789</ProhibitedPassword>
+    </PasswordConstraints>
+    <LogonConstraints NumberOfLogonAttempts="20" LogonFailedAction="LockUser" AdditionalLogonHandling="PermissionOfAdditionalUser" AutoLockControlCenterMinutes="5" />
+  </AccountRules>
+</Security>

@@ -1,0 +1,46 @@
+[General Search Parameters]
+Show Log=False
+Search String=TscPreIni_fct
+Match Case=False
+Skip Text Files=False
+Skip Binary Files=True
+Search ZIPs=False
+Skip Underscore Dirs=False
+Whole Words Only=False
+Count Files First=False
+Recurse Subdirectories=True
+Stop after first match=False
+Invert=False
+Search Mode=0
+Text File Format=0
+Date Filter Mode=0
+Min Date=8/28/2008
+Max Date=8/28/2008
+Greater Than Days=7
+Less Than Days=7
+Size Filter Mode=0
+Min Size=1000
+Max Size=100000
+Less Than Size=1000
+Greater Than Size=100000
+Field Number=1
+Field Start=1
+Field Width=100
+Separator Char=,
+[Active File Specifications]
+0=*.*66
+1=*.cs
+2=*.txt
+3=*.xml
+4=*.java
+5=*.csproj
+6=*.sln
+7=*.mak
+8=*.xslt
+9=*.php
+10=*.php5
+11=*.h
+12=*.cpp
+13=*.inc
+[Active Directory Specifications]
+0=X:\dev_olmdc
