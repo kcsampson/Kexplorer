@@ -82,7 +82,7 @@ namespace Kexplorer.scripts
 
 				if ( parentNode != null )
 				{
-					if ( parentNode.DirInfo.FullName.Equals( folder.DirInfo.FullName ) )
+					if (runParams.Files == null && parentNode.DirInfo.FullName.Equals( folder.DirInfo.FullName ) )
 					{
 						MessageBox.Show(
 							"Can't paste over top.  Use 'Backup Copy Here' option."
@@ -98,7 +98,7 @@ namespace Kexplorer.scripts
 			} else {
 
 				runParams = (ScriptRunParams)this.ScriptHelper.VARS["CUTFILES"];
-                if (runParams != null && runParams.FtpNode != null)
+                if ( runParams != null && runParams.FtpNode != null)
                 {
                     MessageBox.Show("Cut not supported from FTP", "Kexplorer");
                     return;
@@ -110,7 +110,7 @@ namespace Kexplorer.scripts
 
 					if ( parentNode != null )
 					{
-						if ( parentNode.DirInfo.FullName.Equals( folder.DirInfo.FullName ) )
+						if ( runParams.Files == null && parentNode.DirInfo.FullName.Equals( folder.DirInfo.FullName ) )
 						{
 							MessageBox.Show(
 								"Can't paste over top.  Use 'Backup Copy Here' option."

@@ -31,7 +31,8 @@
     <StartPage />
     <StartProgram>C:\kexplorer\Kexplorer.exe</StartProgram>
     <StartURL />
-    <StartWorkingDirectory>C:\kexplorer\</StartWorkingDirectory>
+    <StartWorkingDirectory>
+    </StartWorkingDirectory>
     <StartWithIE>false</StartWithIE>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">

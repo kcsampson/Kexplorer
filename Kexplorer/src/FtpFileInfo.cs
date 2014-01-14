@@ -61,30 +61,55 @@ namespace Kexplorer
 
             isDir = bsplit[0].StartsWith("d");
 
-            name = bsplit[8];
-            if (bsplit.Count > 9)
+            if (bsplit.Count < 3)
             {
-                for (int i = 9; i < bsplit.Count; i++)
+                name = bsplit[0];
+                return;
+            }
+
+            if (bsplit.Count == 8)
+            {
+                name = bsplit[7];
+
+                size = bsplit[3];
+
+                lastupdate = split[4] + " " + split[5] + " " + split[6];
+
+
+                    ext = "";
+                
+            }
+            else if ( bsplit.Count > 8 )
+            {
+
+                name = bsplit[8];
+                if (bsplit.Count > 9)
                 {
-                    name = name + " " + bsplit[i];
+                    for (int i = 9; i < bsplit.Count; i++)
+                    {
+                        name = name + " " + bsplit[i];
+                    }
+                }
+
+                size = bsplit[4];
+
+                lastupdate = split[5] + " " + split[6] + " " + split[7];
+
+
+                if (name.Contains("."))
+                {
+                    int i = name.LastIndexOf(".");
+
+                    ext = name.Substring(i + 1);
+
+
+                }
+                else
+                {
+                    ext = "";
                 }
             }
 
-            size = bsplit[4];
-
-            lastupdate = split[5] + " " + split[6] + " " + split[7];
-
-
-            if (name.Contains("."))
-            {
-                int i = name.LastIndexOf(".");
-
-                ext = name.Substring(i + 1);
-
-
-            } else {
-                ext = "";
-            }
 
         }
 
@@ -102,7 +127,10 @@ namespace Kexplorer
                     bsplit.Add(s);
                 }
             }
-
+            if (bsplit.Count < 3)
+            {
+                return;
+            }
             name = bsplit[3];
             if (bsplit.Count > 4)
             {

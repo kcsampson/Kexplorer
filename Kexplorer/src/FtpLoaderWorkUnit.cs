@@ -149,7 +149,7 @@ namespace Kexplorer
                             while ((strFile = reader.ReadLine()) != null)
                             {
                                 FtpFileInfo fInfo = new FtpFileInfo(strFile, site.type);
-                                if (fInfo.isDir)
+                                if (fInfo.isDir && fInfo.name != "." && fInfo.name != ".." )
                                 {
                                     files.Add(fInfo.name);
                                 }
@@ -323,7 +323,7 @@ namespace Kexplorer
                     while ((strFile = reader.ReadLine()) != null)
                     {
                         FtpFileInfo fInfo = new FtpFileInfo(strFile, site.type);
-                        if (fInfo.isDir)
+                        if (fInfo.isDir && fInfo.name != "." && fInfo.name != "..")
                         {
                             files.Add(fInfo.name);
                         }
