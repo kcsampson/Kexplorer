@@ -19,7 +19,7 @@ namespace Kexplorer.scripts
 
 			this.Active = false;
 
-            this.ValidExtensions = new string[] { ".zip", ".7z", ".jar", ".docx", ".xlsx", "pptx" };
+            this.ValidExtensions = new string[] { ".zip", ".7z", ".jar", ".docx", ".xlsx", "pptx", "tar","gz","gzip" };
 		}
 
 

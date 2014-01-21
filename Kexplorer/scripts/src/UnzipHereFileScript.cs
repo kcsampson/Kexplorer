@@ -17,7 +17,7 @@ namespace Kexplorer.scripts
 			this.Active = true;
 
 
-			this.ValidExtensions = new string[]{ ".zip", ".7z",".docx",".xlsx","pptx" };
+			this.ValidExtensions = new string[]{ ".zip", ".7z",".docx",".xlsx","pptx",". gzip",".gz",".tar" };
 		}
 
 		public override void Run(KExplorerNode folder, FileInfo[] file)

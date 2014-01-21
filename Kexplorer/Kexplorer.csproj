@@ -218,6 +218,7 @@
     <Compile Include="scripts\src\CopyShortNameToClipboard.cs" />
     <Compile Include="scripts\src\CopyFtpScript.cs" />
     <Compile Include="scripts\src\AsAdminScript.cs" />
+    <Compile Include="scripts\src\SharedConfigEditFolderScript.cs" />
     <Compile Include="scripts\src\TextPadAdminFileScript.cs" />
     <Compile Include="scripts\src\RestConfigScript.cs" />
     <Compile Include="scripts\src\MSExplorerHereFolderScript.cs" />
