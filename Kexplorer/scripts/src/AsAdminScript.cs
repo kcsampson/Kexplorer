@@ -18,7 +18,7 @@ namespace Kexplorer.scripts
 
 			this.Active = true;
 
-            this.ValidExtensions = new string[] { ".cmd", ".bat", ".exe" };
+            this.ValidExtensions = new string[] { ".cmd", ".bat", ".exe",".msi" };
 
 		}
 
