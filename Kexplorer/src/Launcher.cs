@@ -65,7 +65,7 @@ namespace Kexplorer
 		public void Launch( FileInfo fileInfo )
 		{
 			string xpath= "";
-			string[] executables = new string[]{ ".exe",".cmd",".bat",".lnk"};
+			string[] executables = new string[]{ ".exe",".cmd",".bat",".lnk",".msi"};
 			if ( fileInfo.Extension != null &&
 				fileInfo.Extension.Length > 1 ){
 

@@ -113,7 +113,7 @@ namespace Kexplorer
 				output.Append( "<ServicesTab/>\n");
 				foreach ( ServiceController serviceController in this.visibleServices )
 				{
-					output.Append("<Service>"+serviceController.ServiceName + "</Service>\n" );
+					output.Append("<Service>"+serviceController.ServiceName+"//"+serviceController.MachineName + "</Service>\n" );
 				}
 			}  else if ( this.ftpSite != null ){
                 output.Append("<FtpTab>");

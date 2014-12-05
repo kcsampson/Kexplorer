@@ -321,69 +321,119 @@ namespace Kexplorer
 
 		}
 
-
+       
+        static long contextMenuCount = 0;
+        static long totalContextTime = 0;
 		/// <summary>
 		/// Re-build the context menus.
 		/// </summary>
 		private void InitializeContextMenus( DirectoryInfo dir )
 		{
-
-			Menu.MenuItemCollection items = this.form.DirTreeMenu.MenuItems;
-			items.Clear();
-
-			List<MenuItem> menuList = new List<MenuItem>();
-
-
-            if (this.isFtpSite)
+            var timer = new Stopwatch();
+         
+            ++contextMenuCount;
+            
+            try
             {
-                foreach (IScript script in this.scriptManager.FtpFolderScripts ){
-                    MenuItem temp = new MenuItem(script.LongName
-                                                , new EventHandler(this.FolderScriptMenuItemHandler)
-                                                , script.ScriptShortCut);
+                Menu.MenuItemCollection items = this.form.DirTreeMenu.MenuItems;
+                items.Clear();
 
-                    temp.Enabled = script.Active;
-                    menuList.Add(temp);
+                List<MenuItem> menuList = new List<MenuItem>();
+
+
+                if (this.isFtpSite)
+                {
+                    foreach (IScript script in this.scriptManager.FtpFolderScripts)
+                    {
+                        MenuItem temp = new MenuItem(script.LongName
+                                                    , new EventHandler(this.FolderScriptMenuItemHandler)
+                                                    , script.ScriptShortCut);
+
+                        temp.Enabled = script.Active;
+                        menuList.Add(temp);
+                    }
+                }
+                else
+                {
+                  
+                    this.form.DirTreeMenu.MenuItems.Clear();
+                    this.form.DirTreeMenu.MenuItems.AddRange(
+
+                        this.scriptManager.FolderScripts.Where(fs => (fs.ValidatorFolder == null || fs.ValidatorFolder(dir)))
+                        .Select(fs => new MenuItem(fs.LongName, new EventHandler(this.FolderScriptMenuItemHandler), fs.ScriptShortCut) 
+                                                                                { Enabled = fs.Active })
+                        .OrderBy(m => m.Text)
+                        .ToArray()
+                        );
+  
+
+                }
+
+                timer.Start();
+                this.form.FileGridMenuStrip.Items.Clear();
+
+                this.scriptManager.FileScripts.OrderBy(fs => fs.LongName)
+                    .ToList()
+                    .ForEach(fs =>
+                        this.form.FileGridMenuStrip.Items.Add(fs.LongName)
+                        );
+
+
+                this.form.DataGridView1.KeyPress += new KeyPressEventHandler(DataGridView1_KeyPress);
+                //  this.form.DataGridView1.UserDeletingRow += new DataGridViewRowCancelEventHandler(DataGridView1_UserDeletingRow);
+
+
+
+
+
+                var scripts = new List<IScript>();
+                if (isFtpSite)
+                {
+                    scripts.AddRange(this.scriptManager.FTPFileScripts.ToArray());
+                }
+                else
+                {
+                    scripts.AddRange(this.scriptManager.FileScripts.ToArray());
+                }
+
+                var x = 1;
+
+            }
+            finally
+            {
+                timer.Stop();
+                totalContextTime += timer.ElapsedMilliseconds;
+
+                if (timer.ElapsedMilliseconds > 1500 ){
+                    Console.Out.WriteLine("Build context menu took:" 
+                        + timer.ElapsedMilliseconds.ToString() 
+                        + " for "
+                        + dir.FullName );
+                
                 }
             }
-            else
-            {
-
-                this.form.DirTreeMenu.MenuItems.Clear();
-                this.form.DirTreeMenu.MenuItems.AddRange(
-
-                    this.scriptManager.FolderScripts.Where(fs => (fs.ValidatorFolder == null || fs.ValidatorFolder(dir)))
-                    .Select(fs => new MenuItem(fs.LongName, new EventHandler(this.FolderScriptMenuItemHandler), fs.ScriptShortCut) { Enabled = fs.Active })
-                    .OrderBy(m => m.Text)
-                    .ToArray()
-                    );
-
-            }
-
- 
-			this.form.FileGridMenuStrip.Items.Clear();
-
-            this.scriptManager.FileScripts.OrderBy(fs => fs.LongName)
-                .ToList()
-                .ForEach(fs =>
-                    this.form.FileGridMenuStrip.Items.Add(fs.LongName)
-                    );
-
-            
-
-
-            var scripts = new List<IScript>();
-            if (isFtpSite)
-            {
-                scripts.AddRange(this.scriptManager.FTPFileScripts.ToArray());
-            }
-            else
-            {
-                scripts.AddRange(this.scriptManager.FileScripts.ToArray());
-            }
-           
 
 
 		}
+
+        void DataGridView1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            MessageBox.Show("Use pressed: " + e.KeyChar.ToString() );
+        }
+
+        void DataGridView1_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
+        {
+            
+         /*   if (MessageBox.Show("Delete File(s)","File Delete",MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning ) == DialogResult.OK)
+            {
+
+            }
+            {
+                e.Cancel = true;
+            } */
+        }
+
+
 
 
 		/// <summary>
@@ -734,7 +784,7 @@ namespace Kexplorer
                                && (fs.ValidExtensions == null || fs.ValidExtensions.Contains(fileInfo.Extension.ToLower())))
                     .OrderBy( fs => fs.LongName )
                     .ToList()
-                    .ForEach(fss => menu.Items.Add(fss.LongName,null, new EventHandler( this.FileScriptMenuItemHandler )));
+                    .ForEach(fss => menu.Items.Add(fss.LongName,null, new EventHandler( this.FileScriptMenuItemHandler ) ));
    
 
 		}
