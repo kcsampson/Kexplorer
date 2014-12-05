@@ -20,7 +20,7 @@ namespace Kexplorer.scripts
 
            // this.ScriptShortCut = Shortcut.F2;
 
-            this.ValidatorFolder = this.ValidateFolder;
+          // this.ValidatorFolder = this.ValidateFolder;
         }
 
 

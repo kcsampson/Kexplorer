@@ -20,7 +20,7 @@ namespace Kexplorer.scripts
 
 			this.ScriptShortCut = Shortcut.CtrlR;
 
-			this.Validator = new FileValidator( this.CheckReadOnly );
+			//this.Validator = new FileValidator( this.CheckReadOnly );
 		}
 
 		public override void Run(KExplorerNode folder, FileInfo[] files)
