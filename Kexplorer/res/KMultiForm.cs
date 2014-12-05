@@ -10,6 +10,7 @@ using Kexplorer.console;
 using Kexplorer.services;
 using Kexplorer.scripting;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace Kexplorer.res
 {
@@ -41,8 +42,29 @@ namespace Kexplorer.res
 		[STAThread]
 		static void Main() 
 		{
-			Application.Run(new KMultiForm());
+               Application.ThreadException += new ThreadExceptionEventHandler( OnError);
+       
+            AppDomain.CurrentDomain.UnhandledException +=new UnhandledExceptionEventHandler(OnUnhandled);
+
+            Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
+
+                Application.Run(new KMultiForm());
+
 		}
+
+
+        static void OnError(object sender, ThreadExceptionEventArgs te)
+        {
+            File.AppendAllText("kexploere.log", "\n" + te.Exception.StackTrace + "\n");
+           
+
+        }
+
+        static void OnUnhandled(object sender, UnhandledExceptionEventArgs ue)
+        {
+
+            File.AppendAllText("kexplorer.log", "Unhandled Exception\n" + ue.ExceptionObject.ToString() + "\n");
+        }
 
 	
 
@@ -132,7 +154,7 @@ namespace Kexplorer.res
 							this.tabControl1.TabPages.Add( x );	
 
 							x.Controls.Add( servicesPanel);
-							worker.InitalizeControl( serviceNames );
+							worker.InitalizeControl( serviceNames,null,null );
 
 
                         }
@@ -485,6 +507,14 @@ namespace Kexplorer.res
 
 		private void menuItemServices_Click(object sender, System.EventArgs e)
 		{
+
+
+
+            var machineParms = QuickDialog2.DoQuickDialog("Services", "Machine Name", ".", "Pattern ^(Enable|EPX)", "");
+            if (machineParms == null)
+            {
+                machineParms = new string[2];
+            }
 			//
 			// TODO: Add any constructor code after InitializeComponent call
 			//
@@ -509,7 +539,7 @@ namespace Kexplorer.res
 
 			newPanel.Manager = worker;
 
-			worker.InitalizeControl(null);
+			worker.InitalizeControl(null,machineParms[0],machineParms[1]);
 
 			this.tabControl1.SelectedTab = x;
 

@@ -215,7 +215,8 @@ namespace Kexplorer
             this.dataGridView1.StandardTab = true;
             this.dataGridView1.TabIndex = 2;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
-            // 
+
+
             // contextMenuStrip1
             // 
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -258,6 +259,8 @@ namespace Kexplorer
             this.ResumeLayout(false);
 
 		}
+
+
 		#endregion
 
 		/// <summary>
