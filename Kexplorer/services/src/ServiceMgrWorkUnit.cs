@@ -1,12 +1,15 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.ServiceProcess;
 using System.Windows.Forms;
+using System.Linq;
 using Kexplorer.scripting;
+using System.Text.RegularExpressions;
 
 namespace Kexplorer.services
 {
@@ -39,7 +42,16 @@ namespace Kexplorer.services
 		private static IScriptMgr singleScriptManager = null;
 
 
-		private Hashtable visibleServicesHash = null;
+
+        // Now follows format "displayname//machinename"
+        private List<string> visibleServicesList = null;
+
+
+        private string MachineName { get; set; }
+
+        private string SearchPattern { get; set; }
+
+        
 		
 
 		public ServiceMgrWorkUnit( ISimpleKexplorerGUI newMainForm, IServiceGUI newServiceGUI)
@@ -51,19 +63,20 @@ namespace Kexplorer.services
 		}
 
 		#region Initialization ----------------------------------------------------------
-		public void InitalizeControl(ArrayList visibleServices )
+		public void InitalizeControl(ArrayList visibleServices, string machineName, string searchPattern )
 		{
 
 			
 			if ( visibleServices != null )
 			{
-				this.visibleServicesHash = new Hashtable();
+                this.visibleServicesList = visibleServices.Cast<string>().ToList();
 
-				foreach ( string x in visibleServices )
-				{
-					this.visibleServicesHash[ x ] = x;
-				}
 			}
+
+            this.MachineName = machineName;
+            this.SearchPattern = searchPattern;
+       
+            
 			this.pipeline = new Pipeline( (ISimpleKexplorerGUI) this.serviceGUI );
 
 			this.pipeline.AddJob( this );
@@ -285,7 +298,8 @@ namespace Kexplorer.services
 
 		public IWorkUnit DoJob()
 		{
-			ServiceController[] services = System.ServiceProcess.ServiceController.GetServices();
+
+
 			this.table = new DataTable("Services");
 			DataColumn c = null;
 			c = new DataColumn();
@@ -350,23 +364,67 @@ namespace Kexplorer.services
 		
 			table.Columns.Add(c);
 
-			foreach ( ServiceController service in services )
+            c = new DataColumn();
+            c.DataType = System.Type.GetType("System.String");
+            c.ColumnName = "Machine";
+            c.ReadOnly = true;
+            c.Unique = false;
+
+            table.Columns.Add(c);
+     
+            var services = new List<ServiceController>();
+            if (this.visibleServicesList == null)
+            {
+                if ( string.IsNullOrEmpty( this.MachineName)) {
+                    this.MachineName = ".";
+                }
+                services = System.ServiceProcess.ServiceController
+                    .GetServices(this.MachineName)
+                    .Where(sc => string.IsNullOrEmpty(this.SearchPattern)
+                                    || Regex.Match(sc.DisplayName, this.SearchPattern).Length > 0)
+
+                    .ToList().OrderBy(s => s.ServiceName)
+                    .ToList();
+
+            }
+            else
+            {
+                var visibles = this.visibleServicesList.ToList()
+                                                       .Select( s => new { DisplayName = (string)((s.Contains("//")) ? s.Substring(0,s.IndexOf("//") ) : s),
+                                                                           MachName = (string)((s.Contains("//")) ? s.Substring(s.IndexOf("//") + 2) : ".")})
+                                                        .Distinct()
+                                                        .ToList();
+
+                var visibleDict = visibles.ToDictionary( a => a, a => a );
+
+                // Get all the machine names.....
+                visibles.Select(s => s.MachName )
+                        .Distinct()
+                        .ToList()
+                        .ForEach( m => services.AddRange(
+                            ServiceController.GetServices(m)
+                                             .Where( sc => visibleDict.ContainsKey(new {DisplayName = sc.DisplayName, MachName = sc.MachineName } ) )
+                                             ) 
+                            );
+
+                services = (from v in visibles
+                            join s in services on v equals new { s.DisplayName, MachName= s.MachineName }
+                            select s).ToList();
+
+            }
+
+
+
+
+			foreach ( var service in services )
 			{
 
 				if ( this.stop )
 				{
 					return null;
 				}
-
-				if ( this.visibleServicesHash != null )
-				{
-					if ( !this.visibleServicesHash.ContainsKey( service.ServiceName ) )
-					{
-						continue;
-					}
-				}
-				DataRow row = this.table.NewRow();
-
+ 
+				DataRow row = this.table.NewRow();                               
 
 				row["Name"] = service.DisplayName;
 
@@ -383,6 +441,8 @@ namespace Kexplorer.services
 				row["ServiceType"] = service.ServiceType.ToString();
 
 				row["ServiceControllerObject"]  = service;
+
+                row["Machine"] = service.MachineName;
 
 				table.Rows.Add( row );
 

@@ -8,16 +8,16 @@ namespace Kexplorer.services
 	/// <summary>
 	/// Summary description for StopServiceScript.
 	/// </summary>
-	public class StopServiceScript : BaseServiceScript
+	public class RestartServiceScript : BaseServiceScript
 	{
-        private static bool needsRunAs = false;
-		public StopServiceScript()
+        private bool needsRunAs = false;
+        public RestartServiceScript()
 		{
-			this.LongName = "Stop";
+			this.LongName = "Restart";
 
 			this.Active = true;
 
-			this.Description = "Stops the selected services";
+			this.Description = "Restarts the selected services";
 
 
 			this.Validator = new ServiceValidator( this.OnlyStoppableAndStarted );
@@ -31,7 +31,12 @@ namespace Kexplorer.services
                 {
                     try
                     {
+                        
                         service.Stop();
+                        service.WaitForStatus(ServiceControllerStatus.Stopped);
+          
+                        service.Start();
+                        service.WaitForStatus(ServiceControllerStatus.Running);
                     }
                     catch (Exception e)
                     {
@@ -39,16 +44,20 @@ namespace Kexplorer.services
                     }
                 }
 
+
                 if (needsRunAs)
                 {
-
                     this.ScriptHelper.RunProgram("net", "stop " + service.ServiceName, null, true);
+                    service.WaitForStatus(ServiceControllerStatus.Stopped);
+                    System.Threading.Thread.Sleep(500);                    
+                    this.ScriptHelper.RunProgram("net", "start " + service.ServiceName, null, true);
+                    service.WaitForStatus(ServiceControllerStatus.Running);
                 }
 
 
-            }
+			}
 
-            System.Threading.Thread.Sleep(500);
+            //System.Threading.Thread.Sleep(500);
 
 			this.RefreshGridFromService( mainForm, serviceGrid );
 
@@ -56,10 +65,10 @@ namespace Kexplorer.services
 		}
 
 
-		private bool OnlyStoppableAndStarted( ServiceController service )
-		{
+        private bool OnlyStoppableAndStarted(ServiceController service)
+        {
 
-			return service.CanStop;
-		}
+            return service.CanStop;
+        }
 	}
 }
