@@ -1,0 +1,46 @@
+<UserControl x:Class="Kexplorer.UI.ExplorerPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250" MinWidth="100" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" MinWidth="200" />
+        </Grid.ColumnDefinitions>
+
+        <!-- Tree View -->
+        <TreeView x:Name="FolderTree" Grid.Column="0"
+                  SelectedItemChanged="FolderTree_SelectedItemChanged"
+                  TreeViewItem.Expanded="FolderTree_Expanded"
+                  KeyDown="FolderTree_KeyDown">
+            <TreeView.ContextMenu>
+                <ContextMenu x:Name="TreeContextMenu"
+                             Opened="TreeContextMenu_Opened" />
+            </TreeView.ContextMenu>
+        </TreeView>
+
+        <!-- Splitter -->
+        <GridSplitter Grid.Column="1" Width="5" 
+                      HorizontalAlignment="Center" VerticalAlignment="Stretch"
+                      ResizeBehavior="PreviousAndNext" />
+
+        <!-- File Grid -->
+        <DataGrid x:Name="FileGrid" Grid.Column="2"
+                  AutoGenerateColumns="False" IsReadOnly="True"
+                  SelectionMode="Extended" SelectionUnit="FullRow"
+                  CanUserSortColumns="True"
+                  MouseDoubleClick="FileGrid_DoubleClick"
+                  KeyDown="FileGrid_KeyDown">
+            <DataGrid.ContextMenu>
+                <ContextMenu x:Name="FileContextMenu"
+                             Opened="FileContextMenu_Opened" />
+            </DataGrid.ContextMenu>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="300" />
+                <DataGridTextColumn Header="Size" Binding="{Binding SizeDisplay}" Width="100" />
+                <DataGridTextColumn Header="Modified" Binding="{Binding LastModified, StringFormat='{}{0:yyyy-MM-dd HH:mm:ss}'}" Width="160" />
+                <DataGridTextColumn Header="Extension" Binding="{Binding Extension}" Width="80" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

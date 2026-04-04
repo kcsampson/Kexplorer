@@ -1,0 +1,50 @@
+<Window x:Class="Kexplorer.UI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:Kexplorer.UI"
+        Title="KExplorer Modern" Height="600" Width="900"
+        WindowStartupLocation="CenterScreen"
+        Closing="Window_Closing">
+    <Window.Resources>
+        <!-- Template for closable/renamable tab headers -->
+        <DataTemplate x:Key="ClosableTabHeader">
+            <StackPanel Orientation="Horizontal">
+                <!-- Display label: double-click to rename -->
+                <TextBlock x:Name="TabLabel" Text="{Binding}" 
+                           VerticalAlignment="Center"
+                           MouseLeftButtonDown="TabLabel_MouseLeftButtonDown" />
+                <!-- Edit box: shown during rename, hidden by default -->
+                <TextBox x:Name="TabEditBox"
+                         Visibility="Collapsed" MinWidth="60"
+                         VerticalAlignment="Center"
+                         KeyDown="TabEditBox_KeyDown"
+                         LostFocus="TabEditBox_LostFocus" />
+                <!-- Close button -->
+                <Button Content="×" FontSize="10" 
+                        Padding="4,0" Margin="6,0,0,0"
+                        VerticalAlignment="Center"
+                        BorderThickness="0" Background="Transparent"
+                        ToolTip="Close tab"
+                        Click="CloseTab_Click" />
+            </StackPanel>
+        </DataTemplate>
+    </Window.Resources>
+    <DockPanel>
+        <!-- Status Bar -->
+        <StatusBar DockPanel.Dock="Bottom">
+            <StatusBarItem>
+                <TextBlock x:Name="StatusText" Text="Ready" />
+            </StatusBarItem>
+        </StatusBar>
+
+        <!-- Tab Control with add-tab button -->
+        <DockPanel DockPanel.Dock="Top">
+            <TabControl x:Name="MainTabControl" 
+                        SelectionChanged="MainTabControl_SelectionChanged">
+                <!-- Permanent "+" tab for adding new tabs -->
+                <TabItem x:Name="AddTabButton" Header="+" ToolTip="Add new tab"
+                         FontWeight="Bold" Padding="6,2" />
+            </TabControl>
+        </DockPanel>
+    </DockPanel>
+</Window>

@@ -1,0 +1,22 @@
+{
+  "projectEditor": "notepad++",
+  "launchers": [
+    { "ext": "*", "command": "C:\\Program Files (x86)\\Notepad++\\Notepad++.exe" },
+    { "ext": "xml", "command": "C:\\Program Files (x86)\\Mozilla Firefox\\firefox.exe" },
+    { "ext": "sln", "command": "C:\\Program Files (x86)\\Microsoft Visual Studio 10.0\\Common7\\IDE\\devenv.exe" },
+    { "ext": "xls", "command": "Excel.exe" },
+    { "ext": "xlsx", "command": "Excel.exe" },
+    { "ext": "xlsm", "command": "Excel.exe" },
+    { "ext": "xlsb", "command": "Excel.exe" },
+    { "ext": "ppt", "command": "C:\\kexplorer\\runpowerpoint.cmd" },
+    { "ext": "pptx", "command": "C:\\kexplorer\\runpowerpoint.cmd" },
+    { "ext": "doc", "command": "C:\\kexplorer\\runword.cmd" },
+    { "ext": "docx", "command": "C:\\kexplorer\\runword.cmd" },
+    { "ext": "zip", "command": "C:\\Program Files (x86)\\7-Zip\\7zFM.exe" },
+    { "ext": "jar", "command": "C:\\Program Files (x86)\\7-Zip\\7zFM.exe" },
+    { "ext": "pdf", "command": "C:\\Program Files (x86)\\Adobe\\Reader 9.0\\Reader\\AcroRd32.exe" },
+    { "ext": "mpp", "command": "C:\\Program Files (x86)\\Microsoft Office\\OFFICE12\\WINPROJ.EXE" },
+    { "ext": "jpg", "command": "rundll32.exe", "preOption": "C:\\WINDOWS\\System32\\shimgvw.dll,ImageView_Fullscreen" },
+    { "ext": "jpeg", "command": "rundll32.exe", "preOption": "C:\\WINDOWS\\System32\\shimgvw.dll,ImageView_Fullscreen" }
+  ]
+}

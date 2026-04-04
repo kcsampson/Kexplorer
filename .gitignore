@@ -1,0 +1,34 @@
+## .NET / Visual Studio
+bin/
+obj/
+[Dd]ebug/
+[Rr]elease/
+*.user
+*.suo
+*.cache
+*.dll
+*.pdb
+*.exe
+*.obj
+*.log
+*.vspscc
+*.vssscc
+.vs/
+
+## NuGet
+packages/
+*.nupkg
+
+## Build results
+[Bb]uild[Ll]og.*
+TestResult.xml
+
+## OS files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.DS_Store
+
+## Rider / JetBrains
+.idea/
+*.sln.iml

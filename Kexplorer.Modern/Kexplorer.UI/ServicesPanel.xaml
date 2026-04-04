@@ -1,0 +1,23 @@
+<UserControl x:Class="Kexplorer.UI.ServicesPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid>
+        <DataGrid x:Name="ServiceGrid"
+                  AutoGenerateColumns="False" IsReadOnly="True"
+                  SelectionMode="Extended" SelectionUnit="FullRow"
+                  CanUserSortColumns="True">
+            <DataGrid.ContextMenu>
+                <ContextMenu x:Name="ServiceContextMenu" />
+            </DataGrid.ContextMenu>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Name" Binding="{Binding DisplayName}" Width="300" />
+                <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="100" />
+                <DataGridTextColumn Header="System Name" Binding="{Binding ServiceName}" Width="200" />
+                <DataGridTextColumn Header="Type" Binding="{Binding ServiceType}" Width="120" />
+                <DataGridTextColumn Header="Machine" Binding="{Binding MachineName}" Width="120" />
+                <DataGridCheckBoxColumn Header="Can Stop" Binding="{Binding CanStop}" Width="70" />
+                <DataGridCheckBoxColumn Header="Can Pause" Binding="{Binding CanPauseAndContinue}" Width="80" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

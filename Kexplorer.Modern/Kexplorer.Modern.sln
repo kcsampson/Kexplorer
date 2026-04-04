@@ -1,0 +1,51 @@
+﻿Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.35122.118
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kexplorer.Core", "Kexplorer.Core\Kexplorer.Core.csproj", "{C38CA8AB-6C12-4B22-BA66-80C03039A0A8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kexplorer.UI", "Kexplorer.UI\Kexplorer.UI.csproj", "{0F0638A8-C277-49AF-8548-5C94F8B3D64F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kexplorer.Plugins", "Kexplorer.Plugins\Kexplorer.Plugins.csproj", "{227D3AB4-4339-44BF-9E18-EA92F3AECFA0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kexplorer.MCP", "Kexplorer.MCP\Kexplorer.MCP.csproj", "{54D4F8F0-97D1-4E43-885C-77493BFCC4CC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kexplorer.AI", "Kexplorer.AI\Kexplorer.AI.csproj", "{68F774E5-7EE5-4C6F-B972-73CE8F2C8C3F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kexplorer.Core.Tests", "Kexplorer.Core.Tests\Kexplorer.Core.Tests.csproj", "{B75F2ECF-50A4-40DB-8C3A-79B4C987F168}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C38CA8AB-6C12-4B22-BA66-80C03039A0A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C38CA8AB-6C12-4B22-BA66-80C03039A0A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C38CA8AB-6C12-4B22-BA66-80C03039A0A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C38CA8AB-6C12-4B22-BA66-80C03039A0A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F0638A8-C277-49AF-8548-5C94F8B3D64F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F0638A8-C277-49AF-8548-5C94F8B3D64F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F0638A8-C277-49AF-8548-5C94F8B3D64F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F0638A8-C277-49AF-8548-5C94F8B3D64F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{227D3AB4-4339-44BF-9E18-EA92F3AECFA0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{227D3AB4-4339-44BF-9E18-EA92F3AECFA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{227D3AB4-4339-44BF-9E18-EA92F3AECFA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{227D3AB4-4339-44BF-9E18-EA92F3AECFA0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54D4F8F0-97D1-4E43-885C-77493BFCC4CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54D4F8F0-97D1-4E43-885C-77493BFCC4CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54D4F8F0-97D1-4E43-885C-77493BFCC4CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54D4F8F0-97D1-4E43-885C-77493BFCC4CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68F774E5-7EE5-4C6F-B972-73CE8F2C8C3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68F774E5-7EE5-4C6F-B972-73CE8F2C8C3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68F774E5-7EE5-4C6F-B972-73CE8F2C8C3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68F774E5-7EE5-4C6F-B972-73CE8F2C8C3F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B75F2ECF-50A4-40DB-8C3A-79B4C987F168}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B75F2ECF-50A4-40DB-8C3A-79B4C987F168}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B75F2ECF-50A4-40DB-8C3A-79B4C987F168}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B75F2ECF-50A4-40DB-8C3A-79B4C987F168}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

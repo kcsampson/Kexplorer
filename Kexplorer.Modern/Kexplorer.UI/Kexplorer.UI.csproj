@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Kexplorer.Core\Kexplorer.Core.csproj" />
+    <ProjectReference Include="..\Kexplorer.Plugins\Kexplorer.Plugins.csproj" />
+    <ProjectReference Include="..\Kexplorer.MCP\Kexplorer.MCP.csproj" />
+    <ProjectReference Include="..\Kexplorer.AI\Kexplorer.AI.csproj" />
+  </ItemGroup>
+</Project>
