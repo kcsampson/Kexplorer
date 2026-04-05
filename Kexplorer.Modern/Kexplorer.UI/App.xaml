@@ -3,21 +3,133 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              StartupUri="MainWindow.xaml">
   <Application.Resources>
-    <Style TargetType="Window">
-      <Setter Property="FontSize" Value="13" />
-      <Setter Property="FontWeight" Value="Medium" />
-    </Style>
-    <Style TargetType="DataGrid">
-      <Setter Property="FontSize" Value="13" />
-    </Style>
-    <Style TargetType="MenuItem">
-      <Setter Property="FontSize" Value="13" />
-    </Style>
-    <Style TargetType="TabItem">
-      <Setter Property="FontSize" Value="13" />
-    </Style>
-    <Style TargetType="StatusBar">
-      <Setter Property="FontSize" Value="12.5" />
-    </Style>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Themes/Standard.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+      <Style TargetType="Window">
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="FontWeight" Value="Medium" />
+        <Setter Property="Background" Value="{DynamicResource PrimaryBackgroundBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource PrimaryForegroundBrush}" />
+      </Style>
+      <Style TargetType="DataGrid">
+        <Setter Property="FontSize" Value="{DynamicResource GridFontSize}" />
+        <Setter Property="FontFamily" Value="{DynamicResource GridFontFamily}" />
+        <Setter Property="Background" Value="{DynamicResource PrimaryBackgroundBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource PrimaryForegroundBrush}" />
+        <Setter Property="RowBackground" Value="{DynamicResource PrimaryBackgroundBrush}" />
+        <Setter Property="AlternatingRowBackground" Value="{DynamicResource AlternateRowBrush}" />
+        <Setter Property="RowHeaderWidth" Value="0" />
+      </Style>
+      <Style TargetType="MenuItem">
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="Background" Value="{DynamicResource PrimaryBackgroundBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource PrimaryForegroundBrush}" />
+      </Style>
+      <Style TargetType="Menu">
+        <Setter Property="Background" Value="{DynamicResource ToolbarBackgroundBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource PrimaryForegroundBrush}" />
+      </Style>
+      <Style TargetType="StatusBar">
+        <Setter Property="FontSize" Value="12.5" />
+        <Setter Property="Background" Value="{DynamicResource ToolbarBackgroundBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource PrimaryForegroundBrush}" />
+      </Style>
+      <Style TargetType="TreeView">
+        <Setter Property="Background" Value="{DynamicResource PrimaryBackgroundBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource PrimaryForegroundBrush}" />
+        <Setter Property="FontFamily" Value="{DynamicResource GridFontFamily}" />
+      </Style>
+      <Style TargetType="TreeViewItem">
+        <Setter Property="Foreground" Value="{DynamicResource PrimaryForegroundBrush}" />
+      </Style>
+      <Style TargetType="DataGridColumnHeader">
+        <Setter Property="Background" Value="{DynamicResource SecondaryBackgroundBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource PrimaryForegroundBrush}" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Padding" Value="6,4" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ThemeBorderBrush}" />
+        <Setter Property="BorderThickness" Value="0,0,1,1" />
+      </Style>
+      <Style TargetType="DataGridCell">
+        <Setter Property="Foreground" Value="{DynamicResource PrimaryForegroundBrush}" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Style.Triggers>
+          <Trigger Property="IsSelected" Value="True">
+            <Setter Property="Foreground" Value="{DynamicResource SelectionForegroundBrush}" />
+          </Trigger>
+        </Style.Triggers>
+      </Style>
+      <Style TargetType="DataGridRow">
+        <Style.Triggers>
+          <Trigger Property="IsSelected" Value="True">
+            <Setter Property="Background" Value="{DynamicResource SelectionBrush}" />
+          </Trigger>
+        </Style.Triggers>
+        <Style.Resources>
+          <!-- Force same highlight color with and without focus -->
+          <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="{Binding Source={StaticResource SelectionBrush}, Path=Color}" />
+          <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="{Binding Source={StaticResource SelectionBrush}, Path=Color}" />
+          <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="{Binding Source={StaticResource SelectionForegroundBrush}, Path=Color}" />
+          <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="{Binding Source={StaticResource SelectionForegroundBrush}, Path=Color}" />
+        </Style.Resources>
+      </Style>
+
+      <!-- Skinned thin scrollbar thumb -->
+      <Style x:Key="ScrollBarThumb" TargetType="Thumb">
+        <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="Template">
+          <Setter.Value>
+            <ControlTemplate TargetType="Thumb">
+              <Border Background="{DynamicResource ScrollbarThumbBrush}" CornerRadius="4" />
+            </ControlTemplate>
+          </Setter.Value>
+        </Setter>
+      </Style>
+
+      <!-- Vertical ScrollBar: thin, skinned -->
+      <Style TargetType="ScrollBar">
+        <Style.Triggers>
+          <Trigger Property="Orientation" Value="Vertical">
+            <Setter Property="Width" Value="8" />
+            <Setter Property="MinWidth" Value="8" />
+            <Setter Property="Template">
+              <Setter.Value>
+                <ControlTemplate TargetType="ScrollBar">
+                  <Grid>
+                    <Border Background="{DynamicResource PrimaryBackgroundBrush}" CornerRadius="4" />
+                    <Track x:Name="PART_Track" IsDirectionReversed="True">
+                      <Track.Thumb>
+                        <Thumb Style="{StaticResource ScrollBarThumb}" />
+                      </Track.Thumb>
+                    </Track>
+                  </Grid>
+                </ControlTemplate>
+              </Setter.Value>
+            </Setter>
+          </Trigger>
+          <Trigger Property="Orientation" Value="Horizontal">
+            <Setter Property="Height" Value="8" />
+            <Setter Property="MinHeight" Value="8" />
+            <Setter Property="Template">
+              <Setter.Value>
+                <ControlTemplate TargetType="ScrollBar">
+                  <Grid>
+                    <Border Background="{DynamicResource PrimaryBackgroundBrush}" CornerRadius="4" />
+                    <Track x:Name="PART_Track" IsDirectionReversed="False">
+                      <Track.Thumb>
+                        <Thumb Style="{StaticResource ScrollBarThumb}" />
+                      </Track.Thumb>
+                    </Track>
+                  </Grid>
+                </ControlTemplate>
+              </Setter.Value>
+            </Setter>
+          </Trigger>
+        </Style.Triggers>
+      </Style>
+    </ResourceDictionary>
   </Application.Resources>
 </Application>

@@ -11,35 +11,62 @@
         </Grid.RowDefinitions>
 
         <!-- Top Pane: Windows Services -->
-        <DataGrid x:Name="ServiceGrid" Grid.Row="0"
-                  AutoGenerateColumns="False" IsReadOnly="True"
-                  SelectionMode="Extended" SelectionUnit="FullRow"
-                  CanUserSortColumns="True">
-            <DataGrid.ContextMenu>
-                <ContextMenu x:Name="ServiceContextMenu" />
-            </DataGrid.ContextMenu>
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Name" Binding="{Binding DisplayName}" Width="300" />
-                <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="100" />
-                <DataGridTextColumn Header="System Name" Binding="{Binding ServiceName}" Width="200" />
-                <DataGridTextColumn Header="Type" Binding="{Binding ServiceType}" Width="120" />
-                <DataGridTextColumn Header="Machine" Binding="{Binding MachineName}" Width="120" />
-                <DataGridCheckBoxColumn Header="Can Stop" Binding="{Binding CanStop}" Width="70" />
-                <DataGridCheckBoxColumn Header="Can Pause" Binding="{Binding CanPauseAndContinue}" Width="80" />
-            </DataGrid.Columns>
-        </DataGrid>
+        <DockPanel Grid.Row="0">
+            <!-- Toolbar -->
+            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="4,2" Background="{DynamicResource ToolbarBackgroundBrush}">
+                <TextBlock Text="Windows Services" FontWeight="SemiBold" VerticalAlignment="Center" Margin="0,0,12,0"
+                           Foreground="{DynamicResource PrimaryForegroundBrush}" />
+                <Button x:Name="ServiceMoveUpButton" Content="▲ Up" Width="60" Height="24"
+                        Margin="2,0" Click="ServiceMoveUp_Click" ToolTip="Move selected row up"
+                        IsEnabled="False" Style="{DynamicResource ToolbarButtonStyle}" />
+                <Button x:Name="ServiceMoveDownButton" Content="▼ Down" Width="66" Height="24"
+                        Margin="2,0" Click="ServiceMoveDown_Click" ToolTip="Move selected row down"
+                        IsEnabled="False" Style="{DynamicResource ToolbarButtonStyle}" />
+                <Button x:Name="ServiceRefreshButton" Content="↻ Refresh" Width="80" Height="24"
+                        Margin="2,0" Click="ServiceRefresh_Click" ToolTip="Refresh service list"
+                        Style="{DynamicResource ToolbarButtonStyle}" />
+            </StackPanel>
+            <DataGrid x:Name="ServiceGrid"
+                      AutoGenerateColumns="False" IsReadOnly="True"
+                      SelectionMode="Extended" SelectionUnit="FullRow"
+                      CanUserSortColumns="True">
+                <DataGrid.ContextMenu>
+                    <ContextMenu x:Name="ServiceContextMenu" />
+                </DataGrid.ContextMenu>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Name" Binding="{Binding DisplayName}" Width="300" />
+                    <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="100" />
+                    <DataGridTextColumn Header="System Name" Binding="{Binding ServiceName}" Width="200" />
+                    <DataGridTextColumn Header="Type" Binding="{Binding ServiceType}" Width="120" />
+                    <DataGridTextColumn Header="Machine" Binding="{Binding MachineName}" Width="120" />
+                    <DataGridCheckBoxColumn Header="Can Stop" Binding="{Binding CanStop}" Width="70" />
+                    <DataGridCheckBoxColumn Header="Can Pause" Binding="{Binding CanPauseAndContinue}" Width="80" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </DockPanel>
 
         <!-- Splitter -->
         <GridSplitter Grid.Row="1" Height="5"
                       HorizontalAlignment="Stretch" VerticalAlignment="Center"
-                      Background="Gray" ResizeBehavior="PreviousAndNext" />
+                      Background="{DynamicResource ThemeBorderBrush}" ResizeBehavior="PreviousAndNext" />
 
         <!-- Bottom Pane: Docker Containers -->
         <DockPanel Grid.Row="2">
-            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="4,2">
-                <TextBlock Text="Docker Containers" FontWeight="SemiBold" VerticalAlignment="Center" />
-                <TextBlock x:Name="DockerStatusText" Text="" Margin="12,0,0,0"
-                           VerticalAlignment="Center" Foreground="Gray" FontStyle="Italic" />
+            <!-- Toolbar -->
+            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="4,2" Background="{DynamicResource ToolbarBackgroundBrush}">
+                <TextBlock Text="Docker Containers" FontWeight="SemiBold" VerticalAlignment="Center" Margin="0,0,12,0"
+                           Foreground="{DynamicResource PrimaryForegroundBrush}" />
+                <TextBlock x:Name="DockerStatusText" Text="" Margin="0,0,12,0"
+                           VerticalAlignment="Center" Foreground="{DynamicResource SecondaryForegroundBrush}" FontStyle="Italic" />
+                <Button x:Name="DockerMoveUpButton" Content="▲ Up" Width="60" Height="24"
+                        Margin="2,0" Click="DockerMoveUp_Click" ToolTip="Move selected row up"
+                        IsEnabled="False" Style="{DynamicResource ToolbarButtonStyle}" />
+                <Button x:Name="DockerMoveDownButton" Content="▼ Down" Width="66" Height="24"
+                        Margin="2,0" Click="DockerMoveDown_Click" ToolTip="Move selected row down"
+                        IsEnabled="False" Style="{DynamicResource ToolbarButtonStyle}" />
+                <Button x:Name="DockerRefreshButton" Content="↻ Refresh" Width="80" Height="24"
+                        Margin="2,0" Click="DockerRefresh_Click" ToolTip="Refresh container list"
+                        Style="{DynamicResource ToolbarButtonStyle}" />
             </StackPanel>
             <DataGrid x:Name="DockerGrid"
                       AutoGenerateColumns="False" IsReadOnly="True"
@@ -62,10 +89,10 @@
         <!-- Info Splitter -->
         <GridSplitter Grid.Row="3" Height="5"
                       HorizontalAlignment="Stretch" VerticalAlignment="Center"
-                      Background="Gray" ResizeBehavior="PreviousAndNext" />
+                      Background="{DynamicResource ThemeBorderBrush}" ResizeBehavior="PreviousAndNext" />
 
         <!-- Info Panel: Dynamic Tab Strip -->
-        <Border Grid.Row="4" BorderBrush="Gray" BorderThickness="0,1,0,0">
+        <Border Grid.Row="4" BorderBrush="{DynamicResource ThemeBorderBrush}" BorderThickness="0,1,0,0">
             <TabControl x:Name="DetailTabControl" TabStripPlacement="Top">
                 <!-- Tabs are added/removed dynamically based on selection -->
             </TabControl>

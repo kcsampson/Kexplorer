@@ -1,0 +1,127 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+    <!-- Marker key to identify theme dictionaries -->
+    <system:Boolean x:Key="IsThemeDictionary">True</system:Boolean>
+
+    <!-- Kimbonics theme: dark sci-fi inspired by The Matrix -->
+    <SolidColorBrush x:Key="PrimaryBackgroundBrush" Color="#0D0D0D" />
+    <SolidColorBrush x:Key="SecondaryBackgroundBrush" Color="#131313" />
+    <SolidColorBrush x:Key="AlternateRowBrush" Color="#0A0A0A" />
+    <SolidColorBrush x:Key="PrimaryForegroundBrush" Color="#FFE500" />
+    <SolidColorBrush x:Key="SecondaryForegroundBrush" Color="#C0A800" />
+    <SolidColorBrush x:Key="AccentBrush" Color="#00FF41" />
+    <SolidColorBrush x:Key="ThemeBorderBrush" Color="#333333" />
+    <SolidColorBrush x:Key="ErrorBrush" Color="#FF4444" />
+    <SolidColorBrush x:Key="SuccessBrush" Color="#00FF41" />
+    <SolidColorBrush x:Key="ToolbarBackgroundBrush" Color="#0F0F0F" />
+    <SolidColorBrush x:Key="ScrollbarThumbBrush" Color="#66FFE500" />
+    <SolidColorBrush x:Key="SelectedTabBrush" Color="#3D3600" />
+    <SolidColorBrush x:Key="SelectionBrush" Color="#3D3600" />
+    <SolidColorBrush x:Key="SelectionForegroundBrush" Color="#FFE500" />
+    <SolidColorBrush x:Key="TitleBarBackgroundBrush" Color="#0D0D0D" />
+    <SolidColorBrush x:Key="TitleBarForegroundBrush" Color="#FFE500" />
+
+    <!-- Override TabItem template so tabs are truly dark -->
+    <Style TargetType="TabItem">
+        <Setter Property="Foreground" Value="{StaticResource PrimaryForegroundBrush}" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TabItem">
+                    <Border x:Name="TabBorder"
+                            Background="#000000"
+                            BorderBrush="{StaticResource ThemeBorderBrush}"
+                            BorderThickness="1,1,1,0"
+                            Padding="10,4" Margin="0,0,2,0">
+                        <ContentPresenter ContentSource="Header"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="TabBorder" Property="Background" Value="{StaticResource SelectedTabBrush}" />
+                            <Setter TargetName="TabBorder" Property="BorderBrush" Value="#FFE500" />
+                            <Setter TargetName="TabBorder" Property="Margin" Value="0,0,2,-1" />
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="TabBorder" Property="Background" Value="#1A1700" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Override TabControl template so the tab strip background is black -->
+    <Style TargetType="TabControl">
+        <Setter Property="Background" Value="#000000" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TabControl">
+                    <Grid KeyboardNavigation.TabNavigation="Local">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <!-- Tab strip area: black background spanning full width -->
+                        <Border Grid.Row="0" Background="#000000"
+                                BorderBrush="{StaticResource ThemeBorderBrush}"
+                                BorderThickness="0,0,0,1">
+                            <TabPanel IsItemsHost="True"
+                                      Background="Transparent" />
+                        </Border>
+                        <!-- Content area -->
+                        <Border Grid.Row="1"
+                                Background="{StaticResource PrimaryBackgroundBrush}"
+                                BorderBrush="{StaticResource ThemeBorderBrush}"
+                                BorderThickness="1,0,1,1">
+                            <ContentPresenter ContentSource="SelectedContent"
+                                              Margin="4" />
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <FontFamily x:Key="GridFontFamily">Consolas, Courier New</FontFamily>
+    <system:Double x:Key="GridFontSize">13</system:Double>
+    <system:Double x:Key="HeaderFontSize">15</system:Double>
+
+    <!-- Toolbar button style: follows skin colors -->
+    <Style x:Key="ToolbarButtonStyle" TargetType="Button">
+        <Setter Property="Background" Value="#1A1A1A" />
+        <Setter Property="Foreground" Value="{StaticResource PrimaryForegroundBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource ThemeBorderBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Padding" Value="6,2" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="Bd"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Padding="{TemplateBinding Padding}"
+                            CornerRadius="2">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Bd" Property="Background" Value="#2A2A00" />
+                            <Setter TargetName="Bd" Property="BorderBrush" Value="#FFE500" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="Bd" Property="Background" Value="#3D3600" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Foreground" Value="#555555" />
+                            <Setter TargetName="Bd" Property="BorderBrush" Value="#222222" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

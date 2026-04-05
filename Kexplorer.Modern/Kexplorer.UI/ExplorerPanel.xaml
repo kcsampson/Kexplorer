@@ -22,6 +22,7 @@
         <!-- Splitter -->
         <GridSplitter Grid.Column="1" Width="5" 
                       HorizontalAlignment="Center" VerticalAlignment="Stretch"
+                      Background="{DynamicResource ThemeBorderBrush}"
                       ResizeBehavior="PreviousAndNext" />
 
         <!-- File Grid -->

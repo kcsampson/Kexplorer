@@ -26,6 +26,10 @@ public partial class MainWindow : Window
         // Load state
         _sessionState = await SessionStateManager.LoadAsync();
 
+        // Apply saved theme
+        ThemeManager.ApplyTheme(_sessionState.ThemeName);
+        BuildThemeMenu();
+
         // Restore window dimensions
         Width = _sessionState.WindowWidth;
         Height = _sessionState.WindowHeight;
@@ -57,7 +61,8 @@ public partial class MainWindow : Window
                     case TabType.FileExplorer:
                         AddExplorerTab(tabState.TabName, tabState.CurrentFolder,
                             tabState.Drives.Count > 0 ? tabState.Drives : null,
-                            tabState.IsSelected);
+                            tabState.IsSelected,
+                            tabState.ExpandedFolders, tabState.SelectedFolder);
                         break;
                     case TabType.Services:
                         AddServicesTab(tabState.TabName, tabState.VisibleServices,
@@ -67,14 +72,16 @@ public partial class MainWindow : Window
                     case TabType.HybridServices:
                         AddHybridServicesTab(tabState.TabName, tabState.VisibleServices,
                             tabState.MachineName, tabState.SearchPattern,
-                            tabState.IsSelected);
+                            tabState.IsSelected,
+                            tabState.ServiceOrder, tabState.DockerContainerOrder);
                         break;
                 }
             }
         }
     }
 
-    public void AddExplorerTab(string name, string? currentFolder, List<string>? drives, bool isSelected)
+    public void AddExplorerTab(string name, string? currentFolder, List<string>? drives, bool isSelected,
+        List<string>? expandedFolders = null, string? selectedFolder = null)
     {
         var panel = new ExplorerPanel();
         var tabItem = new TabItem
@@ -99,7 +106,8 @@ public partial class MainWindow : Window
         // Initialize the explorer panel after it's been added to the visual tree
         panel.Loaded += async (s, e) =>
         {
-            await panel.InitializeAsync(currentFolder, drives, _pluginManager, _launcherService);
+            await panel.InitializeAsync(currentFolder, drives, _pluginManager, _launcherService,
+                expandedFolders, selectedFolder);
         };
     }
 
@@ -133,7 +141,8 @@ public partial class MainWindow : Window
     }
 
     public void AddHybridServicesTab(string name, List<string>? visibleServices,
-        string? machineName, string? searchPattern, bool isSelected)
+        string? machineName, string? searchPattern, bool isSelected,
+        List<string>? serviceOrder = null, List<string>? dockerContainerOrder = null)
     {
         var panel = new HybridServicesPanel();
         var tabItem = new TabItem
@@ -157,7 +166,8 @@ public partial class MainWindow : Window
 
         panel.Loaded += async (s, e) =>
         {
-            await panel.InitializeAsync(visibleServices, machineName, searchPattern, _pluginManager);
+            await panel.InitializeAsync(visibleServices, machineName, searchPattern, _pluginManager,
+                _launcherService, serviceOrder, dockerContainerOrder);
         };
     }
 
@@ -259,6 +269,7 @@ public partial class MainWindow : Window
         _sessionState.WindowHeight = Height;
         _sessionState.WindowLeft = Left;
         _sessionState.WindowTop = Top;
+        _sessionState.ThemeName = _sessionState.ThemeName; // already up-to-date via menu
         _sessionState.Tabs.Clear();
 
         foreach (TabItem tab in MainTabControl.Items)
@@ -273,7 +284,9 @@ public partial class MainWindow : Window
                     TabType = TabType.FileExplorer,
                     CurrentFolder = explorer.CurrentPath,
                     Drives = explorer.LoadedDrives,
-                    IsSelected = MainTabControl.SelectedItem == tab
+                    IsSelected = MainTabControl.SelectedItem == tab,
+                    ExpandedFolders = explorer.GetExpandedFolders(),
+                    SelectedFolder = explorer.CurrentPath
                 });
             }
             else if (tab.Content is HybridServicesPanel hybrid)
@@ -285,7 +298,9 @@ public partial class MainWindow : Window
                     VisibleServices = hybrid.GetVisibleServiceNames(),
                     MachineName = hybrid.MachineName,
                     SearchPattern = hybrid.SearchPattern,
-                    IsSelected = MainTabControl.SelectedItem == tab
+                    IsSelected = MainTabControl.SelectedItem == tab,
+                    ServiceOrder = hybrid.GetServiceOrder(),
+                    DockerContainerOrder = hybrid.GetDockerContainerOrder()
                 });
             }
             else if (tab.Content is ServicesPanel services)
@@ -478,6 +493,37 @@ public partial class MainWindow : Window
     public void UpdateStatus(string message)
     {
         Dispatcher.InvokeAsync(() => StatusText.Text = message);
+    }
+
+    private void BuildThemeMenu()
+    {
+        ThemeMenu.Items.Clear();
+        foreach (var theme in ThemeManager.Themes)
+        {
+            var item = new MenuItem
+            {
+                Header = theme,
+                IsCheckable = true,
+                IsChecked = string.Equals(_sessionState.ThemeName, theme, StringComparison.OrdinalIgnoreCase)
+            };
+            var capturedTheme = theme;
+            item.Click += (s, e) =>
+            {
+                ThemeManager.ApplyTheme(capturedTheme);
+                _sessionState.ThemeName = capturedTheme;
+                // Update check marks
+                foreach (MenuItem mi in ThemeMenu.Items)
+                    mi.IsChecked = string.Equals(mi.Header?.ToString(), capturedTheme, StringComparison.OrdinalIgnoreCase);
+            };
+            ThemeMenu.Items.Add(item);
+        }
+    }
+
+    private void SettingsGear_Click(object sender, RoutedEventArgs e)
+    {
+        SettingsContextMenu.PlacementTarget = SettingsGearButton;
+        SettingsContextMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom;
+        SettingsContextMenu.IsOpen = true;
     }
 }
 

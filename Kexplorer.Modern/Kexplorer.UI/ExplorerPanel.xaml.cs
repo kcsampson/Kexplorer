@@ -29,6 +29,8 @@ public partial class ExplorerPanel : UserControl, IKexplorerShell
 
     // Track loaded drives for state persistence
     private readonly List<string> _loadedDrives = new();
+    private CancellationTokenSource? _restoreCts;
+    private bool _restoringNavigation;
 
     public string? CurrentPath { get; private set; }
     public List<string> LoadedDrives => _loadedDrives;
@@ -40,7 +42,8 @@ public partial class ExplorerPanel : UserControl, IKexplorerShell
     }
 
     public async Task InitializeAsync(string? currentFolder, List<string>? drives,
-        PluginManager pluginManager, LauncherService launcherService)
+        PluginManager pluginManager, LauncherService launcherService,
+        List<string>? expandedFolders = null, string? selectedFolder = null)
     {
         if (_initialized)
             return;
@@ -86,11 +89,20 @@ public partial class ExplorerPanel : UserControl, IKexplorerShell
             await driveQueue.EnqueueAsync(new DriveLoaderWorkItem(fullPath));
         }
 
-        // If we have a current folder to navigate to, do it after drives load
-        if (!string.IsNullOrEmpty(currentFolder))
+        // If we have expanded folders to restore, do it after drives load
+        if (expandedFolders is { Count: > 0 } || !string.IsNullOrEmpty(selectedFolder))
+        {
+            var foldersToRestore = expandedFolders ?? new List<string>();
+            var folderToSelect = selectedFolder ?? currentFolder;
+            _ = Task.Run(async () =>
+            {
+                await Task.Delay(800); // let drive loading complete
+                await RestoreNavigationStateAsync(foldersToRestore, folderToSelect);
+            });
+        }
+        else if (!string.IsNullOrEmpty(currentFolder))
         {
             CurrentPath = currentFolder;
-            // Delay navigation slightly to let drive loading complete
             _ = Task.Run(async () =>
             {
                 await Task.Delay(500);
@@ -112,6 +124,12 @@ public partial class ExplorerPanel : UserControl, IKexplorerShell
 
     private async void FolderTree_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
     {
+        // If the user clicks manually while restoration is in progress, cancel it
+        if (_restoringNavigation)
+        {
+            _restoreCts?.Cancel();
+        }
+
         if (e.NewValue is TreeViewItem treeItem && treeItem.Tag is FileSystemNode node && node.IsDirectory)
         {
             CurrentPath = node.FullPath;
@@ -308,6 +326,204 @@ public partial class ExplorerPanel : UserControl, IKexplorerShell
     #endregion
 
     #region Tree Helpers
+
+    /// <summary>
+    /// Collect all expanded folder paths in the tree (for state persistence).
+    /// </summary>
+    public List<string> GetExpandedFolders()
+    {
+        var result = new List<string>();
+        foreach (var item in FolderTree.Items)
+        {
+            if (item is TreeViewItem treeItem)
+                CollectAllExpandedPaths(treeItem, result);
+        }
+        return result;
+    }
+
+    private void CollectAllExpandedPaths(TreeViewItem item, List<string> result)
+    {
+        if (item.IsExpanded && item.Tag is FileSystemNode node)
+        {
+            result.Add(node.FullPath);
+            foreach (var child in item.Items)
+            {
+                if (child is TreeViewItem childItem)
+                    CollectAllExpandedPaths(childItem, result);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Restore navigation state: expand persisted folders, then select the target folder.
+    /// </summary>
+    private async Task RestoreNavigationStateAsync(List<string> expandedFolders, string? selectedFolder)
+    {
+        _restoreCts = new CancellationTokenSource();
+        _restoringNavigation = true;
+        var ct = _restoreCts.Token;
+
+        try
+        {
+            await Dispatcher.InvokeAsync(() =>
+            {
+                var mainWindow = Window.GetWindow(this) as MainWindow;
+                mainWindow?.UpdateStatus("Restoring navigation\u2026");
+            });
+
+            // Group expanded paths by drive letter to parallelize across drives
+            var pathsByDrive = expandedFolders
+                .Where(p => p.Length >= 2 && p[1] == ':')
+                .GroupBy(p => p[..1].ToUpperInvariant())
+                .ToDictionary(g => g.Key, g => g.OrderBy(p => p.Length).ToList());
+
+            // Expand each drive's paths
+            var tasks = new List<Task>();
+            foreach (var (drive, paths) in pathsByDrive)
+            {
+                tasks.Add(RestoreDrivePathsAsync(drive, paths, ct));
+            }
+            await Task.WhenAll(tasks);
+
+            // Select the target folder
+            if (!ct.IsCancellationRequested && !string.IsNullOrEmpty(selectedFolder))
+            {
+                CurrentPath = selectedFolder;
+                await NavigateToPathAsync(selectedFolder, ct);
+            }
+
+            await Dispatcher.InvokeAsync(() =>
+            {
+                var mainWindow = Window.GetWindow(this) as MainWindow;
+                mainWindow?.UpdateStatus(CurrentPath ?? "Ready");
+            });
+        }
+        catch (OperationCanceledException)
+        {
+            // User navigated manually — stop restoring
+        }
+        finally
+        {
+            _restoringNavigation = false;
+        }
+    }
+
+    private async Task RestoreDrivePathsAsync(string driveLetter, List<string> paths, CancellationToken ct)
+    {
+        foreach (var path in paths)
+        {
+            ct.ThrowIfCancellationRequested();
+            await RestoreExpandedPathAsync(path, ct);
+        }
+    }
+
+    private async Task RestoreExpandedPathAsync(string fullPath, CancellationToken ct)
+    {
+        // Decompose path into segments: C:\, Users, dev, projects
+        var segments = DecomposePath(fullPath);
+        if (segments.Count == 0) return;
+
+        // The first segment is the drive root (e.g. "C:\")
+        var driveRoot = segments[0];
+
+        TreeViewItem? current = null;
+        await Dispatcher.InvokeAsync(() =>
+        {
+            current = FindTreeItem(FolderTree.Items, driveRoot);
+        });
+
+        if (current is null) return;
+
+        for (int i = 1; i < segments.Count; i++)
+        {
+            ct.ThrowIfCancellationRequested();
+            var segment = segments[i];
+
+            // Ensure children are loaded — trigger expand and wait
+            bool needsLoad = false;
+            var currentCapture = current;
+            await Dispatcher.InvokeAsync(() =>
+            {
+                if (currentCapture!.Tag is FileSystemNode node && !node.Loaded)
+                {
+                    needsLoad = true;
+                    currentCapture.IsExpanded = true;
+                }
+                else if (!currentCapture.IsExpanded)
+                {
+                    currentCapture.IsExpanded = true;
+                }
+            });
+
+            if (needsLoad)
+            {
+                // Wait for the folder to finish loading (children populated)
+                await WaitForNodeLoadedAsync(current!, ct);
+            }
+
+            // Find the matching child
+            TreeViewItem? child = null;
+            await Dispatcher.InvokeAsync(() =>
+            {
+                foreach (var item in currentCapture!.Items)
+                {
+                    if (item is TreeViewItem treeItem && treeItem.Tag is FileSystemNode childNode &&
+                        string.Equals(childNode.Name, segment, StringComparison.OrdinalIgnoreCase))
+                    {
+                        child = treeItem;
+                        break;
+                    }
+                }
+            });
+
+            if (child is null)
+                break; // Folder no longer exists
+
+            current = child;
+        }
+
+        // Expand the final node
+        if (current is not null)
+        {
+            await Dispatcher.InvokeAsync(() => current.IsExpanded = true);
+        }
+    }
+
+    private async Task WaitForNodeLoadedAsync(TreeViewItem treeItem, CancellationToken ct)
+    {
+        // Poll until the node's children are loaded (FileSystemNode.Loaded == true)
+        for (int i = 0; i < 60; i++) // up to ~6 seconds
+        {
+            ct.ThrowIfCancellationRequested();
+            bool loaded = false;
+            await Dispatcher.InvokeAsync(() =>
+            {
+                if (treeItem.Tag is FileSystemNode node)
+                    loaded = node.Loaded;
+            });
+            if (loaded) return;
+            await Task.Delay(100, ct);
+        }
+    }
+
+    private static List<string> DecomposePath(string fullPath)
+    {
+        var result = new List<string>();
+        if (string.IsNullOrEmpty(fullPath)) return result;
+
+        // First segment is the drive root
+        if (fullPath.Length >= 3 && fullPath[1] == ':' && fullPath[2] == '\\')
+        {
+            result.Add(fullPath[..3]); // "C:\"
+            var remaining = fullPath[3..];
+            if (!string.IsNullOrEmpty(remaining))
+            {
+                result.AddRange(remaining.Split('\\', StringSplitOptions.RemoveEmptyEntries));
+            }
+        }
+
+        return result;
+    }
 
     private TreeViewItem CreateTreeItem(FileSystemNode node)
     {

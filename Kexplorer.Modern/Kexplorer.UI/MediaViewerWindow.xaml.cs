@@ -29,6 +29,7 @@ public partial class MediaViewerWindow : Window
     public MediaViewerWindow(string filePath)
     {
         InitializeComponent();
+        SourceInitialized += (_, _) => ThemeManager.ApplyToWindow(this);
         BuildFileList(filePath);
         ShowCurrent();
     }

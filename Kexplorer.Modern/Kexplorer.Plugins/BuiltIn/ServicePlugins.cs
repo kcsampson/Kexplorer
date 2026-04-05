@@ -191,11 +191,12 @@ public sealed class HideServicePlugin : IServicePlugin
 
     public async Task ExecuteAsync(IReadOnlyList<ServiceInfo> selectedServices, IPluginContext context, CancellationToken cancellationToken = default)
     {
-        // This is handled by the ServicesPanel directly — remove selected items from the observable collection.
-        // The plugin signals the shell to handle it.
-        foreach (var svc in selectedServices)
+        if (context.Shell is IHybridServiceShell hybridShell)
         {
-            await context.Shell.ReportStatusAsync($"Hidden: {svc.DisplayName}", cancellationToken);
+            await hybridShell.RemoveServicesAsync(selectedServices, cancellationToken);
         }
+
+        var names = string.Join(", ", selectedServices.Select(s => s.DisplayName));
+        await context.Shell.ReportStatusAsync($"Hidden: {names}", cancellationToken);
     }
 }

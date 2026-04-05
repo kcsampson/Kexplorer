@@ -59,12 +59,14 @@ The Services and Docker Containers grids currently display rows in whatever orde
 
 ### Desired Behavior
 
-1. **Dedicated reorder column** — Add a narrow column (pinned left, before the Name column) containing two small **▲ Up** / **▼ Down** arrow buttons per row. Clicking a button moves that row up or down by one position in the grid. **The column is hidden by default** and toggled visible via the "Reorder" toolbar button (see Enhancement-003).
-2. **Persist the custom order** in the session state (`state.json`).
-3. **Restore the custom order on startup** — when services are loaded, sort them into the persisted order. Services not in the persisted order (e.g., newly installed) are appended at the bottom.
-4. **Edge behavior** — The ▲ button is disabled (greyed out) on the first row; the ▼ button is disabled on the last row.
-5. **Multi-select aware** — If multiple rows are selected, clicking ▲/▼ on any selected row moves the entire selected block up or down as a unit.
-6. Sorting by a column header should be a temporary override; the user's custom order can be restored via a "Reset to Custom Order" option or by clicking the sort header again.
+1. **Up / Down toolbar buttons** — Each pane toolbar (see Enhancement-003) contains an **▲ Up** button and a **▼ Down** button. Clicking Up moves the selected row up one position in the grid; clicking Down moves it down one position.
+2. **Selection required** — Both buttons are **disabled** when no row is selected. They become enabled as soon as a row is selected.
+3. **Edge behavior** — The ▲ Up button is disabled when the selected row is already at the top (index 0); the ▼ Down button is disabled when the selected row is already at the bottom (last index).
+4. **Selection follows the row** — After a move, the moved row remains selected so the user can press the button repeatedly to move it multiple positions.
+5. **Persist the custom order** in the session state (`state.json`).
+6. **Restore the custom order on startup** — when services are loaded, sort them into the persisted order. Services not in the persisted order (e.g., newly installed) are appended at the bottom.
+7. **Multi-select aware** — If multiple rows are selected, clicking ▲/▼ moves the entire selected block up or down as a unit. The block selection is maintained after the move.
+8. Sorting by a column header should be a temporary override; the user's custom order can be restored via a "Reset to Custom Order" option or by clicking the sort header again.
 
 ### State Model Changes
 
@@ -92,22 +94,25 @@ On save, snapshot the current grid order. On load, use the persisted order as a 
 
 ### Implementation Notes
 
-- **Reorder column**: Use a `DataGridTemplateColumn` with a `CellTemplate` containing a small vertical `StackPanel` of two `Button` controls (▲ and ▼). Style them as flat/icon buttons (~16×16px each) so the column stays narrow (~36px). Pin this column as the first (frozen) column.
+- **Toolbar buttons**: Add `▲ Up` and `▼ Down` buttons to each pane toolbar (see Enhancement-003). Use `ICommand` (e.g., `RelayCommand`) bound to move-up / move-down methods on the panel or view-model.
 - The `ObservableCollection<ServiceInfo>` backing the grid already supports `Insert`, `Move`, and `RemoveAt` — use `Move(oldIndex, newIndex)` for in-place reordering.
-- Button `Command` bindings should pass the row's data item and direction as `CommandParameter`. The view-model (or code-behind) calls `Move()` on the collection.
-- Disable the ▲ button when the item is at index 0; disable ▼ when the item is at the last index. Use a value converter or trigger bound to the item's index.
+- **Enable/disable logic**: Bind `Command.CanExecute` to check that (a) a row is selected, (b) the selected row is not already at the boundary (index 0 for Up, last index for Down). Re-evaluate `CanExecute` after every move and after selection changes.
+- **Maintain selection**: After calling `Move()`, programmatically set `DataGrid.SelectedItem` (or `SelectedIndex`) back to the moved item so the user can press the button repeatedly.
+- No dedicated reorder column is needed — the arrows live in the toolbar, not in the grid cells.
 
 ### Acceptance Criteria
 
-1. Each grid has a narrow reorder column (pinned left) with ▲/▼ buttons per row.
-2. Clicking ▲ moves the row up one position; ▼ moves it down. Buttons are disabled at the top/bottom edges.
-3. Multi-select: clicking ▲/▼ on a selected row moves the entire selected block.
-4. The custom order is saved to `state.json` on exit.
-5. The custom order is restored on startup.
-6. Newly appearing services (not in the persisted order) are appended at the bottom.
-7. Services that no longer exist are silently dropped from the persisted order.
-8. Works for both Windows Services and Docker Containers grids independently.
-9. (Stretch) Drag-and-drop row reordering.
+1. Each pane toolbar has ▲ Up and ▼ Down buttons (no per-row reorder column).
+2. Both buttons are disabled when no row is selected.
+3. Clicking ▲ moves the selected row up one position; ▼ moves it down. ▲ is disabled at the top edge; ▼ at the bottom edge.
+4. The moved row stays selected after the move.
+5. Multi-select: clicking ▲/▼ moves the entire selected block as a unit.
+6. The custom order is saved to `state.json` on exit.
+7. The custom order is restored on startup.
+8. Newly appearing services (not in the persisted order) are appended at the bottom.
+9. Services that no longer exist are silently dropped from the persisted order.
+10. Works for both Windows Services and Docker Containers grids independently.
+11. (Stretch) Drag-and-drop row reordering.
 
 ---
 
@@ -120,21 +125,22 @@ On save, snapshot the current grid order. On load, use the persisted order as a 
 
 Each pane (Windows Services and Docker Containers) needs a small toolbar strip above its grid. The toolbar is a lightweight extension point — new buttons will be added over time. The first two buttons are:
 
-1. **Reorder** (toggle) — Toggles visibility of the ▲/▼ reorder column (Enhancement-001). Default state: **off** (reorder column hidden). When toggled on, the reorder column appears; when toggled off, it collapses. The toggle state is purely visual and does not affect the persisted row order.
-2. **Refresh** — Re-fetches the listing from the OS / Docker daemon and repopulates the grid. For Windows Services this re-runs the `ServiceController.GetServices()` query (filtered to the tab's visible services). For Docker Containers this re-runs `wsl docker ps --all`. Previously hidden services reappear (same as legacy F5 behavior).
+1. **▲ Up** — Moves the selected row up one position in the grid (Enhancement-001). Disabled when no row is selected or the selected row is already at the top.
+2. **▼ Down** — Moves the selected row down one position in the grid (Enhancement-001). Disabled when no row is selected or the selected row is already at the bottom.
+3. **Refresh** — Re-fetches the listing from the OS / Docker daemon and repopulates the grid. For Windows Services this re-runs the `ServiceController.GetServices()` query (filtered to the tab's visible services). For Docker Containers this re-runs `wsl docker ps --all`. Previously hidden services reappear (same as legacy F5 behavior).
 
 ### Layout
 
 ```
 +--------------------------------------------------------------------------------------------------------------+
-|  Windows Services                                                        [⇅ Reorder] [↻ Refresh] [filter]    |
+|  Windows Services                                                  [▲ Up] [▼ Down] [↻ Refresh] [filter]      |
 |  ----------------------------------------------------------------------------------------------------------- |
-|  (▲▼) | Name        | Status  | Type | Machine | ...                                                        |
+|  Name        | Status  | Type | Machine | ...                                                               |
 |  ...                                                                                                         |
 +--------------------------------------------------------------------------------------------------------------+
-|  Docker Containers                                                       [⇅ Reorder] [↻ Refresh] [filter]    |
+|  Docker Containers                                                 [▲ Up] [▼ Down] [↻ Refresh] [filter]      |
 |  ----------------------------------------------------------------------------------------------------------- |
-|  (▲▼) | Name        | Status  | Image        | ...                                                           |
+|  Name        | Status  | Image        | ...                                                                  |
 |  ...                                                                                                         |
 +--------------------------------------------------------------------------------------------------------------+
 ```
@@ -146,14 +152,14 @@ Each pane (Windows Services and Docker Containers) needs a small toolbar strip a
 
 ### Implementation Notes
 
-- **Reorder toggle**: Bind the reorder `DataGridTemplateColumn.Visibility` to a `bool ReorderModeActive` property on the panel/view-model. The toolbar button toggles this property. Use `Visibility.Collapsed` (not `Hidden`) so the column space is reclaimed when off.
+- **Up / Down buttons**: Use `ICommand` bindings (`MoveUpCommand`, `MoveDownCommand`). `CanExecute` checks for a selected row and boundary conditions (index 0 / last index). After calling `ObservableCollection.Move()`, re-select the moved item. Re-evaluate `CanExecute` on selection change and after each move via `CommandManager.InvalidateRequerySuggested()` or explicit raise.
 - **Refresh**: Call the existing `RefreshServicesAsync()` / `RefreshDockerAsync()` methods (or equivalent). Disable the button and show a brief spinner/busy indicator while the refresh is in progress to prevent double-clicks.
 - **Extensibility**: Use an `ItemsControl` or `ToolBar` bound to a collection of toolbar item descriptors so new buttons can be added without modifying XAML layout each time.
 
 ### Acceptance Criteria
 
 1. Each pane has a toolbar strip above the grid.
-2. The "Reorder" button toggles the ▲/▼ column visibility. Default: hidden.
+2. The ▲ Up and ▼ Down buttons move the selected row up/down. Disabled when no row is selected or at boundary.
 3. The "Refresh" button re-fetches and repopulates the grid. Previously hidden items reappear.
 4. The Refresh button is disabled while a refresh is in progress.
 5. The toolbar is present on both the Windows Services and Docker Containers panes.

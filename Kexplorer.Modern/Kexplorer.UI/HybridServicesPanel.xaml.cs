@@ -1,14 +1,17 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO;
 using System.Text;
 using System.Text.Json;
 using System.Windows;
 using System.Windows.Controls;
 using Kexplorer.Core.Docker;
 using Kexplorer.Core.FileSystem;
+using Kexplorer.Core.Launching;
 using Kexplorer.Core.Plugins;
 using Kexplorer.Core.Shell;
 using Kexplorer.Core.Work;
+using Kexplorer.Plugins.BuiltIn;
 
 namespace Kexplorer.UI;
 
@@ -20,12 +23,15 @@ public partial class HybridServicesPanel : UserControl, IHybridServiceShell
 {
     private WorkQueue? _workQueue;
     private PluginManager? _pluginManager;
+    private LauncherService? _launcherService;
     private readonly ObservableCollection<ServiceInfo> _services = new();
     private readonly ObservableCollection<DockerContainerInfo> _containers = new();
     private readonly WslDockerService _dockerService = new();
 
     public string MachineName { get; private set; } = ".";
     public string? SearchPattern { get; private set; }
+    private List<string>? _serviceOrder;
+    private List<string>? _dockerContainerOrder;
 
     public HybridServicesPanel()
     {
@@ -37,11 +43,16 @@ public partial class HybridServicesPanel : UserControl, IHybridServiceShell
     }
 
     public async Task InitializeAsync(List<string>? visibleServices, string? machineName,
-        string? searchPattern, PluginManager pluginManager)
+        string? searchPattern, PluginManager pluginManager,
+        LauncherService? launcherService = null,
+        List<string>? serviceOrder = null, List<string>? dockerContainerOrder = null)
     {
         _pluginManager = pluginManager;
+        _launcherService = launcherService;
         MachineName = machineName ?? ".";
         SearchPattern = searchPattern;
+        _serviceOrder = serviceOrder;
+        _dockerContainerOrder = dockerContainerOrder;
 
         _workQueue = new WorkQueue(this, new WorkQueueOptions { WorkerCount = 2 });
         await _workQueue.StartAsync();
@@ -75,6 +86,128 @@ public partial class HybridServicesPanel : UserControl, IHybridServiceShell
     {
         return DockerGrid.SelectedItems.OfType<DockerContainerInfo>().ToList();
     }
+
+    public List<string> GetServiceOrder()
+    {
+        return _services.Select(s => $"{s.DisplayName}//{s.MachineName}").ToList();
+    }
+
+    public List<string> GetDockerContainerOrder()
+    {
+        return _containers.Select(c => c.Name).ToList();
+    }
+
+    #region Toolbar Events
+
+    private async void ServiceRefresh_Click(object sender, RoutedEventArgs e)
+    {
+        if (_workQueue is null) return;
+        ServiceRefreshButton.IsEnabled = false;
+        try
+        {
+            await _workQueue.EnqueueAsync(new ServiceLoaderWorkItem(null, MachineName, SearchPattern));
+        }
+        finally
+        {
+            ServiceRefreshButton.IsEnabled = true;
+        }
+    }
+
+    private async void DockerRefresh_Click(object sender, RoutedEventArgs e)
+    {
+        if (_workQueue is null) return;
+        DockerRefreshButton.IsEnabled = false;
+        try
+        {
+            await _workQueue.EnqueueAsync(new DockerContainerLoaderWorkItem(_dockerService));
+        }
+        finally
+        {
+            DockerRefreshButton.IsEnabled = true;
+        }
+    }
+
+    #endregion
+
+    #region Reorder Events
+
+    private void ServiceMoveUp_Click(object sender, RoutedEventArgs e)
+    {
+        if (ServiceGrid.SelectedItem is not ServiceInfo svc) return;
+        var idx = _services.IndexOf(svc);
+        if (idx > 0)
+        {
+            _services.Move(idx, idx - 1);
+            ServiceGrid.SelectedItem = svc;
+            ServiceGrid.ScrollIntoView(svc);
+        }
+    }
+
+    private void ServiceMoveDown_Click(object sender, RoutedEventArgs e)
+    {
+        if (ServiceGrid.SelectedItem is not ServiceInfo svc) return;
+        var idx = _services.IndexOf(svc);
+        if (idx >= 0 && idx < _services.Count - 1)
+        {
+            _services.Move(idx, idx + 1);
+            ServiceGrid.SelectedItem = svc;
+            ServiceGrid.ScrollIntoView(svc);
+        }
+    }
+
+    private void DockerMoveUp_Click(object sender, RoutedEventArgs e)
+    {
+        if (DockerGrid.SelectedItem is not DockerContainerInfo container) return;
+        var idx = _containers.IndexOf(container);
+        if (idx > 0)
+        {
+            _containers.Move(idx, idx - 1);
+            DockerGrid.SelectedItem = container;
+            DockerGrid.ScrollIntoView(container);
+        }
+    }
+
+    private void DockerMoveDown_Click(object sender, RoutedEventArgs e)
+    {
+        if (DockerGrid.SelectedItem is not DockerContainerInfo container) return;
+        var idx = _containers.IndexOf(container);
+        if (idx >= 0 && idx < _containers.Count - 1)
+        {
+            _containers.Move(idx, idx + 1);
+            DockerGrid.SelectedItem = container;
+            DockerGrid.ScrollIntoView(container);
+        }
+    }
+
+    private void UpdateServiceMoveButtons()
+    {
+        var selected = ServiceGrid.SelectedItem;
+        if (selected is null)
+        {
+            ServiceMoveUpButton.IsEnabled = false;
+            ServiceMoveDownButton.IsEnabled = false;
+            return;
+        }
+        var idx = _services.IndexOf((ServiceInfo)selected);
+        ServiceMoveUpButton.IsEnabled = idx > 0;
+        ServiceMoveDownButton.IsEnabled = idx >= 0 && idx < _services.Count - 1;
+    }
+
+    private void UpdateDockerMoveButtons()
+    {
+        var selected = DockerGrid.SelectedItem;
+        if (selected is null)
+        {
+            DockerMoveUpButton.IsEnabled = false;
+            DockerMoveDownButton.IsEnabled = false;
+            return;
+        }
+        var idx = _containers.IndexOf((DockerContainerInfo)selected);
+        DockerMoveUpButton.IsEnabled = idx > 0;
+        DockerMoveDownButton.IsEnabled = idx >= 0 && idx < _containers.Count - 1;
+    }
+
+    #endregion
 
     private void BuildServiceContextMenu()
     {
@@ -122,13 +255,21 @@ public partial class HybridServicesPanel : UserControl, IHybridServiceShell
         }
     }
 
+    private static readonly IServiceLogResolver[] _logResolvers =
+    {
+        new Enable2020LogResolver(),
+        new EwGraphqlMcpLogResolver()
+    };
+
     private async void ServiceGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
+        UpdateServiceMoveButtons();
+
         var selected = ServiceGrid.SelectedItem as ServiceInfo;
         if (selected is null)
             return;
 
-        // Build tabs for service selection: Info only (for now)
+        // Build initial tabs — Info first, Logs added after log path is resolved
         DetailTabControl.Items.Clear();
 
         var infoTab = CreateInfoTab();
@@ -138,9 +279,16 @@ public partial class HybridServicesPanel : UserControl, IHybridServiceShell
         var infoText = (TextBox)((ScrollViewer)((TabItem)infoTab).Content).Content;
         infoText.Text = "Loading binPath...";
 
+        // Placeholder logs tab (no Open button yet — we don't know the path)
+        var logsTab = CreateLogsTab();
+        DetailTabControl.Items.Add(logsTab);
+        var logsText = GetLogsTextBox(logsTab);
+        logsText.Text = "Loading logs...";
+
+        string binPath;
         try
         {
-            var binPath = await Task.Run(() => QueryServiceBinPath(selected.ServiceName, selected.MachineName));
+            binPath = await Task.Run(() => QueryServiceBinPath(selected.ServiceName, selected.MachineName));
             infoText.Text = string.IsNullOrWhiteSpace(binPath)
                 ? $"Name: {selected.DisplayName}\nSystem Name: {selected.ServiceName}\nStatus: {selected.Status}\nMachine: {selected.MachineName}\n\n(binPath not available)"
                 : $"Name: {selected.DisplayName}\nSystem Name: {selected.ServiceName}\nStatus: {selected.Status}\nMachine: {selected.MachineName}\n\nbinPath:\n{binPath}";
@@ -148,11 +296,66 @@ public partial class HybridServicesPanel : UserControl, IHybridServiceShell
         catch
         {
             infoText.Text = $"Name: {selected.DisplayName}\nSystem Name: {selected.ServiceName}\nStatus: {selected.Status}\n\n(Could not query binPath)";
+            logsText.Text = "(Could not query binPath to resolve log location)";
+            return;
+        }
+
+        // Resolve and load log file from binPath
+        if (string.IsNullOrWhiteSpace(binPath))
+        {
+            logsText.Text = "(No binPath available — cannot resolve log location)";
+            return;
+        }
+
+        try
+        {
+            var (exePath, flags) = BinPathParser.Parse(binPath);
+            string? resolvedLogPath = null;
+            string? logContent = null;
+
+            foreach (var resolver in _logResolvers)
+            {
+                if (!resolver.CanResolve(selected, exePath, flags))
+                    continue;
+
+                var logPaths = resolver.ResolveLogPaths(selected, exePath, flags);
+                if (logPaths.Count > 0)
+                {
+                    resolvedLogPath = logPaths[0];
+                    logContent = await Task.Run(() => ReadTail(resolvedLogPath, 500));
+                }
+                break;
+            }
+
+            if (resolvedLogPath is not null)
+            {
+                // Replace the placeholder logs tab with one that has the Open button
+                DetailTabControl.Items.Remove(logsTab);
+                logsTab = CreateLogsTab(resolvedLogPath, _launcherService);
+                DetailTabControl.Items.Add(logsTab);
+                logsText = GetLogsTextBox(logsTab);
+
+                infoText.Text += $"\n\nLog file:\n{resolvedLogPath}";
+                var displayContent = string.IsNullOrWhiteSpace(logContent) ? "(no logs)" : NormalizeJsonLogLines(logContent);
+                logsText.Text = displayContent;
+                logsText.CaretIndex = logsText.Text.Length;
+                logsText.ScrollToEnd();
+            }
+            else
+            {
+                logsText.Text = "(No log location configured for this service type)";
+            }
+        }
+        catch
+        {
+            logsText.Text = "(Could not resolve log location)";
         }
     }
 
     private async void DockerGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
+        UpdateDockerMoveButtons();
+
         var selected = DockerGrid.SelectedItem as DockerContainerInfo;
         if (selected is null)
             return;
@@ -189,7 +392,7 @@ public partial class HybridServicesPanel : UserControl, IHybridServiceShell
         }
 
         // Load Logs tab in background
-        var logsText = (TextBox)((ScrollViewer)((TabItem)logsTab).Content).Content;
+        var logsText = GetLogsTextBox(logsTab);
         logsText.Text = "Loading logs...";
 
         try
@@ -208,11 +411,13 @@ public partial class HybridServicesPanel : UserControl, IHybridServiceShell
 
     private static TabItem CreateInfoTab()
     {
+        var fgBrush = Application.Current.TryFindResource("PrimaryForegroundBrush") as System.Windows.Media.Brush;
         var textBox = new TextBox
         {
             IsReadOnly = true,
             BorderThickness = new Thickness(0),
             Background = System.Windows.Media.Brushes.Transparent,
+            Foreground = fgBrush ?? System.Windows.Media.Brushes.Black,
             TextWrapping = TextWrapping.Wrap,
             FontFamily = new System.Windows.Media.FontFamily("Consolas"),
             FontSize = 12.5,
@@ -232,13 +437,15 @@ public partial class HybridServicesPanel : UserControl, IHybridServiceShell
         };
     }
 
-    private static TabItem CreateLogsTab()
+    private static TabItem CreateLogsTab(string? logFilePath = null, LauncherService? launcher = null)
     {
+        var fgBrush = Application.Current.TryFindResource("PrimaryForegroundBrush") as System.Windows.Media.Brush;
         var textBox = new TextBox
         {
             IsReadOnly = true,
             BorderThickness = new Thickness(0),
             Background = System.Windows.Media.Brushes.Transparent,
+            Foreground = fgBrush ?? System.Windows.Media.Brushes.Black,
             TextWrapping = TextWrapping.NoWrap,
             FontFamily = new System.Windows.Media.FontFamily("Consolas"),
             FontSize = 12.5,
@@ -247,6 +454,49 @@ public partial class HybridServicesPanel : UserControl, IHybridServiceShell
             VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
             HorizontalScrollBarVisibility = ScrollBarVisibility.Auto
         };
+
+        // If we have a log file path and launcher, wrap in a DockPanel with an Open button
+        if (!string.IsNullOrEmpty(logFilePath) && launcher is not null)
+        {
+            var openButton = new Button
+            {
+                Content = "📂 Open",
+                Width = 70,
+                Height = 24,
+                Margin = new Thickness(4, 2, 4, 2),
+                ToolTip = $"Open {logFilePath} in external editor",
+                HorizontalAlignment = HorizontalAlignment.Left
+            };
+            openButton.Click += (s, e) =>
+            {
+                try { launcher.Launch(logFilePath); }
+                catch { /* silently ignore launch failures */ }
+            };
+
+            var toolbarBrush = Application.Current.TryFindResource("ToolbarBackgroundBrush") as System.Windows.Media.Brush
+                              ?? System.Windows.Media.Brushes.WhiteSmoke;
+            var toolbar = new StackPanel
+            {
+                Orientation = Orientation.Horizontal,
+                Background = toolbarBrush,
+                Margin = new Thickness(0)
+            };
+            toolbar.Children.Add(openButton);
+
+            var dock = new DockPanel();
+            DockPanel.SetDock(toolbar, Dock.Top);
+            dock.Children.Add(toolbar);
+
+            var scrollViewer = new ScrollViewer
+            {
+                VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
+                HorizontalScrollBarVisibility = ScrollBarVisibility.Auto,
+                Content = textBox
+            };
+            dock.Children.Add(scrollViewer);
+
+            return new TabItem { Header = "Logs", Content = dock };
+        }
 
         return new TabItem
         {
@@ -258,6 +508,62 @@ public partial class HybridServicesPanel : UserControl, IHybridServiceShell
                 Content = textBox
             }
         };
+    }
+
+    /// <summary>
+    /// Detect JSON-per-line log content and format it for readability.
+    /// Each JSON line is pretty-printed with indentation.
+    /// Non-JSON lines are passed through as-is.
+    /// </summary>
+    private static string NormalizeJsonLogLines(string raw)
+    {
+        if (string.IsNullOrWhiteSpace(raw))
+            return raw;
+
+        var lines = raw.Split('\n');
+
+        // Quick heuristic: check if the first non-empty line looks like JSON
+        var firstNonEmpty = Array.Find(lines, l => !string.IsNullOrWhiteSpace(l));
+        if (firstNonEmpty is null || !firstNonEmpty.TrimStart().StartsWith("{"))
+            return raw;
+
+        var sb = new StringBuilder(raw.Length * 2);
+        foreach (var line in lines)
+        {
+            var trimmed = line.Trim();
+            if (trimmed.StartsWith("{") && trimmed.EndsWith("}"))
+            {
+                try
+                {
+                    using var doc = JsonDocument.Parse(trimmed);
+                    var formatted = JsonSerializer.Serialize(doc.RootElement, new JsonSerializerOptions { WriteIndented = true });
+                    sb.AppendLine(formatted);
+                    sb.AppendLine(); // blank line between entries for readability
+                    continue;
+                }
+                catch (JsonException)
+                {
+                    // Not valid JSON — fall through to append raw
+                }
+            }
+            sb.AppendLine(line.TrimEnd());
+        }
+
+        return sb.ToString().TrimEnd();
+    }
+
+    /// <summary>
+    /// Extract the TextBox from a logs tab, handling both layouts:
+    /// TabItem > ScrollViewer > TextBox (simple), or TabItem > DockPanel > ScrollViewer > TextBox (with Open button).
+    /// </summary>
+    private static TextBox GetLogsTextBox(TabItem logsTab)
+    {
+        if (logsTab.Content is DockPanel dock)
+        {
+            var scrollViewer = dock.Children.OfType<ScrollViewer>().First();
+            return (TextBox)scrollViewer.Content;
+        }
+        return (TextBox)((ScrollViewer)logsTab.Content).Content;
     }
 
     private static string QueryServiceBinPath(string serviceName, string machineName)
@@ -294,6 +600,29 @@ public partial class HybridServicesPanel : UserControl, IHybridServiceShell
         }
 
         return "";
+    }
+
+    private static string ReadTail(string filePath, int lineCount)
+    {
+        try
+        {
+            using var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            using var reader = new StreamReader(fs);
+            var lines = new List<string>();
+            while (!reader.EndOfStream)
+            {
+                var line = reader.ReadLine();
+                if (line is not null)
+                    lines.Add(line);
+            }
+
+            var start = Math.Max(0, lines.Count - lineCount);
+            return string.Join(Environment.NewLine, lines.Skip(start));
+        }
+        catch (Exception ex)
+        {
+            return $"(Could not read log file: {ex.Message})";
+        }
     }
 
     private static string ReconstructDockerRun(string inspectJson, DockerContainerInfo container)
@@ -438,7 +767,9 @@ public partial class HybridServicesPanel : UserControl, IHybridServiceShell
         Dispatcher.InvokeAsync(() =>
         {
             _services.Clear();
-            foreach (var svc in services)
+            var ordered = ApplyCustomOrder(services, _serviceOrder,
+                s => $"{s.DisplayName}//{s.MachineName}");
+            foreach (var svc in ordered)
             {
                 _services.Add(svc);
             }
@@ -451,12 +782,31 @@ public partial class HybridServicesPanel : UserControl, IHybridServiceShell
         Dispatcher.InvokeAsync(() =>
         {
             _containers.Clear();
-            foreach (var container in containers)
+            var ordered = ApplyCustomOrder(containers, _dockerContainerOrder, c => c.Name);
+            foreach (var container in ordered)
             {
                 _containers.Add(container);
             }
         });
         return Task.CompletedTask;
+    }
+
+    private static IReadOnlyList<T> ApplyCustomOrder<T>(IReadOnlyList<T> items, List<string>? order, Func<T, string> keySelector)
+    {
+        if (order is null or { Count: 0 })
+            return items;
+
+        var orderMap = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
+        for (int i = 0; i < order.Count; i++)
+            orderMap[order[i]] = i;
+
+        var ordered = items.OrderBy(item =>
+        {
+            var key = keySelector(item);
+            return orderMap.TryGetValue(key, out var idx) ? idx : int.MaxValue;
+        }).ToList();
+
+        return ordered;
     }
 
     public Task SetDockerStatusAsync(string message, CancellationToken cancellationToken = default)
@@ -493,6 +843,43 @@ public partial class HybridServicesPanel : UserControl, IHybridServiceShell
     public Task SetFileListAsync(string directoryPath, IReadOnlyList<FileEntry> files, CancellationToken cancellationToken = default) => Task.CompletedTask;
     public Task NavigateToPathAsync(string path, CancellationToken cancellationToken = default) => Task.CompletedTask;
     public Task RemoveTreeNodeAsync(string path, CancellationToken cancellationToken = default) => Task.CompletedTask;
+
+    public Task RemoveServicesAsync(IReadOnlyList<ServiceInfo> services, CancellationToken cancellationToken = default)
+    {
+        Dispatcher.InvokeAsync(() =>
+        {
+            foreach (var svc in services)
+            {
+                _services.Remove(svc);
+            }
+        });
+        return Task.CompletedTask;
+    }
+
+    public Task ShowServiceLogsAsync(string serviceName, string logPath, string logContent, CancellationToken cancellationToken = default)
+    {
+        Dispatcher.InvokeAsync(() =>
+        {
+            DetailTabControl.Items.Clear();
+
+            var infoTab = CreateInfoTab();
+            var logsTab = CreateLogsTab(logPath, _launcherService);
+            DetailTabControl.Items.Add(infoTab);
+            DetailTabControl.Items.Add(logsTab);
+
+            var infoText = (TextBox)((ScrollViewer)((TabItem)infoTab).Content).Content;
+            infoText.Text = $"Service: {serviceName}\nLog file: {logPath}";
+
+            var logsText = GetLogsTextBox(logsTab);
+            var displayContent = string.IsNullOrWhiteSpace(logContent) ? "(no logs)" : NormalizeJsonLogLines(logContent);
+            logsText.Text = displayContent;
+            logsText.CaretIndex = logsText.Text.Length;
+            logsText.ScrollToEnd();
+
+            DetailTabControl.SelectedItem = logsTab;
+        });
+        return Task.CompletedTask;
+    }
 
     #endregion
 }
