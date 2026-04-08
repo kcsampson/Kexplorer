@@ -340,7 +340,7 @@ public partial class MainWindow : Window
         };
         menu.Items.Add(explorerItem);
 
-        var servicesItem = new MenuItem { Header = "New Services Tab" };
+        var servicesItem = new MenuItem { Header = "New Services Tab (deprecated)" };
         servicesItem.Click += (s, e) =>
         {
             var patternDialog = new PromptDialog(

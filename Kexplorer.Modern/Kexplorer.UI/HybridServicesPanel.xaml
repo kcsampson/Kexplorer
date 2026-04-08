@@ -25,6 +25,9 @@
                 <Button x:Name="ServiceRefreshButton" Content="↻ Refresh" Width="80" Height="24"
                         Margin="2,0" Click="ServiceRefresh_Click" ToolTip="Refresh service list"
                         Style="{DynamicResource ToolbarButtonStyle}" />
+                <Button x:Name="ServiceAddByPatternButton" Content="➕ Add" Width="66" Height="24"
+                        Margin="2,0" Click="ServiceAddByPattern_Click" ToolTip="Add services matching a regex pattern"
+                        Style="{DynamicResource ToolbarButtonStyle}" />
             </StackPanel>
             <DataGrid x:Name="ServiceGrid"
                       AutoGenerateColumns="False" IsReadOnly="True"

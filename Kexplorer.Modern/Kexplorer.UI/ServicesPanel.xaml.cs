@@ -12,6 +12,7 @@ namespace Kexplorer.UI;
 /// WPF user control for the Services tab.
 /// Replaces legacy ServicesPanel + ServiceMgrWorkUnit controller pattern.
 /// </summary>
+[Obsolete("Use HybridServicesPanel instead. This Windows-only services panel is deprecated and will be removed in a future release.")]
 public partial class ServicesPanel : UserControl, IServiceShell
 {
     private WorkQueue? _workQueue;

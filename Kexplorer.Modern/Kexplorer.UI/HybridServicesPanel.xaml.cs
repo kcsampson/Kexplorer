@@ -1,8 +1,10 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
+using System.ServiceProcess;
 using System.Text;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using Kexplorer.Core.Docker;
@@ -111,6 +113,83 @@ public partial class HybridServicesPanel : UserControl, IHybridServiceShell
         {
             ServiceRefreshButton.IsEnabled = true;
         }
+    }
+
+    private async void ServiceAddByPattern_Click(object sender, RoutedEventArgs e)
+    {
+        var patternDialog = new PromptDialog(
+            "Add Services by Pattern",
+            "Enter a regex pattern to match service names:",
+            ".*");
+
+        if (patternDialog.ShowDialog() != true) return;
+
+        var pattern = patternDialog.ResponseText?.Trim();
+        if (string.IsNullOrEmpty(pattern)) return;
+
+        ServiceAddByPatternButton.IsEnabled = false;
+        try
+        {
+            var newServices = await Task.Run(() =>
+            {
+                var machineName = string.IsNullOrEmpty(MachineName) ? "." : MachineName;
+                return ServiceController.GetServices(machineName)
+                    .Where(sc => Regex.IsMatch(sc.DisplayName, pattern, RegexOptions.IgnoreCase))
+                    .Select(sc => new ServiceInfo
+                    {
+                        ServiceName = sc.ServiceName,
+                        DisplayName = sc.DisplayName,
+                        MachineName = sc.MachineName,
+                        Status = MapControllerStatus(sc.Status),
+                        ServiceType = sc.ServiceType.ToString(),
+                        CanStop = TryGetBool(() => sc.CanStop),
+                        CanPauseAndContinue = TryGetBool(() => sc.CanPauseAndContinue),
+                        CanShutdown = TryGetBool(() => sc.CanShutdown)
+                    })
+                    .ToList();
+            });
+
+            var existingNames = _services.Select(s => s.ServiceName).ToHashSet(StringComparer.OrdinalIgnoreCase);
+            int added = 0;
+            foreach (var svc in newServices)
+            {
+                if (!existingNames.Contains(svc.ServiceName))
+                {
+                    _services.Add(svc);
+                    added++;
+                }
+            }
+
+            var mainWindow = Window.GetWindow(this) as MainWindow;
+            mainWindow?.UpdateStatus($"Added {added} services matching '{pattern}' ({newServices.Count} matched, {newServices.Count - added} already present).");
+        }
+        catch (Exception ex)
+        {
+            var mainWindow = Window.GetWindow(this) as MainWindow;
+            mainWindow?.UpdateStatus($"Error adding services: {ex.Message}");
+        }
+        finally
+        {
+            ServiceAddByPatternButton.IsEnabled = true;
+        }
+    }
+
+    private static ServiceRunningStatus MapControllerStatus(ServiceControllerStatus status) => status switch
+    {
+        ServiceControllerStatus.Stopped => ServiceRunningStatus.Stopped,
+        ServiceControllerStatus.StartPending => ServiceRunningStatus.StartPending,
+        ServiceControllerStatus.StopPending => ServiceRunningStatus.StopPending,
+        ServiceControllerStatus.Running => ServiceRunningStatus.Running,
+        ServiceControllerStatus.ContinuePending => ServiceRunningStatus.ContinuePending,
+        ServiceControllerStatus.PausePending => ServiceRunningStatus.PausePending,
+        ServiceControllerStatus.Paused => ServiceRunningStatus.Paused,
+        _ => ServiceRunningStatus.Unknown
+    };
+
+    private static bool TryGetBool(Func<bool> getter)
+    {
+        try { return getter(); }
+        catch { return false; }
     }
 
     private async void DockerRefresh_Click(object sender, RoutedEventArgs e)

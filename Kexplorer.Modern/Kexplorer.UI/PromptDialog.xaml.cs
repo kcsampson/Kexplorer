@@ -9,6 +9,7 @@ public partial class PromptDialog : Window
     public PromptDialog(string title, string message, string? defaultValue = null)
     {
         InitializeComponent();
+        SourceInitialized += (_, _) => ThemeManager.ApplyToWindow(this);
         Title = title;
         MessageText.Text = message;
         if (defaultValue is not null)
