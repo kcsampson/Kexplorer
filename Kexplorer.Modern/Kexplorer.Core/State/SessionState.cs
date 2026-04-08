@@ -88,6 +88,46 @@ public sealed class TabState
     /// </summary>
     [JsonPropertyName("wslDistroName")]
     public string? WslDistroName { get; set; }
+
+    // ── Network tab state ──
+
+    [JsonPropertyName("networkListeningOnly")]
+    public bool? NetworkListeningOnly { get; set; }
+
+    [JsonPropertyName("networkTcpOnly")]
+    public bool? NetworkTcpOnly { get; set; }
+
+    [JsonPropertyName("networkSearchText")]
+    public string? NetworkSearchText { get; set; }
+
+    [JsonPropertyName("networkHiddenProcesses")]
+    public List<string>? NetworkHiddenProcesses { get; set; }
+
+    [JsonPropertyName("networkSortColumn")]
+    public string? NetworkSortColumn { get; set; }
+
+    [JsonPropertyName("networkSortDirection")]
+    public string? NetworkSortDirection { get; set; }
+
+    /// <summary>
+    /// Column widths keyed by header name, e.g. {"Protocol":70,"Local Address":140,...}
+    /// </summary>
+    [JsonPropertyName("networkColumnWidths")]
+    public Dictionary<string, double>? NetworkColumnWidths { get; set; }
+
+    // ── Shared layout state (splitter positions, column widths) ──
+
+    [JsonPropertyName("splitterPosition")]
+    public double? SplitterPosition { get; set; }
+
+    [JsonPropertyName("splitterPosition2")]
+    public double? SplitterPosition2 { get; set; }
+
+    [JsonPropertyName("columnWidths")]
+    public Dictionary<string, double>? ColumnWidths { get; set; }
+
+    [JsonPropertyName("columnWidths2")]
+    public Dictionary<string, double>? ColumnWidths2 { get; set; }
 }
 
 [JsonConverter(typeof(JsonStringEnumConverter))]

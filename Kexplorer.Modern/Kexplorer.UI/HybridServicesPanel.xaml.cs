@@ -882,4 +882,64 @@ public partial class HybridServicesPanel : UserControl, IHybridServiceShell
     }
 
     #endregion
+
+    #region Layout Persistence
+
+    public (double services, double docker) GetSplitterPositions()
+    {
+        var grid = (Grid)Content;
+        var rows = grid.RowDefinitions;
+        return (rows[0].ActualHeight, rows[2].ActualHeight);
+    }
+
+    public void SetSplitterPositions(double? servicesHeight, double? dockerHeight)
+    {
+        var grid = (Grid)Content;
+        if (servicesHeight.HasValue)
+            grid.RowDefinitions[0].Height = new GridLength(servicesHeight.Value, GridUnitType.Star);
+        if (dockerHeight.HasValue)
+            grid.RowDefinitions[2].Height = new GridLength(dockerHeight.Value, GridUnitType.Star);
+    }
+
+    public Dictionary<string, double> GetServiceColumnWidths()
+    {
+        var widths = new Dictionary<string, double>();
+        foreach (var col in ServiceGrid.Columns)
+        {
+            if (col.Header is string header)
+                widths[header] = col.ActualWidth;
+        }
+        return widths;
+    }
+
+    public void SetServiceColumnWidths(Dictionary<string, double> widths)
+    {
+        foreach (var col in ServiceGrid.Columns)
+        {
+            if (col.Header is string header && widths.TryGetValue(header, out var width))
+                col.Width = new DataGridLength(width);
+        }
+    }
+
+    public Dictionary<string, double> GetDockerColumnWidths()
+    {
+        var widths = new Dictionary<string, double>();
+        foreach (var col in DockerGrid.Columns)
+        {
+            if (col.Header is string header)
+                widths[header] = col.ActualWidth;
+        }
+        return widths;
+    }
+
+    public void SetDockerColumnWidths(Dictionary<string, double> widths)
+    {
+        foreach (var col in DockerGrid.Columns)
+        {
+            if (col.Header is string header && widths.TryGetValue(header, out var width))
+                col.Width = new DataGridLength(width);
+        }
+    }
+
+    #endregion
 }

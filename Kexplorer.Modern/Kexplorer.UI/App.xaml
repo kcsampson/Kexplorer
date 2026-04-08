@@ -48,6 +48,22 @@
       </Style>
       <Style TargetType="TreeViewItem">
         <Setter Property="Foreground" Value="{DynamicResource PrimaryForegroundBrush}" />
+        <Style.Resources>
+          <!-- Force same highlight color with and without focus -->
+          <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="{Binding Source={StaticResource SelectionBrush}, Path=Color}" />
+          <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="{Binding Source={StaticResource SelectionBrush}, Path=Color}" />
+          <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="{Binding Source={StaticResource SelectionForegroundBrush}, Path=Color}" />
+          <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="{Binding Source={StaticResource SelectionForegroundBrush}, Path=Color}" />
+        </Style.Resources>
+      </Style>
+      <Style TargetType="CheckBox">
+        <Setter Property="Foreground" Value="{DynamicResource PrimaryForegroundBrush}" />
+      </Style>
+      <Style TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{DynamicResource PrimaryForegroundBrush}" />
+      </Style>
+      <Style TargetType="Button">
+        <Setter Property="Foreground" Value="{DynamicResource PrimaryForegroundBrush}" />
       </Style>
       <Style TargetType="DataGridColumnHeader">
         <Setter Property="Background" Value="{DynamicResource SecondaryBackgroundBrush}" />

@@ -1224,6 +1224,43 @@ public partial class ExplorerPanel : UserControl, IKexplorerShell
     }
 
     #endregion
+
+    #region Layout Persistence
+
+    public double GetSplitterPosition()
+    {
+        // The tree column is Column 0
+        var col = ((Grid)FolderTree.Parent).ColumnDefinitions[0];
+        return col.ActualWidth;
+    }
+
+    public void SetSplitterPosition(double width)
+    {
+        var col = ((Grid)FolderTree.Parent).ColumnDefinitions[0];
+        col.Width = new GridLength(width, GridUnitType.Pixel);
+    }
+
+    public Dictionary<string, double> GetFileGridColumnWidths()
+    {
+        var widths = new Dictionary<string, double>();
+        foreach (var col in FileGrid.Columns)
+        {
+            if (col.Header is string header)
+                widths[header] = col.ActualWidth;
+        }
+        return widths;
+    }
+
+    public void SetFileGridColumnWidths(Dictionary<string, double> widths)
+    {
+        foreach (var col in FileGrid.Columns)
+        {
+            if (col.Header is string header && widths.TryGetValue(header, out var width))
+                col.Width = new DataGridLength(width);
+        }
+    }
+
+    #endregion
 }
 
 /// <summary>

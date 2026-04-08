@@ -86,10 +86,16 @@ public partial class MainWindow : Window
                         AddHybridServicesTab(tabState.TabName, tabState.VisibleServices,
                             tabState.MachineName, tabState.SearchPattern,
                             tabState.IsSelected,
-                            tabState.ServiceOrder, tabState.DockerContainerOrder);
+                            tabState.ServiceOrder, tabState.DockerContainerOrder,
+                            tabState.SplitterPosition, tabState.SplitterPosition2,
+                            tabState.ColumnWidths, tabState.ColumnWidths2);
                         break;
                     case TabType.Network:
-                        AddNetworkTab(tabState.TabName, tabState.IsSelected);
+                        AddNetworkTab(tabState.TabName, tabState.IsSelected,
+                            tabState.NetworkListeningOnly, tabState.NetworkTcpOnly,
+                            tabState.NetworkSearchText, tabState.NetworkHiddenProcesses,
+                            tabState.NetworkSortColumn, tabState.NetworkSortDirection,
+                            tabState.NetworkColumnWidths);
                         break;
                 }
             }
@@ -100,7 +106,8 @@ public partial class MainWindow : Window
 
     public void AddExplorerTab(string name, string? currentFolder, List<string>? drives, bool isSelected,
         List<string>? expandedFolders = null, string? selectedFolder = null,
-        string? rootFolderPath = null, string? wslDistroName = null)
+        string? rootFolderPath = null, string? wslDistroName = null,
+        double? splitterPosition = null, Dictionary<string, double>? columnWidths = null)
     {
         var panel = new ExplorerPanel();
         var tabItem = new TabItem
@@ -127,6 +134,10 @@ public partial class MainWindow : Window
         // when panel.Loaded fires during the layout pass of MainWindow_Loaded.
         Dispatcher.InvokeAsync(async () =>
         {
+            if (splitterPosition.HasValue)
+                panel.SetSplitterPosition(splitterPosition.Value);
+            if (columnWidths is { Count: > 0 })
+                panel.SetFileGridColumnWidths(columnWidths);
             await panel.InitializeAsync(currentFolder, drives, _pluginManager, _launcherService,
                 expandedFolders, selectedFolder, rootFolderPath, wslDistroName);
         }, System.Windows.Threading.DispatcherPriority.Background);
@@ -206,7 +217,9 @@ public partial class MainWindow : Window
 
     public void AddHybridServicesTab(string name, List<string>? visibleServices,
         string? machineName, string? searchPattern, bool isSelected,
-        List<string>? serviceOrder = null, List<string>? dockerContainerOrder = null)
+        List<string>? serviceOrder = null, List<string>? dockerContainerOrder = null,
+        double? splitterPosition = null, double? splitterPosition2 = null,
+        Dictionary<string, double>? columnWidths = null, Dictionary<string, double>? columnWidths2 = null)
     {
         var panel = new HybridServicesPanel();
         var tabItem = new TabItem
@@ -230,12 +243,22 @@ public partial class MainWindow : Window
 
         panel.Loaded += async (s, e) =>
         {
+            if (splitterPosition.HasValue || splitterPosition2.HasValue)
+                panel.SetSplitterPositions(splitterPosition, splitterPosition2);
+            if (columnWidths is { Count: > 0 })
+                panel.SetServiceColumnWidths(columnWidths);
+            if (columnWidths2 is { Count: > 0 })
+                panel.SetDockerColumnWidths(columnWidths2);
             await panel.InitializeAsync(visibleServices, machineName, searchPattern, _pluginManager,
                 _launcherService, serviceOrder, dockerContainerOrder);
         };
     }
 
-    public void AddNetworkTab(string name, bool isSelected)
+    public void AddNetworkTab(string name, bool isSelected,
+        bool? listeningOnly = null, bool? tcpOnly = null,
+        string? searchText = null, List<string>? hiddenProcesses = null,
+        string? sortColumn = null, string? sortDirection = null,
+        Dictionary<string, double>? columnWidths = null)
     {
         var panel = new NetworkPanel();
         var tabItem = new TabItem
@@ -258,7 +281,8 @@ public partial class MainWindow : Window
 
         panel.Loaded += async (s, e) =>
         {
-            await panel.InitializeAsync();
+            await panel.InitializeAsync(listeningOnly, tcpOnly, searchText,
+                hiddenProcesses, sortColumn, sortDirection, columnWidths);
         };
     }
 
@@ -268,8 +292,9 @@ public partial class MainWindow : Window
     {
         if (MainTabControl.SelectedItem == AddTabButton)
         {
-            // Don't stay on the "+" tab — show the new-tab menu and revert selection
-            if (!_isInitializing)
+            // Only show the new-tab menu when the user actually clicks the "+" tab,
+            // not when programmatic tab insertions momentarily shift selection to it.
+            if (!_isInitializing && AddTabButton.IsMouseOver)
                 ShowNewTabMenu();
 
             // Revert to the previously selected real tab
@@ -411,11 +436,14 @@ public partial class MainWindow : Window
                     SelectedFolder = explorer.CurrentPath,
                     RootFolderPath = explorer.RootFolderPath,
                     ExplorerType = explorer.WslDistroName is not null ? "WSL" : null,
-                    WslDistroName = explorer.WslDistroName
+                    WslDistroName = explorer.WslDistroName,
+                    SplitterPosition = explorer.GetSplitterPosition(),
+                    ColumnWidths = explorer.GetFileGridColumnWidths()
                 });
             }
             else if (tab.Content is HybridServicesPanel hybrid)
             {
+                var splitters = hybrid.GetSplitterPositions();
                 _sessionState.Tabs.Add(new TabState
                 {
                     TabName = tab.Header?.ToString() ?? "Hybrid Services",
@@ -425,7 +453,11 @@ public partial class MainWindow : Window
                     SearchPattern = hybrid.SearchPattern,
                     IsSelected = MainTabControl.SelectedItem == tab,
                     ServiceOrder = hybrid.GetServiceOrder(),
-                    DockerContainerOrder = hybrid.GetDockerContainerOrder()
+                    DockerContainerOrder = hybrid.GetDockerContainerOrder(),
+                    SplitterPosition = splitters.services,
+                    SplitterPosition2 = splitters.docker,
+                    ColumnWidths = hybrid.GetServiceColumnWidths(),
+                    ColumnWidths2 = hybrid.GetDockerColumnWidths()
                 });
             }
             else if (tab.Content is ServicesPanel services)
@@ -440,13 +472,21 @@ public partial class MainWindow : Window
                     IsSelected = MainTabControl.SelectedItem == tab
                 });
             }
-            else if (tab.Content is NetworkPanel)
+            else if (tab.Content is NetworkPanel networkTab)
             {
+                var sort = networkTab.GetSortState();
                 _sessionState.Tabs.Add(new TabState
                 {
                     TabName = tab.Header?.ToString() ?? "Network Ports",
                     TabType = TabType.Network,
-                    IsSelected = MainTabControl.SelectedItem == tab
+                    IsSelected = MainTabControl.SelectedItem == tab,
+                    NetworkListeningOnly = networkTab.IsListeningOnly,
+                    NetworkTcpOnly = networkTab.IsTcpOnly,
+                    NetworkSearchText = networkTab.SearchText,
+                    NetworkHiddenProcesses = networkTab.HiddenProcesses,
+                    NetworkSortColumn = sort.column,
+                    NetworkSortDirection = sort.direction,
+                    NetworkColumnWidths = networkTab.GetColumnWidths()
                 });
             }
         }

@@ -8,11 +8,13 @@
         </Grid.RowDefinitions>
 
         <!-- Toolbar -->
-        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="4">
-            <Button x:Name="RefreshButton" Content="⟳ Refresh" Padding="8,4" Click="RefreshButton_Click" />
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="4,2" Background="{DynamicResource ToolbarBackgroundBrush}">
+            <Button x:Name="RefreshButton" Content="⟳ Refresh" Width="80" Height="24"
+                    Margin="2,0" Click="RefreshButton_Click" ToolTip="Refresh connections"
+                    Style="{DynamicResource ToolbarButtonStyle}" />
             <Separator Width="8" Visibility="Hidden" />
             <CheckBox x:Name="ListeningOnlyCheckBox" Content="Listening only" VerticalAlignment="Center"
-                      Checked="FilterChanged" Unchecked="FilterChanged" />
+                      IsChecked="True" Checked="FilterChanged" Unchecked="FilterChanged" />
             <Separator Width="8" Visibility="Hidden" />
             <CheckBox x:Name="TcpOnlyCheckBox" Content="TCP only" VerticalAlignment="Center"
                       Checked="FilterChanged" Unchecked="FilterChanged" />
@@ -23,8 +25,9 @@
             <TextBlock x:Name="CountLabel" Text="" VerticalAlignment="Center"
                        Foreground="{DynamicResource SecondaryForegroundBrush}" />
             <Separator Width="8" Visibility="Hidden" />
-            <Button x:Name="ShowHiddenButton" Content="Show All Hidden" Padding="8,4"
-                    Visibility="Collapsed" Click="ShowHiddenButton_Click" />
+            <Button x:Name="ShowHiddenButton" Content="Show All Hidden" Width="110" Height="24"
+                    Margin="2,0" Visibility="Collapsed" Click="ShowHiddenButton_Click"
+                    Style="{DynamicResource ToolbarButtonStyle}" />
             <TextBlock x:Name="HiddenCountLabel" Text="" VerticalAlignment="Center" Margin="4,0"
                        Foreground="{DynamicResource SecondaryForegroundBrush}" />
         </StackPanel>

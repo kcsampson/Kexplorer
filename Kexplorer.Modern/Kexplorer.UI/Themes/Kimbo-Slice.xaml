@@ -17,7 +17,7 @@
     <SolidColorBrush x:Key="ToolbarBackgroundBrush" Color="#0F0F0F" />
     <SolidColorBrush x:Key="ScrollbarThumbBrush" Color="#66AAFF00" />
     <SolidColorBrush x:Key="SelectedTabBrush" Color="#1A3D00" />
-    <SolidColorBrush x:Key="SelectionBrush" Color="#1A3D00" />
+    <SolidColorBrush x:Key="SelectionBrush" Color="#2D5C00" />
     <SolidColorBrush x:Key="SelectionForegroundBrush" Color="#AAFF00" />
     <SolidColorBrush x:Key="TitleBarBackgroundBrush" Color="#0D0D0D" />
     <SolidColorBrush x:Key="TitleBarForegroundBrush" Color="#AAFF00" />

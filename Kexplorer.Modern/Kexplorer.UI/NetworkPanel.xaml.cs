@@ -1,6 +1,8 @@
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using Kexplorer.Core.Network;
 
 namespace Kexplorer.UI;
@@ -17,9 +19,49 @@ public partial class NetworkPanel : UserControl
         ConnectionGrid.ItemsSource = _filteredConnections;
     }
 
-    public async Task InitializeAsync()
+    public async Task InitializeAsync(bool? listeningOnly = null, bool? tcpOnly = null,
+        string? searchText = null, List<string>? hiddenProcesses = null,
+        string? sortColumn = null, string? sortDirection = null,
+        Dictionary<string, double>? columnWidths = null)
     {
+        // Restore toolbar state
+        if (listeningOnly.HasValue)
+            ListeningOnlyCheckBox.IsChecked = listeningOnly.Value;
+        if (tcpOnly.HasValue)
+            TcpOnlyCheckBox.IsChecked = tcpOnly.Value;
+        if (!string.IsNullOrEmpty(searchText))
+            SearchBox.Text = searchText;
+        if (hiddenProcesses is { Count: > 0 })
+        {
+            foreach (var name in hiddenProcesses)
+                _hiddenProcessNames.Add(name);
+        }
+
+        // Restore column widths
+        if (columnWidths is { Count: > 0 })
+        {
+            foreach (var col in ConnectionGrid.Columns)
+            {
+                if (col.Header is string header && columnWidths.TryGetValue(header, out var width))
+                    col.Width = new DataGridLength(width);
+            }
+        }
+
         await LoadConnectionsAsync();
+
+        // Restore or default sort
+        var view = CollectionViewSource.GetDefaultView(ConnectionGrid.ItemsSource);
+        if (!string.IsNullOrEmpty(sortColumn))
+        {
+            var dir = string.Equals(sortDirection, "Descending", StringComparison.OrdinalIgnoreCase)
+                ? ListSortDirection.Descending
+                : ListSortDirection.Ascending;
+            view.SortDescriptions.Add(new SortDescription(sortColumn, dir));
+        }
+        else
+        {
+            view.SortDescriptions.Add(new SortDescription(nameof(NetworkConnection.LocalPort), ListSortDirection.Ascending));
+        }
     }
 
     public Task ShutdownAsync() => Task.CompletedTask;
@@ -173,4 +215,35 @@ public partial class NetworkPanel : UserControl
             mainWindow?.UpdateStatus(message);
         });
     }
+
+    #region State Persistence
+
+    public bool IsListeningOnly => ListeningOnlyCheckBox.IsChecked == true;
+    public bool IsTcpOnly => TcpOnlyCheckBox.IsChecked == true;
+    public string? SearchText => string.IsNullOrWhiteSpace(SearchBox.Text) ? null : SearchBox.Text.Trim();
+    public List<string> HiddenProcesses => _hiddenProcessNames.ToList();
+
+    public (string? column, string? direction) GetSortState()
+    {
+        var view = CollectionViewSource.GetDefaultView(ConnectionGrid.ItemsSource);
+        if (view?.SortDescriptions.Count > 0)
+        {
+            var sort = view.SortDescriptions[0];
+            return (sort.PropertyName, sort.Direction.ToString());
+        }
+        return (null, null);
+    }
+
+    public Dictionary<string, double> GetColumnWidths()
+    {
+        var widths = new Dictionary<string, double>();
+        foreach (var col in ConnectionGrid.Columns)
+        {
+            if (col.Header is string header)
+                widths[header] = col.ActualWidth;
+        }
+        return widths;
+    }
+
+    #endregion
 }
