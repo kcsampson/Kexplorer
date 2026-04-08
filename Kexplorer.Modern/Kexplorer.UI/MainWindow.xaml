@@ -52,13 +52,7 @@
                     Margin="0,0,6,0"
                     BorderThickness="0" Background="Transparent" Cursor="Hand"
                     Foreground="{DynamicResource PrimaryForegroundBrush}"
-                    ToolTip="Settings" Click="SettingsGear_Click">
-                <Button.ContextMenu>
-                    <ContextMenu x:Name="SettingsContextMenu">
-                        <MenuItem Header="_Theme" x:Name="ThemeMenu" />
-                    </ContextMenu>
-                </Button.ContextMenu>
-            </Button>
+                    ToolTip="Settings" Click="SettingsGear_Click" />
         </Grid>
     </DockPanel>
 </Window>

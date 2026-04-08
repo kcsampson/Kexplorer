@@ -132,3 +132,14 @@ public enum PluginKey
     F1, F2, F3, F4, F5, F6, F7, F8, F9, F10, F11, F12,
     Enter, Delete, Escape, Tab
 }
+
+/// <summary>
+/// Optional interface for plugins that should be grouped into a submenu in the context menu.
+/// Plugins sharing the same MenuGroup value are collected under a single parent menu item
+/// whose header is the MenuGroup string, with each plugin as a child item.
+/// The first plugin in the group (alphabetically) is also wired as the parent's direct click action.
+/// </summary>
+public interface IMenuGroupPlugin
+{
+    string MenuGroup { get; }
+}

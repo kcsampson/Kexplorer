@@ -26,6 +26,11 @@
         <Setter Property="FontSize" Value="13" />
         <Setter Property="Background" Value="{DynamicResource PrimaryBackgroundBrush}" />
         <Setter Property="Foreground" Value="{DynamicResource PrimaryForegroundBrush}" />
+        <Style.Triggers>
+          <Trigger Property="IsHighlighted" Value="True">
+            <Setter Property="Foreground" Value="Black" />
+          </Trigger>
+        </Style.Triggers>
       </Style>
       <Style TargetType="Menu">
         <Setter Property="Background" Value="{DynamicResource ToolbarBackgroundBrush}" />

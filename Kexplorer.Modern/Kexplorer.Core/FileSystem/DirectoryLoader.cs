@@ -34,6 +34,7 @@ public static class DirectoryLoader
         catch (DirectoryNotFoundException) { }
         catch (IOException) { }
 
+        result.Sort((a, b) => string.Compare(a.Name, b.Name, StringComparison.OrdinalIgnoreCase));
         return result;
     }
 

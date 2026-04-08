@@ -1,13 +1,16 @@
+using System;
+using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace Kexplorer.UI;
 
 public static class ThemeManager
 {
-    private static readonly string[] AvailableThemes = { "Standard", "Kimbonics" };
+    private static readonly string[] AvailableThemes = { "Standard", "Kimbonics", "Kimbo-Slice" };
 
     // DWM attributes
     private const int DWMWA_USE_IMMERSIVE_DARK_MODE = 20;
@@ -49,7 +52,7 @@ public static class ThemeManager
                 SetTitleBarTextColor(window, textBrush.Color);
 
             // Update window icon to match theme
-            window.Icon = RobotIconGenerator.CreateIcon(app);
+            window.Icon = LoadAppIcon();
         }
     }
 
@@ -68,7 +71,28 @@ public static class ThemeManager
         if (captionBrush is not null) SetTitleBarColor(window, captionBrush.Color);
         if (textBrush is not null) SetTitleBarTextColor(window, textBrush.Color);
 
-        window.Icon = RobotIconGenerator.CreateIcon(app);
+        window.Icon = LoadAppIcon();
+    }
+
+    private static BitmapSource? _cachedIcon;
+
+    private static BitmapSource? LoadAppIcon()
+    {
+        if (_cachedIcon is not null) return _cachedIcon;
+        var exeDir = AppContext.BaseDirectory;
+        var icoPath = Path.Combine(exeDir, "app.ico");
+        if (File.Exists(icoPath))
+        {
+            var icon = new BitmapImage();
+            icon.BeginInit();
+            icon.UriSource = new Uri(icoPath, UriKind.Absolute);
+            icon.CacheOption = BitmapCacheOption.OnLoad;
+            icon.EndInit();
+            icon.Freeze();
+            _cachedIcon = icon;
+            return _cachedIcon;
+        }
+        return null;
     }
 
     private static void SetDarkTitleBar(Window window, bool dark)

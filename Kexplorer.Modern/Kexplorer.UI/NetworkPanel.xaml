@@ -1,0 +1,74 @@
+<UserControl x:Class="Kexplorer.UI.NetworkPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Toolbar -->
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="4">
+            <Button x:Name="RefreshButton" Content="⟳ Refresh" Padding="8,4" Click="RefreshButton_Click" />
+            <Separator Width="8" Visibility="Hidden" />
+            <CheckBox x:Name="ListeningOnlyCheckBox" Content="Listening only" VerticalAlignment="Center"
+                      Checked="FilterChanged" Unchecked="FilterChanged" />
+            <Separator Width="8" Visibility="Hidden" />
+            <CheckBox x:Name="TcpOnlyCheckBox" Content="TCP only" VerticalAlignment="Center"
+                      Checked="FilterChanged" Unchecked="FilterChanged" />
+            <Separator Width="8" Visibility="Hidden" />
+            <TextBlock Text="Search:" VerticalAlignment="Center" Margin="4,0" />
+            <TextBox x:Name="SearchBox" Width="200" VerticalAlignment="Center" TextChanged="SearchBox_TextChanged" />
+            <Separator Width="12" Visibility="Hidden" />
+            <TextBlock x:Name="CountLabel" Text="" VerticalAlignment="Center"
+                       Foreground="{DynamicResource SecondaryForegroundBrush}" />
+            <Separator Width="8" Visibility="Hidden" />
+            <Button x:Name="ShowHiddenButton" Content="Show All Hidden" Padding="8,4"
+                    Visibility="Collapsed" Click="ShowHiddenButton_Click" />
+            <TextBlock x:Name="HiddenCountLabel" Text="" VerticalAlignment="Center" Margin="4,0"
+                       Foreground="{DynamicResource SecondaryForegroundBrush}" />
+        </StackPanel>
+
+        <!-- Data Grid -->
+        <DataGrid Grid.Row="1" x:Name="ConnectionGrid"
+                  AutoGenerateColumns="False" IsReadOnly="True"
+                  SelectionMode="Extended" SelectionUnit="FullRow"
+                  CanUserSortColumns="True" CanUserReorderColumns="True"
+                  GridLinesVisibility="Horizontal"
+                  AlternatingRowBackground="{DynamicResource AlternateRowBrush}"
+                  ContextMenuOpening="ConnectionGrid_ContextMenuOpening">
+            <DataGrid.ContextMenu>
+                <ContextMenu x:Name="GridContextMenu" />
+            </DataGrid.ContextMenu>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Protocol" Binding="{Binding Protocol}" Width="70" />
+                <DataGridTextColumn Header="Local Address" Binding="{Binding LocalAddress}" Width="140" />
+                <DataGridTextColumn Header="Local Port" Binding="{Binding LocalPort}" Width="80">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Right" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Remote Address" Binding="{Binding RemoteAddress}" Width="140" />
+                <DataGridTextColumn Header="Remote Port" Binding="{Binding RemotePort}" Width="85">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Right" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="State" Binding="{Binding State}" Width="110" />
+                <DataGridTextColumn Header="PID" Binding="{Binding Pid}" Width="65">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Right" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Process" Binding="{Binding ProcessName}" Width="150" />
+                <DataGridTextColumn Header="Process Path" Binding="{Binding ProcessPath}" Width="350" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

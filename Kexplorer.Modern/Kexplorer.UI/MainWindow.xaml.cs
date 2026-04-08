@@ -14,6 +14,7 @@ public partial class MainWindow : Window
     private SessionState _sessionState = new();
     private readonly PluginManager _pluginManager = new();
     private readonly LauncherService _launcherService = new();
+    private bool _isInitializing = true;
 
     public MainWindow()
     {
@@ -28,7 +29,6 @@ public partial class MainWindow : Window
 
         // Apply saved theme
         ThemeManager.ApplyTheme(_sessionState.ThemeName);
-        BuildThemeMenu();
 
         // Restore window dimensions
         Width = _sessionState.WindowWidth;
@@ -59,10 +59,23 @@ public partial class MainWindow : Window
                 switch (tabState.TabType)
                 {
                     case TabType.FileExplorer:
-                        AddExplorerTab(tabState.TabName, tabState.CurrentFolder,
-                            tabState.Drives.Count > 0 ? tabState.Drives : null,
-                            tabState.IsSelected,
-                            tabState.ExpandedFolders, tabState.SelectedFolder);
+                        if (string.Equals(tabState.ExplorerType, "WSL", StringComparison.OrdinalIgnoreCase)
+                            && !string.IsNullOrEmpty(tabState.WslDistroName))
+                        {
+                            // WSL tab — pass distro name for WSL-specific initialization
+                            AddExplorerTab(tabState.TabName, tabState.CurrentFolder,
+                                null, tabState.IsSelected,
+                                tabState.ExpandedFolders, tabState.SelectedFolder,
+                                tabState.RootFolderPath, tabState.WslDistroName);
+                        }
+                        else
+                        {
+                            AddExplorerTab(tabState.TabName, tabState.CurrentFolder,
+                                tabState.Drives.Count > 0 ? tabState.Drives : null,
+                                tabState.IsSelected,
+                                tabState.ExpandedFolders, tabState.SelectedFolder,
+                                tabState.RootFolderPath);
+                        }
                         break;
                     case TabType.Services:
                         AddServicesTab(tabState.TabName, tabState.VisibleServices,
@@ -75,13 +88,19 @@ public partial class MainWindow : Window
                             tabState.IsSelected,
                             tabState.ServiceOrder, tabState.DockerContainerOrder);
                         break;
+                    case TabType.Network:
+                        AddNetworkTab(tabState.TabName, tabState.IsSelected);
+                        break;
                 }
             }
         }
+
+        _isInitializing = false;
     }
 
     public void AddExplorerTab(string name, string? currentFolder, List<string>? drives, bool isSelected,
-        List<string>? expandedFolders = null, string? selectedFolder = null)
+        List<string>? expandedFolders = null, string? selectedFolder = null,
+        string? rootFolderPath = null, string? wslDistroName = null)
     {
         var panel = new ExplorerPanel();
         var tabItem = new TabItem
@@ -103,12 +122,57 @@ public partial class MainWindow : Window
             MainTabControl.SelectedItem = tabItem;
         }
 
-        // Initialize the explorer panel after it's been added to the visual tree
-        panel.Loaded += async (s, e) =>
+        // Initialize the explorer panel after the visual tree has fully settled.
+        // Using DispatcherPriority.Background avoids re-entrancy issues that occur
+        // when panel.Loaded fires during the layout pass of MainWindow_Loaded.
+        Dispatcher.InvokeAsync(async () =>
         {
             await panel.InitializeAsync(currentFolder, drives, _pluginManager, _launcherService,
-                expandedFolders, selectedFolder);
-        };
+                expandedFolders, selectedFolder, rootFolderPath, wslDistroName);
+        }, System.Windows.Threading.DispatcherPriority.Background);
+    }
+
+    /// <summary>
+    /// Creates a new file explorer tab rooted at a specific folder.
+    /// The tab title shows the folder's short name.
+    /// </summary>
+    public void AddRootedExplorerTab(string folderPath)
+    {
+        var shortName = System.IO.Path.GetFileName(folderPath.TrimEnd('\\', '/'));
+        if (string.IsNullOrEmpty(shortName))
+            shortName = folderPath;
+
+        AddExplorerTab(shortName, null, null, isSelected: true, rootFolderPath: folderPath);
+    }
+
+    /// <summary>
+    /// Creates a new WSL file explorer tab rooted at the specified distro.
+    /// Optionally roots at a specific subfolder within the distro.
+    /// </summary>
+    public void AddWslExplorerTab(string distroName, string? rootSubPath = null)
+    {
+        if (!Kexplorer.Core.FileSystem.WslPathHelper.IsDistroAvailable(distroName))
+        {
+            UpdateStatus($"WSL distro '{distroName}' not available \u2014 is WSL installed and the distro running?");
+            return;
+        }
+
+        if (!string.IsNullOrEmpty(rootSubPath))
+        {
+            // Rooted at a specific subfolder within the WSL distro
+            var shortName = System.IO.Path.GetFileName(rootSubPath.TrimEnd('\\', '/'));
+            if (string.IsNullOrEmpty(shortName))
+                shortName = distroName;
+
+            AddExplorerTab($"{shortName} (WSL)", null, null, isSelected: true,
+                rootFolderPath: rootSubPath, wslDistroName: distroName);
+        }
+        else
+        {
+            // Rooted at the distro root
+            AddExplorerTab($"{distroName} (WSL)", null, null, isSelected: true,
+                wslDistroName: distroName);
+        }
     }
 
     public void AddServicesTab(string name, List<string>? visibleServices,
@@ -171,6 +235,33 @@ public partial class MainWindow : Window
         };
     }
 
+    public void AddNetworkTab(string name, bool isSelected)
+    {
+        var panel = new NetworkPanel();
+        var tabItem = new TabItem
+        {
+            Header = name,
+            HeaderTemplate = (DataTemplate)FindResource("ClosableTabHeader"),
+            Content = panel
+        };
+
+        var insertIndex = MainTabControl.Items.IndexOf(AddTabButton);
+        if (insertIndex >= 0)
+            MainTabControl.Items.Insert(insertIndex, tabItem);
+        else
+            MainTabControl.Items.Add(tabItem);
+
+        if (isSelected)
+        {
+            MainTabControl.SelectedItem = tabItem;
+        }
+
+        panel.Loaded += async (s, e) =>
+        {
+            await panel.InitializeAsync();
+        };
+    }
+
     private TabItem? _lastSelectedTab;
 
     private void MainTabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -178,7 +269,8 @@ public partial class MainWindow : Window
         if (MainTabControl.SelectedItem == AddTabButton)
         {
             // Don't stay on the "+" tab — show the new-tab menu and revert selection
-            ShowNewTabMenu();
+            if (!_isInitializing)
+                ShowNewTabMenu();
 
             // Revert to the previously selected real tab
             if (_lastSelectedTab is not null && MainTabControl.Items.Contains(_lastSelectedTab))
@@ -199,6 +291,10 @@ public partial class MainWindow : Window
             else if (tab.Content is HybridServicesPanel)
             {
                 StatusText.Text = "Hybrid Services";
+            }
+            else if (tab.Content is NetworkPanel)
+            {
+                StatusText.Text = "Network Ports";
             }
             else if (tab.Content is ServicesPanel)
             {
@@ -259,6 +355,32 @@ public partial class MainWindow : Window
         };
         menu.Items.Add(hybridServicesItem);
 
+        var networkItem = new MenuItem { Header = "New Network Ports Tab" };
+        networkItem.Click += (s, e) =>
+        {
+            AddNetworkTab("Network Ports", isSelected: true);
+        };
+        menu.Items.Add(networkItem);
+
+        var wslItem = new MenuItem { Header = "New WSL File Explorer Tab" };
+        wslItem.Click += (s, e) =>
+        {
+            var distroDialog = new PromptDialog(
+                "WSL Distro",
+                "Enter the WSL distro name:",
+                "Ubuntu");
+
+            if (distroDialog.ShowDialog() == true)
+            {
+                var distro = distroDialog.ResponseText?.Trim();
+                if (!string.IsNullOrEmpty(distro))
+                {
+                    AddWslExplorerTab(distro);
+                }
+            }
+        };
+        menu.Items.Add(wslItem);
+
         menu.IsOpen = true;
     }
 
@@ -286,7 +408,10 @@ public partial class MainWindow : Window
                     Drives = explorer.LoadedDrives,
                     IsSelected = MainTabControl.SelectedItem == tab,
                     ExpandedFolders = explorer.GetExpandedFolders(),
-                    SelectedFolder = explorer.CurrentPath
+                    SelectedFolder = explorer.CurrentPath,
+                    RootFolderPath = explorer.RootFolderPath,
+                    ExplorerType = explorer.WslDistroName is not null ? "WSL" : null,
+                    WslDistroName = explorer.WslDistroName
                 });
             }
             else if (tab.Content is HybridServicesPanel hybrid)
@@ -315,6 +440,15 @@ public partial class MainWindow : Window
                     IsSelected = MainTabControl.SelectedItem == tab
                 });
             }
+            else if (tab.Content is NetworkPanel)
+            {
+                _sessionState.Tabs.Add(new TabState
+                {
+                    TabName = tab.Header?.ToString() ?? "Network Ports",
+                    TabType = TabType.Network,
+                    IsSelected = MainTabControl.SelectedItem == tab
+                });
+            }
         }
 
         await SessionStateManager.SaveAsync(_sessionState);
@@ -330,11 +464,19 @@ public partial class MainWindow : Window
             {
                 await hybrid.ShutdownAsync();
             }
+            else if (tab.Content is NetworkPanel networkPanel)
+            {
+                await networkPanel.ShutdownAsync();
+            }
             else if (tab.Content is ServicesPanel services)
             {
                 await services.ShutdownAsync();
             }
         }
+
+        // Explicitly shut down the application — the async continuations in
+        // Window_Closing can keep the process alive after the window is gone.
+        Application.Current.Shutdown();
     }
 
     #region Tab Rename (double-click header)
@@ -434,6 +576,8 @@ public partial class MainWindow : Window
             await explorer.ShutdownAsync();
         else if (tabItem.Content is HybridServicesPanel hybrid)
             await hybrid.ShutdownAsync();
+        else if (tabItem.Content is NetworkPanel network)
+            await network.ShutdownAsync();
         else if (tabItem.Content is ServicesPanel services)
             await services.ShutdownAsync();
 
@@ -495,35 +639,15 @@ public partial class MainWindow : Window
         Dispatcher.InvokeAsync(() => StatusText.Text = message);
     }
 
-    private void BuildThemeMenu()
-    {
-        ThemeMenu.Items.Clear();
-        foreach (var theme in ThemeManager.Themes)
-        {
-            var item = new MenuItem
-            {
-                Header = theme,
-                IsCheckable = true,
-                IsChecked = string.Equals(_sessionState.ThemeName, theme, StringComparison.OrdinalIgnoreCase)
-            };
-            var capturedTheme = theme;
-            item.Click += (s, e) =>
-            {
-                ThemeManager.ApplyTheme(capturedTheme);
-                _sessionState.ThemeName = capturedTheme;
-                // Update check marks
-                foreach (MenuItem mi in ThemeMenu.Items)
-                    mi.IsChecked = string.Equals(mi.Header?.ToString(), capturedTheme, StringComparison.OrdinalIgnoreCase);
-            };
-            ThemeMenu.Items.Add(item);
-        }
-    }
-
     private void SettingsGear_Click(object sender, RoutedEventArgs e)
     {
-        SettingsContextMenu.PlacementTarget = SettingsGearButton;
-        SettingsContextMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom;
-        SettingsContextMenu.IsOpen = true;
+        var dialog = new AboutDialog(_sessionState.ThemeName, theme =>
+        {
+            ThemeManager.ApplyTheme(theme);
+            _sessionState.ThemeName = theme;
+        });
+        dialog.Owner = this;
+        dialog.ShowDialog();
     }
 }
 

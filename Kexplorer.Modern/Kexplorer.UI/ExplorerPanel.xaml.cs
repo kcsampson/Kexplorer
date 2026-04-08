@@ -3,6 +3,8 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Animation;
 using Kexplorer.Core.FileSystem;
 using Kexplorer.Core.Launching;
 using Kexplorer.Core.Plugins;
@@ -35,6 +37,17 @@ public partial class ExplorerPanel : UserControl, IKexplorerShell
     public string? CurrentPath { get; private set; }
     public List<string> LoadedDrives => _loadedDrives;
 
+    /// <summary>
+    /// When non-null, this tab is rooted at a specific folder rather than a drive.
+    /// </summary>
+    public string? RootFolderPath { get; private set; }
+
+    /// <summary>
+    /// For WSL tabs, the distro name (e.g., "Ubuntu").
+    /// When non-null, this tab browses a WSL filesystem.
+    /// </summary>
+    public string? WslDistroName { get; private set; }
+
     public ExplorerPanel()
     {
         InitializeComponent();
@@ -43,7 +56,8 @@ public partial class ExplorerPanel : UserControl, IKexplorerShell
 
     public async Task InitializeAsync(string? currentFolder, List<string>? drives,
         PluginManager pluginManager, LauncherService launcherService,
-        List<string>? expandedFolders = null, string? selectedFolder = null)
+        List<string>? expandedFolders = null, string? selectedFolder = null,
+        string? rootFolderPath = null, string? wslDistroName = null)
     {
         if (_initialized)
             return;
@@ -51,6 +65,8 @@ public partial class ExplorerPanel : UserControl, IKexplorerShell
 
         _pluginManager = pluginManager;
         _launcherService = launcherService;
+        RootFolderPath = rootFolderPath;
+        WslDistroName = wslDistroName;
 
         // Create the main work queue (for file list loading)
         _mainQueue = new WorkQueue(this, new WorkQueueOptions { WorkerCount = 1 });
@@ -59,6 +75,26 @@ public partial class ExplorerPanel : UserControl, IKexplorerShell
         // Create plugin context
         _pluginContext = new PluginContextAdapter(this, _mainQueue, _launcherService);
 
+        if (!string.IsNullOrEmpty(wslDistroName))
+        {
+            // WSL tab: rooted at \\wsl.localhost\{distroName}
+            await InitializeWslTabAsync(wslDistroName, expandedFolders, selectedFolder);
+        }
+        else if (!string.IsNullOrEmpty(rootFolderPath))
+        {
+            // Folder-rooted tab: single root node showing the folder's short name
+            await InitializeRootedFolderAsync(rootFolderPath, expandedFolders, selectedFolder);
+        }
+        else
+        {
+            // Standard drive-based tab
+            await InitializeDriveTabAsync(currentFolder, drives, expandedFolders, selectedFolder);
+        }
+    }
+
+    private async Task InitializeDriveTabAsync(string? currentFolder, List<string>? drives,
+        List<string>? expandedFolders, string? selectedFolder)
+    {
         // Load drives
         var driveList = drives ?? new List<string>(Directory.GetLogicalDrives());
         foreach (var drive in driveList)
@@ -111,6 +147,122 @@ public partial class ExplorerPanel : UserControl, IKexplorerShell
         }
     }
 
+    private async Task InitializeWslTabAsync(string distroName,
+        List<string>? expandedFolders, string? selectedFolder)
+    {
+        // If RootFolderPath was set to a WSL subfolder, use that; otherwise default to distro root
+        var uncRoot = RootFolderPath is not null
+                      && Kexplorer.Core.FileSystem.WslPathHelper.IsWslPath(RootFolderPath)
+            ? RootFolderPath
+            : Kexplorer.Core.FileSystem.WslPathHelper.GetUncRoot(distroName);
+        RootFolderPath = uncRoot;
+
+        var displayName = string.Equals(uncRoot,
+            Kexplorer.Core.FileSystem.WslPathHelper.GetUncRoot(distroName),
+            StringComparison.OrdinalIgnoreCase)
+            ? distroName
+            : Path.GetFileName(uncRoot.TrimEnd('\\', '/'));
+
+        var rootNode = new FileSystemNode(displayName, uncRoot, isDirectory: true);
+
+        var queue = new WorkQueue(this, new WorkQueueOptions { WorkerCount = 1 });
+        _driveQueues["_wsl"] = queue;
+        await queue.StartAsync();
+
+        var treeItem = new TreeViewItem
+        {
+            Header = displayName,
+            Tag = rootNode
+        };
+
+        if (Directory.Exists(uncRoot))
+        {
+            treeItem.Items.Add(new TreeViewItem { Header = "Loading..." });
+            FolderTree.Items.Add(treeItem);
+
+            await queue.EnqueueAsync(new FolderLoaderWorkItem(uncRoot));
+        }
+        else if (!Kexplorer.Core.FileSystem.WslPathHelper.IsDistroAvailable(distroName))
+        {
+            treeItem.Header = $"{displayName} (not available)";
+            treeItem.Foreground = System.Windows.Media.Brushes.Gray;
+            treeItem.ToolTip = $"WSL distro not available: {distroName}. Is WSL installed and the distro running?";
+            FolderTree.Items.Add(treeItem);
+        }
+        else
+        {
+            treeItem.Header = $"{displayName} (not found)";
+            treeItem.Foreground = System.Windows.Media.Brushes.Gray;
+            treeItem.ToolTip = $"Folder not found: {uncRoot}";
+            FolderTree.Items.Add(treeItem);
+        }
+
+        if (expandedFolders is { Count: > 0 } || !string.IsNullOrEmpty(selectedFolder))
+        {
+            var foldersToRestore = expandedFolders ?? new List<string>();
+            var folderToSelect = selectedFolder;
+            _ = Task.Run(async () =>
+            {
+                await Task.Delay(800);
+                await RestoreNavigationStateAsync(foldersToRestore, folderToSelect);
+            });
+        }
+    }
+
+    private async Task InitializeRootedFolderAsync(string rootFolderPath,
+        List<string>? expandedFolders, string? selectedFolder)
+    {
+        var shortName = Path.GetFileName(rootFolderPath.TrimEnd('\\', '/'));
+        if (string.IsNullOrEmpty(shortName))
+            shortName = rootFolderPath; // fallback for drive roots
+
+        var rootNode = new FileSystemNode(shortName, rootFolderPath, isDirectory: true);
+
+        // Create a work queue for this rooted folder (keyed by drive letter if available)
+        var driveLetter = rootFolderPath.Length >= 2 && rootFolderPath[1] == ':'
+            ? rootFolderPath[..1]
+            : "_root";
+        var queue = new WorkQueue(this, new WorkQueueOptions { WorkerCount = 1 });
+        _driveQueues[driveLetter] = queue;
+        await queue.StartAsync();
+
+        var treeItem = new TreeViewItem
+        {
+            Header = shortName,
+            Tag = rootNode
+        };
+
+        if (Directory.Exists(rootFolderPath))
+        {
+            // Add dummy child for expand arrow
+            treeItem.Items.Add(new TreeViewItem { Header = "Loading..." });
+            FolderTree.Items.Add(treeItem);
+
+            // Load children immediately
+            await queue.EnqueueAsync(new FolderLoaderWorkItem(rootFolderPath));
+        }
+        else
+        {
+            // Folder doesn't exist — show error indicator
+            treeItem.Header = $"{shortName} (not found)";
+            treeItem.Foreground = System.Windows.Media.Brushes.Gray;
+            treeItem.ToolTip = $"Folder not found: {rootFolderPath}";
+            FolderTree.Items.Add(treeItem);
+        }
+
+        // Restore navigation state if provided
+        if (expandedFolders is { Count: > 0 } || !string.IsNullOrEmpty(selectedFolder))
+        {
+            var foldersToRestore = expandedFolders ?? new List<string>();
+            var folderToSelect = selectedFolder;
+            _ = Task.Run(async () =>
+            {
+                await Task.Delay(800); // let root folder loading complete
+                await RestoreNavigationStateAsync(foldersToRestore, folderToSelect);
+            });
+        }
+    }
+
     public async Task ShutdownAsync()
     {
         if (_mainQueue is not null)
@@ -134,17 +286,20 @@ public partial class ExplorerPanel : UserControl, IKexplorerShell
         {
             CurrentPath = node.FullPath;
 
-            // Update status bar
+            // Update status bar — show Linux-style path for WSL tabs
             var mainWindow = Window.GetWindow(this) as MainWindow;
-            mainWindow?.UpdateStatus(node.FullPath);
+            var displayPath = WslDistroName is not null
+                ? Kexplorer.Core.FileSystem.WslPathHelper.ToLinuxPath(node.FullPath)
+                : node.FullPath;
+            mainWindow?.UpdateStatus(displayPath);
 
             // If the node is stale, reload its children
-            if (node.Stale && node.FullPath.Length >= 2 && node.FullPath[1] == ':')
+            if (node.Stale)
             {
-                var drive = node.FullPath[..1];
-                if (_driveQueues.TryGetValue(drive, out var driveQueue))
+                var queue = GetQueueForPath(node.FullPath);
+                if (queue is not null)
                 {
-                    await driveQueue.EnqueueAsync(new FolderLoaderWorkItem(node.FullPath));
+                    await queue.EnqueueAsync(new FolderLoaderWorkItem(node.FullPath));
                 }
             }
 
@@ -160,10 +315,26 @@ public partial class ExplorerPanel : UserControl, IKexplorerShell
     {
         if (e.OriginalSource is TreeViewItem treeItem && treeItem.Tag is FileSystemNode node)
         {
-            var drive = node.DriveLetter;
-            if (drive is not null && _driveQueues.TryGetValue(drive, out var driveQueue))
+            // Auto-scroll immediately if children are already rendered in the tree
+            // (pre-loaded via DriveLoaderWorkItem recurseDepth or previous expansion).
+            // Count visible child TreeViewItems, not FileSystemNode.Children,
+            // since the tree may have a dummy "Loading..." placeholder.
+            int visibleChildCount = 0;
+            foreach (var item in treeItem.Items)
             {
-                await driveQueue.EnqueueAsync(new FolderLoaderWorkItem(node.FullPath));
+                if (item is TreeViewItem child && child.Tag is FileSystemNode)
+                    visibleChildCount++;
+            }
+            if (visibleChildCount > 0 && !_restoringNavigation)
+            {
+                AutoScrollOnExpand(treeItem, visibleChildCount);
+            }
+
+            var queue = GetQueueForPath(node.FullPath);
+
+            if (queue is not null)
+            {
+                await queue.EnqueueAsync(new FolderLoaderWorkItem(node.FullPath));
             }
         }
     }
@@ -272,6 +443,13 @@ public partial class ExplorerPanel : UserControl, IKexplorerShell
                 parentNode.Children.Clear();
                 parentNode.Children.AddRange(children);
             }
+
+            // Auto-scroll so expanded folder and its children are visible.
+            // Skip during navigation restoration to avoid distracting scroll jumps.
+            if (parentItem.IsExpanded && children.Count > 0 && !_restoringNavigation)
+            {
+                AutoScrollOnExpand(parentItem, children.Count);
+            }
         });
         return Task.CompletedTask;
     }
@@ -328,6 +506,214 @@ public partial class ExplorerPanel : UserControl, IKexplorerShell
     #region Tree Helpers
 
     /// <summary>
+    /// After a folder is expanded and children are loaded, scroll the tree so the parent
+    /// and its children are comfortably visible. If there are many children, scroll the
+    /// parent toward the top ~10% of the viewport. If there are few children, scroll just
+    /// enough to make the last child visible.
+    /// The scroll is animated (fast but trackable) and the parent node gets a brief
+    /// highlight flash (~600ms) so the user keeps spatial context.
+    /// </summary>
+    private void AutoScrollOnExpand(TreeViewItem parentItem, int childCount)
+    {
+        // Defer to let the layout pass render the new child items
+        Dispatcher.InvokeAsync(() =>
+        {
+            try
+            {
+            var scrollViewer = FindVisualChild<ScrollViewer>(FolderTree);
+            if (scrollViewer is null)
+                return;
+
+            // Force layout so positions are accurate
+            parentItem.UpdateLayout();
+
+            // Get the parent item's position relative to the TreeView
+            var parentTransform = parentItem.TransformToAncestor(FolderTree);
+            var parentPosition = parentTransform.Transform(new Point(0, 0));
+            double parentY = parentPosition.Y;
+
+            double viewportHeight = scrollViewer.ViewportHeight;
+            if (viewportHeight <= 0) return;
+
+            double currentVerticalOffset = scrollViewer.VerticalOffset;
+
+            // Approximate height per row (use the parent's header height as a proxy)
+            double rowHeight = parentItem.ActualHeight > 0 && parentItem.Items.Count > 0
+                ? parentItem.ActualHeight / (parentItem.Items.Count + 1)
+                : 20.0;
+
+            // Total height the children will occupy
+            double childrenHeight = childCount * rowHeight;
+
+            // How far below the viewport bottom the last child would be
+            double lastChildBottom = parentY + rowHeight + childrenHeight;
+            double overflow = lastChildBottom - viewportHeight;
+
+            if (overflow <= 0)
+            {
+                // Everything already fits — no scrolling needed
+                return;
+            }
+
+            double scrollAmount;
+            if (childCount > 10)
+            {
+                // Many children: position the parent at ~10% from the top of the viewport
+                double targetY = viewportHeight * 0.10;
+                scrollAmount = parentY - targetY;
+            }
+            else
+            {
+                // Few children: scroll just enough to make the last child visible,
+                // plus a small margin so it isn't flush with the bottom edge
+                double margin = rowHeight;
+                scrollAmount = overflow + margin;
+
+                // But don't scroll the parent above the top 10% line
+                double maxScroll = parentY - (viewportHeight * 0.10);
+                if (scrollAmount > maxScroll && maxScroll > 0)
+                    scrollAmount = maxScroll;
+            }
+
+            if (scrollAmount > 0)
+            {
+                AnimateScroll(scrollViewer, currentVerticalOffset,
+                    currentVerticalOffset + scrollAmount, durationMs: 200);
+            }
+
+            // Brief highlight flash on the parent so the user keeps spatial context
+            FlashHighlight(parentItem, durationMs: 600);
+            }
+            catch (InvalidOperationException)
+            {
+                // Scroll/animation is non-critical; can fail during startup when
+                // the visual tree is still being generated or the dispatcher is
+                // processing nested frames.
+            }
+        }, System.Windows.Threading.DispatcherPriority.Loaded);
+    }
+
+    /// <summary>
+    /// Smoothly animate the ScrollViewer's vertical offset from one value to another.
+    /// Uses a short DoubleAnimation on an attached helper so the scroll feels fast
+    /// but the user can track the movement.
+    /// </summary>
+    private static void AnimateScroll(ScrollViewer scrollViewer, double from, double to, int durationMs)
+    {
+        // WPF's ScrollViewer.VerticalOffset is not a dependency property, so we drive
+        // the scroll via a DoubleAnimation on a tiny helper property and forward each
+        // tick to ScrollToVerticalOffset.
+        var animation = new DoubleAnimation
+        {
+            From = from,
+            To = to,
+            Duration = TimeSpan.FromMilliseconds(durationMs),
+            EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut }
+        };
+
+        // Use an attached property trick: animate a dummy property and hook Changed
+        var helper = new ScrollAnimationHelper(scrollViewer);
+        helper.RunAnimation(animation);
+    }
+
+    /// <summary>
+    /// Flash the parent TreeViewItem's background briefly so the user can see which
+    /// folder was expanded after the scroll moves it.
+    /// </summary>
+    private static void FlashHighlight(TreeViewItem item, int durationMs)
+    {
+        try
+        {
+        // Resolve the theme-aware accent color or fall back to a soft blue
+        var highlightColor = Color.FromArgb(80, 100, 160, 255); // semi-transparent blue
+        if (Application.Current.Resources["AccentBrush"] is SolidColorBrush accentBrush)
+        {
+            var c = accentBrush.Color;
+            highlightColor = Color.FromArgb(80, c.R, c.G, c.B);
+        }
+
+        var flashBrush = new SolidColorBrush(highlightColor);
+        var originalBackground = item.Background;
+        item.Background = flashBrush;
+
+        var fadeAnimation = new ColorAnimation
+        {
+            From = highlightColor,
+            To = Colors.Transparent,
+            Duration = TimeSpan.FromMilliseconds(durationMs),
+            EasingFunction = new CubicEase { EasingMode = EasingMode.EaseIn }
+        };
+
+        fadeAnimation.Completed += (s, e) =>
+        {
+            item.Background = originalBackground;
+        };
+
+        flashBrush.BeginAnimation(SolidColorBrush.ColorProperty, fadeAnimation);
+        }
+        catch (InvalidOperationException)
+        {
+            // Animation can fail during startup if content generation is in progress.
+        }
+    }
+
+    /// <summary>
+    /// Helper that bridges a DoubleAnimation to ScrollViewer.ScrollToVerticalOffset
+    /// since VerticalOffset is not a dependency property.
+    /// </summary>
+    private sealed class ScrollAnimationHelper : Animatable
+    {
+        private readonly ScrollViewer _scrollViewer;
+
+        public static readonly DependencyProperty ScrollValueProperty =
+            DependencyProperty.Register(
+                nameof(ScrollValue),
+                typeof(double),
+                typeof(ScrollAnimationHelper),
+                new PropertyMetadata(0.0, OnScrollValueChanged));
+
+        public double ScrollValue
+        {
+            get => (double)GetValue(ScrollValueProperty);
+            set => SetValue(ScrollValueProperty, value);
+        }
+
+        public ScrollAnimationHelper(ScrollViewer scrollViewer)
+        {
+            _scrollViewer = scrollViewer;
+        }
+
+        public void RunAnimation(DoubleAnimation animation)
+        {
+            BeginAnimation(ScrollValueProperty, animation);
+        }
+
+        protected override Freezable CreateInstanceCore() => new ScrollAnimationHelper(_scrollViewer);
+
+        private static void OnScrollValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is ScrollAnimationHelper helper)
+            {
+                helper._scrollViewer.ScrollToVerticalOffset((double)e.NewValue);
+            }
+        }
+    }
+
+    private static T? FindVisualChild<T>(DependencyObject parent) where T : DependencyObject
+    {
+        for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
+        {
+            var child = VisualTreeHelper.GetChild(parent, i);
+            if (child is T result)
+                return result;
+            var nested = FindVisualChild<T>(child);
+            if (nested is not null)
+                return nested;
+        }
+        return null;
+    }
+
+    /// <summary>
     /// Collect all expanded folder paths in the tree (for state persistence).
     /// </summary>
     public List<string> GetExpandedFolders()
@@ -371,11 +757,25 @@ public partial class ExplorerPanel : UserControl, IKexplorerShell
                 mainWindow?.UpdateStatus("Restoring navigation\u2026");
             });
 
-            // Group expanded paths by drive letter to parallelize across drives
-            var pathsByDrive = expandedFolders
-                .Where(p => p.Length >= 2 && p[1] == ':')
-                .GroupBy(p => p[..1].ToUpperInvariant())
-                .ToDictionary(g => g.Key, g => g.OrderBy(p => p.Length).ToList());
+            // Group expanded paths by drive letter (or "_wsl" for WSL) to parallelize across drives
+            var pathsByDrive = new Dictionary<string, List<string>>();
+            foreach (var p in expandedFolders)
+            {
+                string key;
+                if (Kexplorer.Core.FileSystem.WslPathHelper.IsWslPath(p))
+                    key = "_wsl";
+                else if (p.Length >= 2 && p[1] == ':')
+                    key = p[..1].ToUpperInvariant();
+                else
+                    continue;
+
+                if (!pathsByDrive.ContainsKey(key))
+                    pathsByDrive[key] = new List<string>();
+                pathsByDrive[key].Add(p);
+            }
+            // Sort each group by path length (shortest first = shallowest)
+            foreach (var key in pathsByDrive.Keys)
+                pathsByDrive[key] = pathsByDrive[key].OrderBy(p => p.Length).ToList();
 
             // Expand each drive's paths
             var tasks = new List<Task>();
@@ -511,6 +911,12 @@ public partial class ExplorerPanel : UserControl, IKexplorerShell
         var result = new List<string>();
         if (string.IsNullOrEmpty(fullPath)) return result;
 
+        // WSL UNC paths: \\wsl.localhost\Ubuntu\...
+        if (Kexplorer.Core.FileSystem.WslPathHelper.IsWslPath(fullPath))
+        {
+            return Kexplorer.Core.FileSystem.WslPathHelper.DecomposePath(fullPath);
+        }
+
         // First segment is the drive root
         if (fullPath.Length >= 3 && fullPath[1] == ':' && fullPath[2] == '\\')
         {
@@ -523,6 +929,31 @@ public partial class ExplorerPanel : UserControl, IKexplorerShell
         }
 
         return result;
+    }
+
+    /// <summary>
+    /// Finds the appropriate work queue for a given path.
+    /// Handles drive-letter paths, WSL UNC paths, and rooted-folder fallback.
+    /// </summary>
+    private WorkQueue? GetQueueForPath(string path)
+    {
+        // WSL tabs use "_wsl" key
+        if (Kexplorer.Core.FileSystem.WslPathHelper.IsWslPath(path))
+        {
+            _driveQueues.TryGetValue("_wsl", out var wslQueue);
+            return wslQueue ?? _driveQueues.Values.FirstOrDefault();
+        }
+
+        // Drive-letter paths
+        if (path.Length >= 2 && path[1] == ':')
+        {
+            var drive = path[..1];
+            if (_driveQueues.TryGetValue(drive, out var driveQueue))
+                return driveQueue;
+        }
+
+        // Fallback for rooted-folder tabs
+        return _driveQueues.Values.FirstOrDefault();
     }
 
     private TreeViewItem CreateTreeItem(FileSystemNode node)
@@ -623,6 +1054,26 @@ public partial class ExplorerPanel : UserControl, IKexplorerShell
         TreeContextMenu.Items.Clear();
         if (_pluginManager is null || _pluginContext is null) return;
 
+        // "Open in New Tab" — opens a new explorer tab rooted at this folder
+        if (node.IsDirectory)
+        {
+            var openInNewTab = new MenuItem { Header = "Open in New Tab" };
+            var capturedPath = node.FullPath;
+            var capturedWslDistro = WslDistroName;
+            openInNewTab.Click += (s, e) =>
+            {
+                var mainWindow = Window.GetWindow(this) as MainWindow;
+                if (capturedWslDistro is not null)
+                    mainWindow?.AddWslExplorerTab(capturedWslDistro, capturedPath);
+                else
+                    mainWindow?.AddRootedExplorerTab(capturedPath);
+            };
+            TreeContextMenu.Items.Add(openInNewTab);
+            TreeContextMenu.Items.Add(new Separator());
+        }
+
+        // Collect valid plugins, partitioned into grouped (IMenuGroupPlugin) and ungrouped
+        var validPlugins = new List<IFolderPlugin>();
         foreach (var plugin in _pluginManager.FolderPlugins.OrderBy(p => p.Name))
         {
             try
@@ -635,22 +1086,102 @@ public partial class ExplorerPanel : UserControl, IKexplorerShell
                 System.Diagnostics.Debug.WriteLine($"Error in IsValidForFolder for {plugin.Name}: {ex}");
                 continue;
             }
-
-            var menuItem = new MenuItem { Header = plugin.Name };
-            var capturedPlugin = plugin;
-            menuItem.Click += async (s, e) =>
-            {
-                try
-                {
-                    await capturedPlugin.ExecuteAsync(node.FullPath, _pluginContext, CancellationToken.None);
-                }
-                catch (Exception ex)
-                {
-                    await _pluginContext.Shell.ReportErrorAsync($"Plugin '{capturedPlugin.Name}' failed: {ex.Message}", ex);
-                }
-            };
-            TreeContextMenu.Items.Add(menuItem);
+            validPlugins.Add(plugin);
         }
+
+        // Group plugins that implement IMenuGroupPlugin by their MenuGroup
+        var grouped = validPlugins
+            .OfType<IMenuGroupPlugin>()
+            .GroupBy(p => p.MenuGroup)
+            .ToDictionary(g => g.Key, g => g.Cast<IFolderPlugin>().ToList());
+        var groupedSet = new HashSet<IFolderPlugin>(grouped.Values.SelectMany(v => v));
+
+        // Build menu: ungrouped plugins as flat items, grouped plugins as submenus
+        var emittedGroups = new HashSet<string>();
+        foreach (var plugin in validPlugins)
+        {
+            if (groupedSet.Contains(plugin))
+            {
+                var group = ((IMenuGroupPlugin)plugin).MenuGroup;
+                if (!emittedGroups.Add(group)) continue; // already emitted this group
+
+                var groupPlugins = grouped[group];
+                if (groupPlugins.Count == 1)
+                {
+                    // Single plugin in group — just add it flat
+                    AddPluginMenuItem(TreeContextMenu, groupPlugins[0], node.FullPath);
+                }
+                else
+                {
+                    // Multiple plugins — create a parent menu with submenu items
+                    var parentItem = new MenuItem { Header = group };
+                    // Force submenu to open on the right regardless of system MenuDropAlignment
+                    parentItem.Loaded += (s, e) =>
+                    {
+                        if (parentItem.Template.FindName("PART_Popup", parentItem)
+                            is System.Windows.Controls.Primitives.Popup popup)
+                        {
+                            popup.Placement = System.Windows.Controls.Primitives.PlacementMode.Right;
+                        }
+                    };
+                    // Wire the parent click to the first plugin (the default action)
+                    var defaultPlugin = groupPlugins[0];
+                    parentItem.Click += async (s, e) =>
+                    {
+                        try
+                        {
+                            await defaultPlugin.ExecuteAsync(node.FullPath, _pluginContext!, CancellationToken.None);
+                        }
+                        catch (Exception ex)
+                        {
+                            await _pluginContext!.Shell.ReportErrorAsync($"Plugin '{defaultPlugin.Name}' failed: {ex.Message}", ex);
+                        }
+                    };
+                    // Add each grouped plugin as a submenu item
+                    foreach (var gp in groupPlugins)
+                    {
+                        var subItem = new MenuItem { Header = gp.Name.Replace(group + " — ", "") };
+                        var capturedGp = gp;
+                        subItem.Click += async (s, e) =>
+                        {
+                            e.Handled = true; // prevent parent click from also firing
+                            try
+                            {
+                                await capturedGp.ExecuteAsync(node.FullPath, _pluginContext!, CancellationToken.None);
+                            }
+                            catch (Exception ex)
+                            {
+                                await _pluginContext!.Shell.ReportErrorAsync($"Plugin '{capturedGp.Name}' failed: {ex.Message}", ex);
+                            }
+                        };
+                        parentItem.Items.Add(subItem);
+                    }
+                    TreeContextMenu.Items.Add(parentItem);
+                }
+            }
+            else
+            {
+                AddPluginMenuItem(TreeContextMenu, plugin, node.FullPath);
+            }
+        }
+    }
+
+    private void AddPluginMenuItem(ContextMenu menu, IFolderPlugin plugin, string folderPath)
+    {
+        var menuItem = new MenuItem { Header = plugin.Name };
+        var capturedPlugin = plugin;
+        menuItem.Click += async (s, e) =>
+        {
+            try
+            {
+                await capturedPlugin.ExecuteAsync(folderPath, _pluginContext!, CancellationToken.None);
+            }
+            catch (Exception ex)
+            {
+                await _pluginContext!.Shell.ReportErrorAsync($"Plugin '{capturedPlugin.Name}' failed: {ex.Message}", ex);
+            }
+        };
+        menu.Items.Add(menuItem);
     }
 
     internal void BuildFileContextMenu(FileEntry file)

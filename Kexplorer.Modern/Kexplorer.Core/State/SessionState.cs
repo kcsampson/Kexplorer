@@ -65,6 +65,29 @@ public sealed class TabState
     /// </summary>
     [JsonPropertyName("dockerContainerOrder")]
     public List<string>? DockerContainerOrder { get; set; }
+
+    /// <summary>
+    /// When set, this tab is rooted at a specific folder rather than a drive.
+    /// The tree shows only this folder as the root node (using its short name).
+    /// Null means the tab uses standard drive-based roots.
+    /// </summary>
+    [JsonPropertyName("rootFolderPath")]
+    public string? RootFolderPath { get; set; }
+
+    /// <summary>
+    /// The type of file explorer tab.
+    /// "Local" (default/null) = standard Windows drives.
+    /// "WSL" = WSL filesystem rooted at \\wsl.localhost\{WslDistroName}.
+    /// </summary>
+    [JsonPropertyName("explorerType")]
+    public string? ExplorerType { get; set; }
+
+    /// <summary>
+    /// For WSL tabs, the distro name (e.g., "Ubuntu").
+    /// Used to construct the UNC root: \\wsl.localhost\{WslDistroName}.
+    /// </summary>
+    [JsonPropertyName("wslDistroName")]
+    public string? WslDistroName { get; set; }
 }
 
 [JsonConverter(typeof(JsonStringEnumConverter))]
@@ -72,7 +95,8 @@ public enum TabType
 {
     FileExplorer,
     Services,
-    HybridServices
+    HybridServices,
+    Network
 }
 
 /// <summary>

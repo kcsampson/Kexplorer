@@ -97,4 +97,53 @@ public sealed class SessionStateTests
                 File.Delete(tempFile);
         }
     }
+
+    [Fact]
+    public async Task SaveAndLoad_RootFolderPath_RoundTrips()
+    {
+        var tempFile = Path.Combine(Path.GetTempPath(), $"kex_state_{Guid.NewGuid():N}.json");
+
+        try
+        {
+            var state = new SessionState
+            {
+                Tabs = new List<TabState>
+                {
+                    new()
+                    {
+                        TabName = "AppData",
+                        TabType = TabType.FileExplorer,
+                        RootFolderPath = @"C:\Users\testuser\AppData",
+                        IsSelected = true
+                    },
+                    new()
+                    {
+                        TabName = "Main",
+                        TabType = TabType.FileExplorer,
+                        Drives = new List<string> { "C:\\" },
+                        IsSelected = false
+                    }
+                }
+            };
+
+            await SessionStateManager.SaveAsync(state, tempFile);
+            var loaded = await SessionStateManager.LoadAsync(tempFile);
+
+            Assert.Equal(2, loaded.Tabs.Count);
+
+            // Rooted folder tab
+            Assert.Equal("AppData", loaded.Tabs[0].TabName);
+            Assert.Equal(@"C:\Users\testuser\AppData", loaded.Tabs[0].RootFolderPath);
+            Assert.True(loaded.Tabs[0].IsSelected);
+
+            // Standard tab has no RootFolderPath
+            Assert.Equal("Main", loaded.Tabs[1].TabName);
+            Assert.Null(loaded.Tabs[1].RootFolderPath);
+        }
+        finally
+        {
+            if (File.Exists(tempFile))
+                File.Delete(tempFile);
+        }
+    }
 }

@@ -10,6 +10,12 @@
     <RootNamespace>Kexplorer.UI</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="app.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Resource Include="Abstract geometric male figure in stone.ico" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\Kexplorer.Core\Kexplorer.Core.csproj" />
     <ProjectReference Include="..\Kexplorer.Plugins\Kexplorer.Plugins.csproj" />
     <ProjectReference Include="..\Kexplorer.MCP\Kexplorer.MCP.csproj" />

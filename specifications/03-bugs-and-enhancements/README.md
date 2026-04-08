@@ -497,3 +497,220 @@ On startup, call `ThemeManager.ApplyTheme(state.ThemeName)`. The user switches v
 5. The selected theme is persisted in `state.json` and restored on startup.
 6. All UI elements (grids, tree views, toolbars, context menus, status bar, log viewer, splitters) respect the active skin's resources.
 7. Adding a new skin requires only a new `.xaml` resource dictionary with the same keys — no code changes.
+
+---
+
+## Enhancement-006: File Explorer Context Menu — Open Folder in New Tab
+
+### Priority: Medium  
+### Component: File Explorer tabs, Tree View, Tab Management
+
+### Description
+
+Add an **"Open in New Tab"** context menu item to folder nodes in the File Explorer tree view. This opens a **new file explorer tab** whose root is the selected folder — not the drive letter. The tab displays the folder's short name (e.g., `AppData`) as both the root node label and the tab title. Everything below the root behaves identically to a normal file explorer tab (expand, collapse, navigate, file listing, context menus, etc.), but the tree starts at the chosen folder rather than at a drive.
+
+### Common Use Case
+
+Frequently accessed deep paths like `C:\Users\{username}\AppData` are tedious to navigate to every time. With this feature the user can right-click `AppData`, choose "Open in New Tab", and have a permanent tab rooted at that folder — no drive letter, no parent traversal required. The tab persists across sessions (via session state), so it is always ready.
+
+### Desired Behavior
+
+1. **Context menu**: Right-click any folder node in the File Explorer tree → context menu includes **"Open in New Tab"**.
+2. **New tab creation**: Clicking the menu item opens a new File Explorer tab.
+3. **Root node**: The new tab's tree has a single root node whose label is the folder's **short name** (e.g., `AppData`, `projects`, `.ssh`). No drive letter or parent path is shown in the tree.
+4. **Full path in status bar**: When the root node is selected (clicked), the bottom status bar displays the **full absolute path** (e.g., `C:\Users\kimball.sampson\AppData`). This is the same status bar behavior as any other selected folder — it always shows the full path of the selected node.
+5. **Tab title**: The tab header shows the folder's short name (e.g., `AppData`).
+6. **Normal sub-tree behavior**: Expanding, collapsing, navigating, file listing in the right pane, context menus on child folders — all work identically to a normal drive-rooted tab.
+7. **Session persistence**: The rooted folder path is saved in `state.json` so the tab is restored on startup with the same root.
+
+### State Model Changes
+
+Extend `TabState` in `SessionState.cs`:
+
+```csharp
+public class TabState
+{
+    // ... existing fields ...
+
+    /// <summary>
+    /// When set, this tab is rooted at a specific folder rather than a drive.
+    /// The tree shows only this folder as the root node (using its short name).
+    /// Null means the tab uses standard drive-based roots.
+    /// </summary>
+    public string? RootFolderPath { get; set; }
+}
+```
+
+On startup, if `RootFolderPath` is non-null:
+- Do **not** load drive nodes.
+- Create a single root `FileSystemNode` pointing to `RootFolderPath`.
+- Set the node's display label to `Path.GetFileName(RootFolderPath)` (the short name).
+- The node's underlying `FullPath` remains the absolute path (used for status bar display and all file operations).
+
+### Implementation Notes
+
+- **Context menu integration**: Add "Open in New Tab" to the existing folder-node context menu builder (alongside "Expand", "Refresh", etc.). The menu item should call a method on the main window / tab manager to create a new `FileExplorerTab` with the selected node's full path as the root.
+- **Tab creation**: The tab manager's `CreateTab` method (or equivalent) should accept an optional `rootFolderPath` parameter. When provided, it initializes the tree with a single folder root instead of calling `DriveLoaderWorkUnit`.
+- **Root node loading**: The root folder node should auto-load its children on tab creation (same as how a drive node loads its top-level folders), so the user sees the folder's contents immediately.
+- **Navigation restoration**: Enhancement-002's async restoration logic should work unchanged — `ExpandedFolders` and `SelectedFolder` paths are all under `RootFolderPath`, so the depth-first expansion walks from the custom root instead of a drive node.
+- **Edge cases**:
+  - If the rooted folder no longer exists at startup, show the tab with an error indicator on the root node (e.g., greyed-out icon + tooltip "Folder not found"). Do not remove the tab — the user may reconnect the drive or restore the folder.
+  - The user should not be able to navigate "above" the root (no `..` or parent node). The root is the ceiling of the tree.
+
+### Acceptance Criteria
+
+1. Right-click a folder in the File Explorer tree → "Open in New Tab" appears in the context menu.
+2. Clicking it creates a new tab with a single root node labeled with the folder's short name (no drive letter or parent path).
+3. The tab header shows the folder's short name.
+4. Clicking the root node displays the full absolute path in the bottom status bar.
+5. Expanding the root shows its child folders; all tree operations (expand, collapse, refresh, file listing) work normally.
+6. The rooted tab is persisted in `state.json` (`RootFolderPath` field) and restored on startup.
+7. If the rooted folder does not exist at startup, the tab still appears with an error indicator — it is not silently removed.
+8. There is no way to navigate above the root folder in the tree (no parent node or `..` entry).
+
+---
+
+## Enhancement-007: "Open Terminal Here" opens a new tab in Windows Terminal (not a new window)
+
+### Priority: Medium  
+### Component: File Explorer Context Menu, Plugins
+
+### Description
+
+The File Explorer context menu includes an **"Open Terminal Here"** action (referenced in 01-Modern-Refresh §4.3.3 as `OpenTerminalHere`). The current behavior launches a **new Windows Terminal window** for each invocation, which quickly clutters the taskbar with redundant windows.
+
+Windows Terminal (`wt.exe`) natively supports opening a **new tab in the most-recently-used (MRU) existing window** via the `-w 0` flag. The enhancement changes the launch behavior to prefer a new tab in an existing Windows Terminal window, and allows the user to choose the shell profile (PowerShell, CMD, or Ubuntu/WSL) for the new tab.
+
+### Background — Windows Terminal CLI
+
+Windows Terminal's `wt.exe` accepts command-line arguments to control window targeting and profile selection:
+
+| Command | Behavior |
+|---|---|
+| `wt.exe -w 0 new-tab -d "C:\path"` | Opens a new tab in the MRU window, using the default profile, starting in the given directory |
+| `wt.exe -w 0 new-tab -p "PowerShell" -d "C:\path"` | New tab in MRU window using the "PowerShell" profile |
+| `wt.exe -w 0 new-tab -p "Command Prompt" -d "C:\path"` | New tab in MRU window using the "Command Prompt" (CMD) profile |
+| `wt.exe -w 0 new-tab -p "Ubuntu" -d "C:\path"` | New tab in MRU window using the "Ubuntu" (WSL) profile |
+
+The `-w 0` flag means "target the most recently used window". If no Windows Terminal window exists, it creates one.
+
+### Desired Behavior
+
+1. **Context menu**: Right-click any folder node in the File Explorer tree → the context menu includes:
+   - **"Open Terminal Here"** — opens a new tab in the existing Windows Terminal window using the user's **default** profile, with the working directory set to the selected folder.
+   - **"Open Terminal Here ▸"** (submenu) — offers specific profile choices:
+     - **PowerShell**
+     - **Command Prompt**
+     - **Ubuntu (WSL)**
+
+2. **New tab, not new window**: All options use `wt.exe -w 0 new-tab ...` so the tab opens in the most recently used Windows Terminal window. No new window is created (unless no Windows Terminal window exists yet, in which case one is created automatically by `wt.exe`).
+
+3. **Working directory**: The `-d` flag is set to the full absolute path of the right-clicked folder node.
+
+4. **WSL path translation**: When opening an Ubuntu/WSL tab, the Windows path must be translated to a WSL-compatible path. For example, `C:\Users\dev\projects` becomes `/mnt/c/Users/dev/projects`. The `-d` flag for WSL tabs should use the translated path.
+
+5. **Fallback**: If `wt.exe` is not found on `PATH` or is not installed, fall back to launching `powershell.exe -NoExit -Command "Set-Location 'C:\path'"` (opens a standalone PowerShell window). Show a one-time status bar message: "Windows Terminal not found — falling back to PowerShell."
+
+### Implementation Notes
+
+- **Plugin**: Implement as a `[FolderContext]` plugin (e.g., `OpenTerminalHerePlugin`) following the existing plugin pattern.
+- **Profile names**: The profile names ("PowerShell", "Command Prompt", "Ubuntu") are Windows Terminal defaults. Users who have renamed their profiles will need to adjust. Consider making the profile names configurable in a future iteration.
+- **WSL path translation**: Convert `X:\path\to\folder` → `/mnt/x/path/to/folder` (lowercase drive letter, forward slashes). Use `Regex.Replace` or simple string manipulation.
+- **Process launch**: Use `Process.Start` with `wt.exe` and the appropriate arguments. Do not wait for the process to exit (fire-and-forget).
+- **Detection**: Check for `wt.exe` via `Process.Start("where", "wt")` or by checking `%LOCALAPPDATA%\Microsoft\WindowsApps\wt.exe` existence.
+
+### Acceptance Criteria
+
+1. Right-click a folder → "Open Terminal Here" opens a **new tab** in the existing Windows Terminal window (not a new window).
+2. The new tab's working directory is the selected folder's full path.
+3. The submenu offers PowerShell, Command Prompt, and Ubuntu (WSL) profile choices.
+4. WSL tabs translate the Windows path to `/mnt/...` format.
+5. If no Windows Terminal window exists, one is created automatically (first tab).
+6. If Windows Terminal is not installed, falls back to a standalone PowerShell window with a status bar notification.
+7. No extra windows clutter the taskbar — repeated "Open Terminal Here" calls reuse the same Windows Terminal window via `-w 0`.
+
+---
+
+## Enhancement-008: WSL File Explorer Tab
+
+### Priority: Medium  
+### Component: File Explorer tabs, Tab Management, FileSystem
+
+### Description
+
+Add a new type of File Explorer tab that browses the **WSL (Windows Subsystem for Linux)** filesystem, rooted at `\\wsl.localhost\Ubuntu`. This gives users native-feeling access to their WSL Ubuntu filesystem from within Kexplorer, using the same tree view, file listing, and context menu experience as a standard Windows File Explorer tab.
+
+Windows exposes WSL filesystems via the UNC path `\\wsl.localhost\<distro>`. For Ubuntu, the root is `\\wsl.localhost\Ubuntu`, which maps to `/` inside the WSL instance. Standard .NET `System.IO` APIs (`Directory.GetDirectories`, `Directory.GetFiles`, `FileInfo`, `DirectoryInfo`) work against this UNC path, so no special P/Invoke or WSL interop is required — the existing `DirectoryLoader` / `FolderWorkUnit` infrastructure can be reused with the UNC root.
+
+### Desired Behavior
+
+1. **New Tab Type**: The "New Tab" menu (or toolbar) offers a **"WSL File Explorer"** option alongside the existing local File Explorer and Hybrid Services tabs.
+2. **Root Node**: The new tab's tree has a single root node labeled **`Ubuntu`** (or the distro name). The node's underlying path is `\\wsl.localhost\Ubuntu`.
+3. **Tab Header**: The tab header shows **`Ubuntu (WSL)`** to distinguish it from local file explorer tabs.
+4. **Tree Browsing**: Expanding the root node shows the top-level Linux directories (`/bin`, `/etc`, `/home`, `/usr`, `/var`, etc.). Further expansion and navigation works identically to a local file explorer tab — the same `FolderWorkUnit` / `DirectoryLoader` pipeline handles child-folder enumeration.
+5. **File Listing**: Selecting a folder in the tree populates the right-side file listing panel with files and subfolders, just like local tabs.
+6. **Context Menus**: Standard folder context menus apply (Expand, Refresh, Open in New Tab, etc.). "Open Terminal Here" should open a WSL (Ubuntu) terminal tab in Windows Terminal with the working directory translated to the corresponding Linux path (strip `\\wsl.localhost\Ubuntu` prefix and convert backslashes to forward slashes).
+7. **Performance**: WSL filesystem access over UNC can be slower than local disk. The async loading pipeline (`FolderWorkUnit` with cancellation) handles this naturally, but consider showing a loading indicator on nodes that take longer than usual.
+
+### Path Handling
+
+| Context | Path Format | Example |
+|---|---|---|
+| Internal (tree nodes, DirectoryLoader) | Windows UNC | `\\wsl.localhost\Ubuntu\home\user\projects` |
+| Status bar display | Linux-style | `/home/user/projects` |
+| "Open Terminal Here" (WSL profile) | Linux-style | `/home/user/projects` |
+| Session state persistence | Windows UNC | `\\wsl.localhost\Ubuntu\home\user\projects` |
+
+**UNC → Linux path translation**:  
+Strip `\\wsl.localhost\Ubuntu` prefix → replace `\` with `/` → result is the Linux-native path.
+
+**Linux → UNC translation** (if needed):  
+Prepend `\\wsl.localhost\Ubuntu` → replace `/` with `\`.
+
+### State Model Changes
+
+Extend `TabState` in `SessionState.cs`:
+
+```csharp
+public class TabState
+{
+    // ... existing fields ...
+
+    /// <summary>
+    /// The type of file explorer tab.
+    /// "Local" (default) = standard Windows drives.
+    /// "WSL" = WSL filesystem rooted at \\wsl.localhost\{DistroName}.
+    /// </summary>
+    public string? ExplorerType { get; set; }
+
+    /// <summary>
+    /// For WSL tabs, the distro name (e.g., "Ubuntu").
+    /// Used to construct the UNC root: \\wsl.localhost\{WslDistroName}.
+    /// </summary>
+    public string? WslDistroName { get; set; }
+}
+```
+
+### Implementation Notes
+
+- **Reuse existing infrastructure**: The `DirectoryLoader`, `FolderWorkUnit`, `FileListWorkUnit`, and `FileSystemNode` classes should work against UNC paths without modification. The .NET `DirectoryInfo` and `FileInfo` APIs transparently handle `\\wsl.localhost\...` paths.
+- **Tab creation**: The tab manager's `CreateTab` method should accept an `ExplorerType` parameter. When `"WSL"` is specified, initialize the tree with a single root node at `\\wsl.localhost\{distroName}` with a display label of the distro name.
+- **Status bar path display**: When a WSL tab node is selected, the status bar should show the Linux-style path (translated from UNC) for readability. This is a display-only transformation — all internal operations use the UNC path.
+- **WSL availability check**: On startup or when the user clicks "New WSL Tab", verify that `\\wsl.localhost\Ubuntu` is accessible (`Directory.Exists`). If WSL is not installed or the distro is not running, show a status bar message: "WSL Ubuntu not available — is WSL installed and the distro running?" Do not create the tab.
+- **Enhancement-006 integration**: "Open in New Tab" from a WSL folder node should create another WSL-rooted tab (inheriting the `ExplorerType` = `"WSL"` and `WslDistroName`), not a local tab.
+- **Enhancement-007 integration**: "Open Terminal Here" from a WSL folder node should use the Ubuntu profile (`wt.exe -w 0 new-tab -p "Ubuntu" -d "/home/user/..."`) with the Linux-translated path.
+- **Future extensibility**: The `WslDistroName` field allows supporting additional distros (e.g., Debian, openSUSE) by simply specifying a different name. The UNC root pattern `\\wsl.localhost\{distro}` is consistent across all WSL2 distros.
+
+### Acceptance Criteria
+
+1. A "WSL File Explorer" option is available when creating a new tab.
+2. The WSL tab's tree has a single root node labeled with the distro name (e.g., `Ubuntu`).
+3. The tab header shows `Ubuntu (WSL)`.
+4. Expanding the root shows Linux top-level directories (`/bin`, `/etc`, `/home`, etc.).
+5. Tree navigation, file listing, expand/collapse, and refresh all work identically to local file explorer tabs.
+6. The status bar shows Linux-style paths (`/home/user/...`) when a WSL node is selected, not the UNC path.
+7. "Open Terminal Here" on a WSL folder opens a WSL/Ubuntu tab in Windows Terminal with the correct Linux path.
+8. "Open in New Tab" on a WSL folder creates another WSL-type tab (not a local tab).
+9. The WSL tab is persisted in `state.json` (with `ExplorerType` and `WslDistroName`) and restored on startup.
+10. If WSL or the specified distro is not available, the user is informed via a status bar message and the tab is not created (or shows an error indicator on restore).
+11. The async loading pipeline handles slower WSL filesystem responses gracefully (loading indicators, cancellation support).

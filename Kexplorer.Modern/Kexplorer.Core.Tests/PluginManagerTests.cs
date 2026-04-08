@@ -66,4 +66,28 @@ public sealed class PluginManagerTests
         Assert.True(mgr.FilePlugins.Count >= 5, $"Expected at least 5 file plugins, got {mgr.FilePlugins.Count}");
         Assert.True(mgr.ServicePlugins.Count >= 4, $"Expected at least 4 service plugins, got {mgr.ServicePlugins.Count}");
     }
+
+    [Fact]
+    public void ScanAssembly_FindsTerminalPluginsWithMenuGroup()
+    {
+        var mgr = new PluginManager();
+        mgr.ScanAssembly(typeof(Kexplorer.Plugins.BuiltInPluginMarker).Assembly);
+
+        var terminalPlugins = mgr.FolderPlugins
+            .OfType<IMenuGroupPlugin>()
+            .Where(p => p.MenuGroup == "Open Terminal Here")
+            .ToList();
+
+        Assert.Equal(4, terminalPlugins.Count);
+    }
+
+    [Theory]
+    [InlineData(@"C:\Users\dev\projects", "/mnt/c/Users/dev/projects")]
+    [InlineData(@"D:\data", "/mnt/d/data")]
+    [InlineData(@"E:\", "/mnt/e/")]
+    [InlineData("", "")]
+    public void ToWslPath_ConvertsWindowsPathsCorrectly(string windowsPath, string expected)
+    {
+        Assert.Equal(expected, Kexplorer.Plugins.BuiltIn.WindowsTerminalHelper.ToWslPath(windowsPath));
+    }
 }
