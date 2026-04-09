@@ -29,6 +29,7 @@ public partial class HybridServicesPanel : UserControl, IHybridServiceShell
     private readonly ObservableCollection<ServiceInfo> _services = new();
     private readonly ObservableCollection<DockerContainerInfo> _containers = new();
     private readonly WslDockerService _dockerService = new();
+    private string? _activeDetailGrid; // tracks which grid ("service" or "docker") owns the detail panel
 
     public string MachineName { get; private set; } = ".";
     public string? SearchPattern { get; private set; }
@@ -42,6 +43,8 @@ public partial class HybridServicesPanel : UserControl, IHybridServiceShell
         DockerGrid.ItemsSource = _containers;
         ServiceGrid.SelectionChanged += ServiceGrid_SelectionChanged;
         DockerGrid.SelectionChanged += DockerGrid_SelectionChanged;
+        ServiceGrid.GotFocus += ServiceGrid_GotFocus;
+        DockerGrid.GotFocus += DockerGrid_GotFocus;
     }
 
     public async Task InitializeAsync(List<string>? visibleServices, string? machineName,
@@ -340,20 +343,43 @@ public partial class HybridServicesPanel : UserControl, IHybridServiceShell
         new EwGraphqlMcpLogResolver()
     };
 
+    private void ServiceGrid_GotFocus(object sender, RoutedEventArgs e)
+    {
+        if (_activeDetailGrid == "service")
+            return;
+        var selected = ServiceGrid.SelectedItem as ServiceInfo;
+        if (selected is null)
+            return;
+        ServiceGrid_SelectionChanged(sender, null!);
+    }
+
+    private void DockerGrid_GotFocus(object sender, RoutedEventArgs e)
+    {
+        if (_activeDetailGrid == "docker")
+            return;
+        var selected = DockerGrid.SelectedItem as DockerContainerInfo;
+        if (selected is null)
+            return;
+        DockerGrid_SelectionChanged(sender, null!);
+    }
+
     private async void ServiceGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         UpdateServiceMoveButtons();
+        _activeDetailGrid = "service";
 
         var selected = ServiceGrid.SelectedItem as ServiceInfo;
         if (selected is null)
             return;
+
+        // Preserve which tab (Info vs Logs) the user was viewing
+        var previousTabIndex = DetailTabControl.SelectedIndex;
 
         // Build initial tabs — Info first, Logs added after log path is resolved
         DetailTabControl.Items.Clear();
 
         var infoTab = CreateInfoTab();
         DetailTabControl.Items.Add(infoTab);
-        DetailTabControl.SelectedItem = infoTab;
 
         var infoText = (TextBox)((ScrollViewer)((TabItem)infoTab).Content).Content;
         infoText.Text = "Loading binPath...";
@@ -363,6 +389,10 @@ public partial class HybridServicesPanel : UserControl, IHybridServiceShell
         DetailTabControl.Items.Add(logsTab);
         var logsText = GetLogsTextBox(logsTab);
         logsText.Text = "Loading logs...";
+
+        // Restore previously selected tab (e.g. stay on Logs if user was reading logs)
+        DetailTabControl.SelectedIndex = previousTabIndex >= 0 && previousTabIndex < DetailTabControl.Items.Count
+            ? previousTabIndex : 0;
 
         string binPath;
         try
@@ -409,9 +439,12 @@ public partial class HybridServicesPanel : UserControl, IHybridServiceShell
             if (resolvedLogPath is not null)
             {
                 // Replace the placeholder logs tab with one that has the Open button
+                var wasOnLogs = DetailTabControl.SelectedIndex == DetailTabControl.Items.IndexOf(logsTab);
                 DetailTabControl.Items.Remove(logsTab);
                 logsTab = CreateLogsTab(resolvedLogPath, _launcherService);
                 DetailTabControl.Items.Add(logsTab);
+                if (wasOnLogs)
+                    DetailTabControl.SelectedItem = logsTab;
                 logsText = GetLogsTextBox(logsTab);
 
                 infoText.Text += $"\n\nLog file:\n{resolvedLogPath}";
@@ -434,10 +467,14 @@ public partial class HybridServicesPanel : UserControl, IHybridServiceShell
     private async void DockerGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         UpdateDockerMoveButtons();
+        _activeDetailGrid = "docker";
 
         var selected = DockerGrid.SelectedItem as DockerContainerInfo;
         if (selected is null)
             return;
+
+        // Preserve which tab (Info vs Logs) the user was viewing
+        var previousTabIndex = DetailTabControl.SelectedIndex;
 
         // Build tabs for Docker selection: Info + Logs
         DetailTabControl.Items.Clear();
@@ -446,7 +483,10 @@ public partial class HybridServicesPanel : UserControl, IHybridServiceShell
         var logsTab = CreateLogsTab();
         DetailTabControl.Items.Add(infoTab);
         DetailTabControl.Items.Add(logsTab);
-        DetailTabControl.SelectedItem = infoTab;
+
+        // Restore previously selected tab (e.g. stay on Logs if user was reading logs)
+        DetailTabControl.SelectedIndex = previousTabIndex >= 0 && previousTabIndex < DetailTabControl.Items.Count
+            ? previousTabIndex : 0;
 
         var infoText = (TextBox)((ScrollViewer)((TabItem)infoTab).Content).Content;
         infoText.Text = "Loading inspect data...";
