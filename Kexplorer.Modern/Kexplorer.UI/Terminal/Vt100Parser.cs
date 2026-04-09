@@ -26,15 +26,34 @@ public sealed class Vt100Parser
     private readonly List<TerminalCell[]> _scrollback = new();
     private const int MaxScrollbackLines = 10_000;
 
+    // Cursor save/restore (DECSC / DECRC)
+    private int _savedCursorRow;
+    private int _savedCursorCol;
+    private TerminalAttributes _savedAttr;
+
     // Parser state machine
     private ParseState _state = ParseState.Ground;
     private readonly StringBuilder _escParams = new();
+
+    // UTF-8 multi-byte accumulator
+    private int _utf8Remaining;       // bytes still expected in current codepoint
+    private int _utf8Codepoint;       // accumulated codepoint value
+
+    // Mode flags that the UI layer needs to query
+    private bool _bracketedPasteMode; // ?2004
+    private bool _applicationCursorKeys; // ?1  (DECCKM)
 
     public int Rows => _rows;
     public int Cols => _cols;
     public int CursorRow => _cursorRow;
     public int CursorCol => _cursorCol;
     public bool CursorVisible => _cursorVisible;
+
+    /// <summary>Whether bracketed paste mode (?2004) is active — paste should be wrapped.</summary>
+    public bool BracketedPasteMode => _bracketedPasteMode;
+
+    /// <summary>Whether application cursor keys (?1 DECCKM) is active — arrows send ESC O x.</summary>
+    public bool ApplicationCursorKeys => _applicationCursorKeys;
 
     /// <summary>Number of lines in the scrollback history.</summary>
     public int ScrollbackCount => _scrollback.Count;
@@ -112,6 +131,43 @@ public sealed class Vt100Parser
 
     private void ProcessByte(byte b)
     {
+        // --- UTF-8 multi-byte accumulator ---
+        // If we're in the middle of a multi-byte sequence, collect continuation bytes.
+        if (_utf8Remaining > 0)
+        {
+            if ((b & 0xC0) == 0x80) // valid continuation byte 10xxxxxx
+            {
+                _utf8Codepoint = (_utf8Codepoint << 6) | (b & 0x3F);
+                _utf8Remaining--;
+                if (_utf8Remaining == 0)
+                {
+                    // Complete codepoint — emit it
+                    if (_utf8Codepoint <= 0xFFFF)
+                        PutChar((char)_utf8Codepoint);
+                    else if (_utf8Codepoint <= 0x10FFFF)
+                    {
+                        // Supplementary plane — store as replacement char (BMP-only cell buffer)
+                        PutChar('\uFFFD');
+                    }
+                }
+                return;
+            }
+            else
+            {
+                // Invalid continuation — discard incomplete sequence, re-process this byte
+                _utf8Remaining = 0;
+            }
+        }
+
+        // --- Detect UTF-8 lead bytes outside escape sequences ---
+        if (_state == ParseState.Ground && b >= 0xC0)
+        {
+            if ((b & 0xE0) == 0xC0) { _utf8Codepoint = b & 0x1F; _utf8Remaining = 1; return; }
+            if ((b & 0xF0) == 0xE0) { _utf8Codepoint = b & 0x0F; _utf8Remaining = 2; return; }
+            if ((b & 0xF8) == 0xF0) { _utf8Codepoint = b & 0x07; _utf8Remaining = 3; return; }
+            // Invalid lead byte — fall through to normal processing
+        }
+
         switch (_state)
         {
             case ParseState.Ground:
@@ -127,7 +183,7 @@ public sealed class Vt100Parser
                     _cursorCol = Math.Min((_cursorCol / 8 + 1) * 8, _cols - 1);
                 else if (b == 0x07) // BEL — ignore
                     { }
-                else if (b >= 0x20)
+                else if (b >= 0x20 && b < 0x80)
                     PutChar((char)b);
                 break;
 
@@ -145,9 +201,9 @@ public sealed class Vt100Parser
                 else if (b == '(')
                     _state = ParseState.SetCharset; // consume one more byte
                 else if (b == '7') // DECSC — save cursor
-                    { _state = ParseState.Ground; }
+                    { SaveCursor(); _state = ParseState.Ground; }
                 else if (b == '8') // DECRC — restore cursor
-                    { _state = ParseState.Ground; }
+                    { RestoreCursor(); _state = ParseState.Ground; }
                 else if (b == 'M') // Reverse index
                     { ReverseIndex(); _state = ParseState.Ground; }
                 else if (b == 'c') // RIS (full reset)
@@ -247,12 +303,14 @@ public sealed class Vt100Parser
             case 'h': // Set Mode
                 if (pStr == "?25") _cursorVisible = true;
                 else if (pStr == "?1049") SwitchToAltBuffer();
-                else if (pStr == "?1") { } // DECCKM — application cursor keys
+                else if (pStr == "?1") _applicationCursorKeys = true;
+                else if (pStr == "?2004") _bracketedPasteMode = true;
                 break;
             case 'l': // Reset Mode
                 if (pStr == "?25") _cursorVisible = false;
                 else if (pStr == "?1049") SwitchToMainBuffer();
-                else if (pStr == "?1") { }
+                else if (pStr == "?1") _applicationCursorKeys = false;
+                else if (pStr == "?2004") _bracketedPasteMode = false;
                 break;
             case '@': // Insert characters
                 InsertChars(GetParam(parts, 0, 1));
@@ -283,10 +341,12 @@ public sealed class Vt100Parser
                 case 3: _currentAttr.Italic = true; break;
                 case 4: _currentAttr.Underline = true; break;
                 case 7: _currentAttr.Inverse = true; break;
+                case 9: _currentAttr.Strikethrough = true; break;
                 case 22: _currentAttr.Bold = false; _currentAttr.Dim = false; break;
                 case 23: _currentAttr.Italic = false; break;
                 case 24: _currentAttr.Underline = false; break;
                 case 27: _currentAttr.Inverse = false; break;
+                case 29: _currentAttr.Strikethrough = false; break;
                 case >= 30 and <= 37: _currentAttr.FgColor = (byte)(code - 30); _currentAttr.FgCustom = null; break;
                 case 38: // Extended foreground
                     if (i + 1 < parts.Length && parts[i + 1] == "5" && i + 2 < parts.Length)
@@ -488,6 +548,20 @@ public sealed class Vt100Parser
             _buffer[_cursorRow, _cursorCol + i] = new TerminalCell { Char = ' ' };
     }
 
+    private void SaveCursor()
+    {
+        _savedCursorRow = _cursorRow;
+        _savedCursorCol = _cursorCol;
+        _savedAttr = _currentAttr;
+    }
+
+    private void RestoreCursor()
+    {
+        _cursorRow = Math.Clamp(_savedCursorRow, 0, _rows - 1);
+        _cursorCol = Math.Clamp(_savedCursorCol, 0, _cols - 1);
+        _currentAttr = _savedAttr;
+    }
+
     private void SwitchToAltBuffer()
     {
         if (_usingAltBuffer) return;
@@ -518,6 +592,9 @@ public sealed class Vt100Parser
         _cursorVisible = true;
         _usingAltBuffer = false;
         _altBuffer = null;
+        _bracketedPasteMode = false;
+        _applicationCursorKeys = false;
+        _utf8Remaining = 0;
         InitBuffer(_buffer);
     }
 
@@ -563,6 +640,7 @@ public struct TerminalAttributes
     public bool Italic;
     public bool Underline;
     public bool Inverse;
+    public bool Strikethrough;
 
     public TerminalAttributes()
     {

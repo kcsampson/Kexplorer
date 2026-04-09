@@ -318,9 +318,7 @@ public partial class TerminalPanel : UserControl
             {
                 // Right-click without selection → paste from clipboard
                 var text = Clipboard.GetText();
-                var bytes = Encoding.UTF8.GetBytes(text);
-                _terminal.Writer.Write(bytes);
-                _terminal.Writer.Flush();
+                SendPasteText(text);
             }
             e.Handled = true;
             return;
@@ -459,9 +457,7 @@ public partial class TerminalPanel : UserControl
             if (Clipboard.ContainsText())
             {
                 var text = Clipboard.GetText();
-                var bytes = Encoding.UTF8.GetBytes(text);
-                _terminal.Writer.Write(bytes);
-                _terminal.Writer.Flush();
+                SendPasteText(text);
             }
             e.Handled = true;
             return;
@@ -474,16 +470,18 @@ public partial class TerminalPanel : UserControl
             RenderBuffer();
         }
 
+        // Application cursor keys (DECCKM ?1) — arrows send ESC O x instead of ESC [ x
+        var appCursor = _parser?.ApplicationCursorKeys == true;
         string? seq = e.Key switch
         {
             Key.Enter => "\r",
             Key.Back => "\x7f",
             Key.Tab => "\t",
             Key.Escape => "\x1b",
-            Key.Up => "\x1b[A",
-            Key.Down => "\x1b[B",
-            Key.Right => "\x1b[C",
-            Key.Left => "\x1b[D",
+            Key.Up => appCursor ? "\x1bOA" : "\x1b[A",
+            Key.Down => appCursor ? "\x1bOB" : "\x1b[B",
+            Key.Right => appCursor ? "\x1bOC" : "\x1b[C",
+            Key.Left => appCursor ? "\x1bOD" : "\x1b[D",
             Key.Home => "\x1b[H",
             Key.End => "\x1b[F",
             Key.Insert => "\x1b[2~",
@@ -714,6 +712,14 @@ public partial class TerminalPanel : UserControl
                             new Point(x, y + _cellHeight - 1),
                             new Point(x + _cellWidth, y + _cellHeight - 1));
                     }
+
+                    if (attr.Strikethrough)
+                    {
+                        var midY = y + _cellHeight / 2;
+                        dc.DrawLine(new Pen(new SolidColorBrush(fg), 1),
+                            new Point(x, midY),
+                            new Point(x + _cellWidth, midY));
+                    }
                 }
             }
         }
@@ -804,10 +810,27 @@ public partial class TerminalPanel : UserControl
         if (Clipboard.ContainsText())
         {
             var text = Clipboard.GetText();
-            var bytes = Encoding.UTF8.GetBytes(text);
-            _terminal.Writer.Write(bytes);
-            _terminal.Writer.Flush();
+            SendPasteText(text);
         }
+    }
+
+    /// <summary>
+    /// Send text to the terminal, wrapping in bracketed paste sequences if the mode is active.
+    /// </summary>
+    private void SendPasteText(string text)
+    {
+        if (_terminal is null) return;
+        if (_parser?.BracketedPasteMode == true)
+        {
+            _terminal.Writer.Write(Encoding.UTF8.GetBytes("\x1b[200~"));
+            _terminal.Writer.Write(Encoding.UTF8.GetBytes(text));
+            _terminal.Writer.Write(Encoding.UTF8.GetBytes("\x1b[201~"));
+        }
+        else
+        {
+            _terminal.Writer.Write(Encoding.UTF8.GetBytes(text));
+        }
+        _terminal.Writer.Flush();
     }
 
     #endregion
