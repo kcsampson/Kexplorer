@@ -1,0 +1,48 @@
+<UserControl x:Class="Kexplorer.UI.TerminalPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Focusable="True" FocusVisualStyle="{x:Null}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Toolbar -->
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="4,2"
+                    Background="{DynamicResource ToolbarBackgroundBrush}">
+            <TextBlock x:Name="ShellLabel" Text="Terminal (bash)" FontWeight="SemiBold"
+                       VerticalAlignment="Center" Margin="0,0,12,0"
+                       Foreground="{DynamicResource PrimaryForegroundBrush}" />
+            <Button x:Name="CopyButton" Content="📋 Copy" Width="70" Height="24"
+                    Margin="2,0" Click="CopyButton_Click" ToolTip="Copy selected text"
+                    Style="{DynamicResource ToolbarButtonStyle}" />
+            <Button x:Name="PasteButton" Content="📋 Paste" Width="70" Height="24"
+                    Margin="2,0" Click="PasteButton_Click" ToolTip="Paste from clipboard"
+                    Style="{DynamicResource ToolbarButtonStyle}" />
+            <Separator Width="8" Visibility="Hidden" />
+            <TextBlock x:Name="SizeLabel" Text="" VerticalAlignment="Center"
+                       Foreground="{DynamicResource SecondaryForegroundBrush}" />
+        </StackPanel>
+
+        <!-- Terminal rendering surface + scrollbar -->
+        <Border Grid.Row="1" BorderBrush="{DynamicResource ThemeBorderBrush}" BorderThickness="1" Margin="2">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Image x:Name="TerminalImage" Grid.Column="0" Stretch="None"
+                       RenderOptions.BitmapScalingMode="NearestNeighbor"
+                       SnapsToDevicePixels="True"
+                       HorizontalAlignment="Left" VerticalAlignment="Top" />
+                <ScrollBar x:Name="TerminalScrollBar" Grid.Column="1"
+                           Orientation="Vertical"
+                           Minimum="0" Maximum="0" Value="0"
+                           SmallChange="1" LargeChange="10"
+                           Visibility="Collapsed"
+                           ValueChanged="TerminalScrollBar_ValueChanged" />
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

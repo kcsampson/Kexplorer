@@ -115,6 +115,14 @@ public sealed class TabState
     [JsonPropertyName("networkColumnWidths")]
     public Dictionary<string, double>? NetworkColumnWidths { get; set; }
 
+    // ── Terminal tab state ──
+
+    [JsonPropertyName("terminalShellCommand")]
+    public string? TerminalShellCommand { get; set; }
+
+    [JsonPropertyName("terminalDirectory")]
+    public string? TerminalDirectory { get; set; }
+
     // ── Shared layout state (splitter positions, column widths) ──
 
     [JsonPropertyName("splitterPosition")]
@@ -136,7 +144,8 @@ public enum TabType
     FileExplorer,
     Services,
     HybridServices,
-    Network
+    Network,
+    Terminal
 }
 
 /// <summary>

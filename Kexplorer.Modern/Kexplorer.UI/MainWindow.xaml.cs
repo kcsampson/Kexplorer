@@ -97,6 +97,10 @@ public partial class MainWindow : Window
                             tabState.NetworkSortColumn, tabState.NetworkSortDirection,
                             tabState.NetworkColumnWidths);
                         break;
+                    case TabType.Terminal:
+                        AddTerminalTab(tabState.TabName, tabState.IsSelected,
+                            tabState.TerminalShellCommand, tabState.TerminalDirectory);
+                        break;
                 }
             }
         }
@@ -286,6 +290,36 @@ public partial class MainWindow : Window
         };
     }
 
+    public void AddTerminalTab(string name, bool isSelected,
+        string? shellCommand = null, string? initialDirectory = null)
+    {
+        var panel = new TerminalPanel();
+        var tabItem = new TabItem
+        {
+            Header = name,
+            HeaderTemplate = (DataTemplate)FindResource("ClosableTabHeader"),
+            Content = panel
+        };
+
+        var insertIndex = MainTabControl.Items.IndexOf(AddTabButton);
+        if (insertIndex >= 0)
+            MainTabControl.Items.Insert(insertIndex, tabItem);
+        else
+            MainTabControl.Items.Add(tabItem);
+
+        if (isSelected)
+        {
+            MainTabControl.SelectedItem = tabItem;
+        }
+
+        // Initialize once via Dispatcher — avoids re-init on every tab switch
+        // (WPF's TabControl fires Loaded each time the tab is re-selected)
+        Dispatcher.InvokeAsync(async () =>
+        {
+            await panel.InitializeAsync(shellCommand ?? "wsl.exe", initialDirectory);
+        }, System.Windows.Threading.DispatcherPriority.Background);
+    }
+
     private TabItem? _lastSelectedTab;
 
     private void MainTabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -324,6 +358,10 @@ public partial class MainWindow : Window
             else if (tab.Content is ServicesPanel)
             {
                 StatusText.Text = "Services";
+            }
+            else if (tab.Content is TerminalPanel)
+            {
+                StatusText.Text = "Terminal";
             }
         }
     }
@@ -405,6 +443,29 @@ public partial class MainWindow : Window
             }
         };
         menu.Items.Add(wslItem);
+
+        menu.Items.Add(new Separator());
+
+        var terminalBashItem = new MenuItem { Header = "New Terminal Tab (bash)" };
+        terminalBashItem.Click += (s, e) =>
+        {
+            AddTerminalTab("Terminal (bash)", isSelected: true, "wsl.exe");
+        };
+        menu.Items.Add(terminalBashItem);
+
+        var terminalPsItem = new MenuItem { Header = "New Terminal Tab (PowerShell)" };
+        terminalPsItem.Click += (s, e) =>
+        {
+            AddTerminalTab("Terminal (PS)", isSelected: true, "powershell.exe");
+        };
+        menu.Items.Add(terminalPsItem);
+
+        var terminalCmdItem = new MenuItem { Header = "New Terminal Tab (cmd)" };
+        terminalCmdItem.Click += (s, e) =>
+        {
+            AddTerminalTab("Terminal (cmd)", isSelected: true, "cmd.exe");
+        };
+        menu.Items.Add(terminalCmdItem);
 
         menu.IsOpen = true;
     }
@@ -489,6 +550,17 @@ public partial class MainWindow : Window
                     NetworkColumnWidths = networkTab.GetColumnWidths()
                 });
             }
+            else if (tab.Content is TerminalPanel terminalTab)
+            {
+                _sessionState.Tabs.Add(new TabState
+                {
+                    TabName = tab.Header?.ToString() ?? "Terminal",
+                    TabType = TabType.Terminal,
+                    IsSelected = MainTabControl.SelectedItem == tab,
+                    TerminalShellCommand = terminalTab.ShellCommand,
+                    TerminalDirectory = terminalTab.InitialDirectory
+                });
+            }
         }
 
         await SessionStateManager.SaveAsync(_sessionState);
@@ -511,6 +583,10 @@ public partial class MainWindow : Window
             else if (tab.Content is ServicesPanel services)
             {
                 await services.ShutdownAsync();
+            }
+            else if (tab.Content is TerminalPanel terminal)
+            {
+                await terminal.ShutdownAsync();
             }
         }
 
@@ -620,6 +696,8 @@ public partial class MainWindow : Window
             await network.ShutdownAsync();
         else if (tabItem.Content is ServicesPanel services)
             await services.ShutdownAsync();
+        else if (tabItem.Content is TerminalPanel terminal)
+            await terminal.ShutdownAsync();
 
         // Select a neighbor before removing
         if (MainTabControl.SelectedItem == tabItem)

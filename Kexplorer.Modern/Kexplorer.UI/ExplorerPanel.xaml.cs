@@ -1069,6 +1069,29 @@ public partial class ExplorerPanel : UserControl, IKexplorerShell
                     mainWindow?.AddRootedExplorerTab(capturedPath);
             };
             TreeContextMenu.Items.Add(openInNewTab);
+
+            // "Open Terminal Here" — opens a terminal tab at this folder
+            var openTerminal = new MenuItem { Header = "Open Terminal Here" };
+            var termFolderPath = node.FullPath;
+            var termWslDistro = WslDistroName;
+            openTerminal.Click += (s, e) =>
+            {
+                var mainWindow = Window.GetWindow(this) as MainWindow;
+                if (mainWindow is null) return;
+
+                if (termWslDistro is not null)
+                {
+                    // For WSL tabs, convert UNC path to WSL path and launch bash in that distro
+                    var wslPath = Core.FileSystem.WslPathHelper.ToLinuxPath(termFolderPath);
+                    var shellCmd = $"wsl.exe -d {termWslDistro} --cd \"{wslPath}\"";                    mainWindow.AddTerminalTab($"Terminal ({termWslDistro})", isSelected: true, shellCmd);
+                }
+                else
+                {
+                    mainWindow.AddTerminalTab("Terminal", isSelected: true, "powershell.exe", termFolderPath);
+                }
+            };
+            TreeContextMenu.Items.Add(openTerminal);
+
             TreeContextMenu.Items.Add(new Separator());
         }
 
