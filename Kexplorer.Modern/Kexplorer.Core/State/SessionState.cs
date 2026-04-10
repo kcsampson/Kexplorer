@@ -123,6 +123,17 @@ public sealed class TabState
     [JsonPropertyName("terminalDirectory")]
     public string? TerminalDirectory { get; set; }
 
+    // ── Text viewer tab state ──
+
+    [JsonPropertyName("textViewerFilePath")]
+    public string? TextViewerFilePath { get; set; }
+
+    [JsonPropertyName("textViewerWordWrap")]
+    public bool? TextViewerWordWrap { get; set; }
+
+    [JsonPropertyName("textViewerIsEditing")]
+    public bool? TextViewerIsEditing { get; set; }
+
     // ── Shared layout state (splitter positions, column widths) ──
 
     [JsonPropertyName("splitterPosition")]
@@ -145,7 +156,8 @@ public enum TabType
     Services,
     HybridServices,
     Network,
-    Terminal
+    Terminal,
+    TextViewer
 }
 
 /// <summary>

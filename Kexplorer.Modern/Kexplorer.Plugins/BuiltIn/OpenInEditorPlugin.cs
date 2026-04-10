@@ -10,8 +10,8 @@ namespace Kexplorer.Plugins.BuiltIn;
 [FileContext]
 public sealed class OpenInEditorPlugin : IFilePlugin
 {
-    public string Name => "Open in Editor";
-    public string Description => "Open the selected file in the default text editor";
+    public string Name => "Open External Editor";
+    public string Description => "Open the selected file in the default external text editor";
     public bool IsActive => true;
     public PluginShortcut? Shortcut => null;
 

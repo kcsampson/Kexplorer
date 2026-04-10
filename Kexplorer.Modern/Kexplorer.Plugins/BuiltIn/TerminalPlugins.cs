@@ -200,11 +200,10 @@ public sealed class OpenTerminalWslPlugin : IFolderPlugin, IMenuGroupPlugin
 /// Examples: "code", "zed", "notepad++", "subl", "cursor"
 /// </summary>
 [FolderContext]
-[FileContext]
-public sealed class OpenInProjectEditorPlugin : IFolderPlugin, IFilePlugin
+public sealed class OpenInProjectEditorPlugin : IFolderPlugin
 {
     public string Name => "Open in Project Editor";
-    public string Description => "Open file or folder in the configured project editor";
+    public string Description => "Open folder in the configured project editor";
     public bool IsActive => true;
     public PluginShortcut? Shortcut => null;
 
@@ -215,16 +214,6 @@ public sealed class OpenInProjectEditorPlugin : IFolderPlugin, IFilePlugin
     {
         var editor = context.Launcher.ProjectEditor;
         context.RunProgram(editor, $"\"{folderPath}\"", folderPath);
-        return Task.CompletedTask;
-    }
-
-    public Task ExecuteAsync(string folderPath, IReadOnlyList<FileEntry> selectedFiles, IPluginContext context, CancellationToken cancellationToken = default)
-    {
-        var editor = context.Launcher.ProjectEditor;
-        foreach (var file in selectedFiles)
-        {
-            context.RunProgram(editor, $"\"{file.FullPath}\"", folderPath);
-        }
         return Task.CompletedTask;
     }
 }

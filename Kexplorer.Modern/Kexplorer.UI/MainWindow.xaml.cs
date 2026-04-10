@@ -101,6 +101,11 @@ public partial class MainWindow : Window
                         AddTerminalTab(tabState.TabName, tabState.IsSelected,
                             tabState.TerminalShellCommand, tabState.TerminalDirectory);
                         break;
+                    case TabType.TextViewer:
+                        AddTextViewerTab(tabState.TabName, tabState.IsSelected,
+                            tabState.TextViewerFilePath, tabState.TextViewerWordWrap,
+                            tabState.TextViewerIsEditing);
+                        break;
                 }
             }
         }
@@ -320,6 +325,34 @@ public partial class MainWindow : Window
         }, System.Windows.Threading.DispatcherPriority.Background);
     }
 
+    public void AddTextViewerTab(string name, bool isSelected,
+        string? filePath = null, bool? wordWrap = null, bool? isEditing = null)
+    {
+        var panel = new TextViewerPanel();
+        var tabItem = new TabItem
+        {
+            Header = name,
+            HeaderTemplate = (DataTemplate)FindResource("ClosableTabHeader"),
+            Content = panel
+        };
+
+        var insertIndex = MainTabControl.Items.IndexOf(AddTabButton);
+        if (insertIndex >= 0)
+            MainTabControl.Items.Insert(insertIndex, tabItem);
+        else
+            MainTabControl.Items.Add(tabItem);
+
+        if (isSelected)
+        {
+            MainTabControl.SelectedItem = tabItem;
+        }
+
+        Dispatcher.InvokeAsync(async () =>
+        {
+            await panel.InitializeAsync(filePath, wordWrap, isEditing);
+        }, System.Windows.Threading.DispatcherPriority.Background);
+    }
+
     private TabItem? _lastSelectedTab;
 
     private void MainTabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -362,6 +395,10 @@ public partial class MainWindow : Window
             else if (tab.Content is TerminalPanel)
             {
                 StatusText.Text = "Terminal";
+            }
+            else if (tab.Content is TextViewerPanel textViewer)
+            {
+                StatusText.Text = textViewer.FilePath ?? "Text Viewer";
             }
         }
     }
@@ -561,6 +598,18 @@ public partial class MainWindow : Window
                     TerminalDirectory = terminalTab.InitialDirectory
                 });
             }
+            else if (tab.Content is TextViewerPanel textViewerTab)
+            {
+                _sessionState.Tabs.Add(new TabState
+                {
+                    TabName = tab.Header?.ToString() ?? "Text Viewer",
+                    TabType = TabType.TextViewer,
+                    IsSelected = MainTabControl.SelectedItem == tab,
+                    TextViewerFilePath = textViewerTab.FilePath,
+                    TextViewerWordWrap = textViewerTab.IsWordWrap,
+                    TextViewerIsEditing = textViewerTab.IsEditing
+                });
+            }
         }
 
         await SessionStateManager.SaveAsync(_sessionState);
@@ -587,6 +636,10 @@ public partial class MainWindow : Window
             else if (tab.Content is TerminalPanel terminal)
             {
                 await terminal.ShutdownAsync();
+            }
+            else if (tab.Content is TextViewerPanel textViewerPanel)
+            {
+                await textViewerPanel.ShutdownAsync();
             }
         }
 

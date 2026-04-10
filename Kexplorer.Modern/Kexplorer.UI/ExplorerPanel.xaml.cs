@@ -359,7 +359,18 @@ public partial class ExplorerPanel : UserControl, IKexplorerShell
     {
         if (FileGrid.SelectedItem is FileGridItem item)
         {
-            _launcherService?.Launch(item.FullPath);
+            try
+            {
+                var mainWindow = Window.GetWindow(this) as MainWindow
+                    ?? Application.Current.MainWindow as MainWindow;
+                mainWindow?.AddTextViewerTab(item.Name, isSelected: true, item.FullPath);
+            }
+            catch (Exception ex)
+            {
+                Clipboard.SetText(ex.ToString());
+                MessageBox.Show($"Error opening internal editor (copied to clipboard):\n{ex.Message}",
+                    "Open Internal Editor Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 
@@ -367,7 +378,18 @@ public partial class ExplorerPanel : UserControl, IKexplorerShell
     {
         if (e.Key == Key.Enter && FileGrid.SelectedItem is FileGridItem item)
         {
-            _launcherService?.Launch(item.FullPath);
+            try
+            {
+                var mainWindow = Window.GetWindow(this) as MainWindow
+                    ?? Application.Current.MainWindow as MainWindow;
+                mainWindow?.AddTextViewerTab(item.Name, isSelected: true, item.FullPath);
+            }
+            catch (Exception ex)
+            {
+                Clipboard.SetText(ex.ToString());
+                MessageBox.Show($"Error opening internal editor (copied to clipboard):\n{ex.Message}",
+                    "Open Internal Editor Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
             e.Handled = true;
         }
     }
@@ -1060,13 +1082,14 @@ public partial class ExplorerPanel : UserControl, IKexplorerShell
             var openInNewTab = new MenuItem { Header = "Open in New Tab" };
             var capturedPath = node.FullPath;
             var capturedWslDistro = WslDistroName;
+            var capturedWindow = Window.GetWindow(this) as MainWindow;
             openInNewTab.Click += (s, e) =>
             {
-                var mainWindow = Window.GetWindow(this) as MainWindow;
+                if (capturedWindow is null) return;
                 if (capturedWslDistro is not null)
-                    mainWindow?.AddWslExplorerTab(capturedWslDistro, capturedPath);
+                    capturedWindow.AddWslExplorerTab(capturedWslDistro, capturedPath);
                 else
-                    mainWindow?.AddRootedExplorerTab(capturedPath);
+                    capturedWindow.AddRootedExplorerTab(capturedPath);
             };
             TreeContextMenu.Items.Add(openInNewTab);
 
@@ -1076,18 +1099,17 @@ public partial class ExplorerPanel : UserControl, IKexplorerShell
             var termWslDistro = WslDistroName;
             openTerminal.Click += (s, e) =>
             {
-                var mainWindow = Window.GetWindow(this) as MainWindow;
-                if (mainWindow is null) return;
+                if (capturedWindow is null) return;
 
                 if (termWslDistro is not null)
                 {
                     // For WSL tabs, convert UNC path to WSL path and launch bash in that distro
                     var wslPath = Core.FileSystem.WslPathHelper.ToLinuxPath(termFolderPath);
-                    var shellCmd = $"wsl.exe -d {termWslDistro} --cd \"{wslPath}\"";                    mainWindow.AddTerminalTab($"Terminal ({termWslDistro})", isSelected: true, shellCmd);
+                    var shellCmd = $"wsl.exe -d {termWslDistro} --cd \"{wslPath}\"";                    capturedWindow.AddTerminalTab($"Terminal ({termWslDistro})", isSelected: true, shellCmd);
                 }
                 else
                 {
-                    mainWindow.AddTerminalTab("Terminal", isSelected: true, "powershell.exe", termFolderPath);
+                    capturedWindow.AddTerminalTab("Terminal", isSelected: true, "powershell.exe", termFolderPath);
                 }
             };
             TreeContextMenu.Items.Add(openTerminal);
@@ -1193,15 +1215,17 @@ public partial class ExplorerPanel : UserControl, IKexplorerShell
     {
         var menuItem = new MenuItem { Header = plugin.Name };
         var capturedPlugin = plugin;
+        var capturedContext = _pluginContext;
         menuItem.Click += async (s, e) =>
         {
+            if (capturedContext is null) return;
             try
             {
-                await capturedPlugin.ExecuteAsync(folderPath, _pluginContext!, CancellationToken.None);
+                await capturedPlugin.ExecuteAsync(folderPath, capturedContext, CancellationToken.None);
             }
             catch (Exception ex)
             {
-                await _pluginContext!.Shell.ReportErrorAsync($"Plugin '{capturedPlugin.Name}' failed: {ex.Message}", ex);
+                await capturedContext.Shell.ReportErrorAsync($"Plugin '{capturedPlugin.Name}' failed: {ex.Message}", ex);
             }
         };
         menu.Items.Add(menuItem);
@@ -1227,23 +1251,61 @@ public partial class ExplorerPanel : UserControl, IKexplorerShell
 
             var menuItem = new MenuItem { Header = plugin.Name };
             var capturedPlugin = plugin;
+            var capturedContext = _pluginContext;
             menuItem.Click += async (s, e) =>
             {
+                if (capturedContext is null) return;
                 try
                 {
                     var selectedFiles = FileGrid.SelectedItems
                         .OfType<FileGridItem>()
                         .Select(item => new FileEntry(item.Name, item.FullPath, item.Size, item.LastModified, item.Extension))
                         .ToList();
-                    await capturedPlugin.ExecuteAsync(CurrentPath ?? "", selectedFiles, _pluginContext, CancellationToken.None);
+                    await capturedPlugin.ExecuteAsync(CurrentPath ?? "", selectedFiles, capturedContext, CancellationToken.None);
                 }
                 catch (Exception ex)
                 {
-                    await _pluginContext.Shell.ReportErrorAsync($"Plugin '{capturedPlugin.Name}' failed: {ex.Message}", ex);
+                    await capturedContext.Shell.ReportErrorAsync($"Plugin '{capturedPlugin.Name}' failed: {ex.Message}", ex);
                 }
             };
             FileContextMenu.Items.Add(menuItem);
         }
+
+        // Built-in: "Open Internal Editor"
+        if (FileContextMenu.Items.Count > 0)
+            FileContextMenu.Items.Add(new Separator());
+
+        var viewTextItem = new MenuItem { Header = "Open Internal Editor" };
+        var capturedPath = file.FullPath;
+        var capturedName = file.Name;
+        var capturedWindow = Window.GetWindow(this) as MainWindow;
+        viewTextItem.Click += (s, e) =>
+        {
+            try
+            {
+                if (capturedWindow is null)
+                {
+                    // Fallback: try to find window via Application.Current
+                    capturedWindow = Application.Current.MainWindow as MainWindow;
+                }
+                if (capturedWindow is null)
+                {
+                    var msg = "Could not find MainWindow to open text tab.";
+                    Clipboard.SetText(msg);
+                    MessageBox.Show(msg + " (copied to clipboard)",
+                        "Open Internal Editor", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+                capturedWindow.AddTextViewerTab(capturedName, isSelected: true, capturedPath);
+            }
+            catch (Exception ex)
+            {
+                Clipboard.SetText(ex.ToString());
+                MessageBox.Show($"Error opening internal editor (copied to clipboard):\n{ex.Message}",
+                    "Open Internal Editor Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        };
+        FileContextMenu.Items.Add(viewTextItem);
     }
 
     #endregion

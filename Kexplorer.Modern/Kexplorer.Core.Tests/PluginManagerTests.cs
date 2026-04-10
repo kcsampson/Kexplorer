@@ -1,3 +1,4 @@
+using Kexplorer.Core.Launching;
 using Kexplorer.Core.Plugins;
 using Xunit;
 
@@ -89,5 +90,76 @@ public sealed class PluginManagerTests
     public void ToWslPath_ConvertsWindowsPathsCorrectly(string windowsPath, string expected)
     {
         Assert.Equal(expected, Kexplorer.Plugins.BuiltIn.WindowsTerminalHelper.ToWslPath(windowsPath));
+    }
+
+    [Fact]
+    public void ScanAssembly_OpenInProjectEditor_IsOnlyFolderPlugin()
+    {
+        var mgr = new PluginManager();
+        mgr.ScanAssembly(typeof(Kexplorer.Plugins.BuiltInPluginMarker).Assembly);
+
+        // OpenInProjectEditorPlugin should appear in folder plugins
+        Assert.Contains(mgr.FolderPlugins, p => p.Name == "Open in Project Editor");
+
+        // OpenInProjectEditorPlugin should NOT appear in file plugins
+        Assert.DoesNotContain(mgr.FilePlugins, p => p.Name == "Open in Project Editor");
+    }
+
+    [Fact]
+    public void ScanAssembly_OpenExternalEditor_IsFilePlugin()
+    {
+        var mgr = new PluginManager();
+        mgr.ScanAssembly(typeof(Kexplorer.Plugins.BuiltInPluginMarker).Assembly);
+
+        // "Open External Editor" should be a file plugin
+        Assert.Contains(mgr.FilePlugins, p => p.Name == "Open External Editor");
+    }
+
+    [Fact]
+    public async Task LauncherService_Launch_NullCommand_DoesNotThrowNRE()
+    {
+        var tempFile = Path.Combine(Path.GetTempPath(), $"kex_launch_null_{Guid.NewGuid():N}.json");
+        try
+        {
+            // Config with a mapping that has an empty command
+            var json = """
+            {
+                "launchers": [
+                    { "ext": "testfoo", "command": "" }
+                ]
+            }
+            """;
+            await File.WriteAllTextAsync(tempFile, json);
+
+            var svc = new LauncherService();
+            await svc.LoadAsync(tempFile);
+
+            // Create a temp file with the .testfoo extension
+            var testFile = Path.Combine(Path.GetTempPath(), $"test_{Guid.NewGuid():N}.testfoo");
+            await File.WriteAllTextAsync(testFile, "test");
+
+            try
+            {
+                // This should not throw NullReferenceException - it may throw
+                // Win32Exception if no shell handler, but not NRE
+                svc.Launch(testFile);
+            }
+            catch (System.ComponentModel.Win32Exception)
+            {
+                // Expected — no shell handler for .testfoo
+            }
+            catch (NullReferenceException)
+            {
+                Assert.Fail("LauncherService.Launch threw NullReferenceException for empty command mapping");
+            }
+            finally
+            {
+                File.Delete(testFile);
+            }
+        }
+        finally
+        {
+            File.Delete(tempFile);
+        }
     }
 }

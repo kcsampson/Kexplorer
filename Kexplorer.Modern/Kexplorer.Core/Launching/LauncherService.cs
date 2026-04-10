@@ -119,7 +119,7 @@ public sealed class LauncherService
             mapping = _defaultMapping;
         }
 
-        if (mapping is null)
+        if (mapping is null || string.IsNullOrEmpty(mapping.Command))
         {
             // No mapping — try shell execute
             Process.Start(new ProcessStartInfo
