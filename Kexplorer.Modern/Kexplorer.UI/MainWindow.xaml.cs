@@ -391,14 +391,18 @@ public partial class MainWindow : Window
         {
             // Only show the new-tab menu when the user actually clicks the "+" tab,
             // not when programmatic tab insertions momentarily shift selection to it.
-            if (!_isInitializing && AddTabButton.IsMouseOver)
-                ShowNewTabMenu();
+            bool shouldShowMenu = !_isInitializing && AddTabButton.IsMouseOver;
 
-            // Revert to the previously selected real tab
+            // Revert to the previously selected real tab first, so the selection
+            // change doesn't steal focus and immediately close the popup menu.
             if (_lastSelectedTab is not null && MainTabControl.Items.Contains(_lastSelectedTab))
                 MainTabControl.SelectedItem = _lastSelectedTab;
             else if (MainTabControl.Items.Count > 1)
                 MainTabControl.SelectedIndex = MainTabControl.Items.Count - 2;
+
+            // Defer the menu open until after the selection revert is fully processed.
+            if (shouldShowMenu)
+                Dispatcher.BeginInvoke(ShowNewTabMenu, System.Windows.Threading.DispatcherPriority.Input);
             return;
         }
 
@@ -547,6 +551,8 @@ public partial class MainWindow : Window
         };
         menu.Items.Add(chatItem);
 
+        menu.PlacementTarget = AddTabButton;
+        menu.Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom;
         menu.IsOpen = true;
     }
 
