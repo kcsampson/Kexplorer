@@ -16,6 +16,9 @@
     <Resource Include="Abstract geometric male figure in stone.ico" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.*" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\Kexplorer.Core\Kexplorer.Core.csproj" />
     <ProjectReference Include="..\Kexplorer.Plugins\Kexplorer.Plugins.csproj" />
     <ProjectReference Include="..\Kexplorer.MCP\Kexplorer.MCP.csproj" />

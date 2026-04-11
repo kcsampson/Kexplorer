@@ -134,6 +134,11 @@ public sealed class TabState
     [JsonPropertyName("textViewerIsEditing")]
     public bool? TextViewerIsEditing { get; set; }
 
+    // ── Chat tab state ──
+
+    [JsonPropertyName("chatModel")]
+    public string? ChatModel { get; set; }
+
     // ── Shared layout state (splitter positions, column widths) ──
 
     [JsonPropertyName("splitterPosition")]
@@ -157,7 +162,8 @@ public enum TabType
     HybridServices,
     Network,
     Terminal,
-    TextViewer
+    TextViewer,
+    Chat
 }
 
 /// <summary>

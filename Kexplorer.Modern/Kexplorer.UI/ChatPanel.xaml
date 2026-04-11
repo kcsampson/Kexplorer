@@ -1,0 +1,97 @@
+<UserControl x:Class="Kexplorer.UI.ChatPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:wv2="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- Toolbar -->
+        <Border Grid.Row="0" Padding="4,3"
+                Background="{DynamicResource ToolbarBackgroundBrush}"
+                BorderBrush="{DynamicResource ThemeBorderBrush}" BorderThickness="0,0,0,1">
+            <DockPanel>
+                <!-- Left: model selector -->
+                <StackPanel DockPanel.Dock="Left" Orientation="Horizontal">
+                    <!-- Model selector -->
+                    <TextBlock Text="Model:" VerticalAlignment="Center" Margin="0,0,4,0"
+                               Foreground="{DynamicResource SecondaryForegroundBrush}" FontSize="11" />
+                    <ComboBox x:Name="ModelComboBox" Width="140" Height="22"
+                              FontSize="11" VerticalContentAlignment="Center"
+                              SelectionChanged="ModelComboBox_SelectionChanged" />
+                </StackPanel>
+
+                <!-- Right: action buttons + context gauge -->
+                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal"
+                            HorizontalAlignment="Right" Margin="8,0,4,0">
+                    <TextBlock Text="Context:" VerticalAlignment="Center" Margin="0,0,4,0"
+                               Foreground="{DynamicResource SecondaryForegroundBrush}" FontSize="11" />
+                    <Grid Width="100" Height="14" VerticalAlignment="Center" ToolTip="Estimated context usage">
+                        <Border CornerRadius="3"
+                                Background="{DynamicResource SecondaryBackgroundBrush}"
+                                BorderBrush="{DynamicResource ThemeBorderBrush}" BorderThickness="1" />
+                        <Border x:Name="ContextGaugeFill" CornerRadius="3"
+                                HorizontalAlignment="Left" Width="0"
+                                Margin="1">
+                            <Border.Background>
+                                <SolidColorBrush Color="#4CAF50" />
+                            </Border.Background>
+                        </Border>
+                    </Grid>
+                    <TextBlock x:Name="ContextLabel" Text="0%" VerticalAlignment="Center"
+                               Margin="4,0,0,0" FontSize="11" Width="55"
+                               Foreground="{DynamicResource SecondaryForegroundBrush}" />
+                    <Separator Width="12" Visibility="Hidden" />
+                    <Button x:Name="NewChatButton" Content="+ New Chat" Height="24"
+                            Padding="8,0" Margin="2,0"
+                            Click="NewChatButton_Click" ToolTip="Start a new conversation (Ctrl+N)"
+                            Style="{DynamicResource ToolbarButtonStyle}" />
+                    <Button x:Name="ClearButton" Content="Clear" Height="24"
+                            Padding="8,0" Margin="2,0"
+                            Click="ClearButton_Click" ToolTip="Clear chat history"
+                            Style="{DynamicResource ToolbarButtonStyle}" />
+                </StackPanel>
+
+                <!-- Center: status -->
+                <TextBlock x:Name="StatusLabel" Text="Copilot Chat - not connected"
+                           VerticalAlignment="Center" Margin="12,0"
+                           Foreground="{DynamicResource SecondaryForegroundBrush}" FontSize="11"
+                           TextTrimming="CharacterEllipsis" />
+            </DockPanel>
+        </Border>
+
+        <!-- Chat display (WebView2) -->
+        <wv2:WebView2 Grid.Row="1" x:Name="ChatWebView"
+                      DefaultBackgroundColor="Transparent" />
+
+        <!-- Input area -->
+        <Border Grid.Row="2" Padding="8,6"
+                Background="{DynamicResource ToolbarBackgroundBrush}"
+                BorderBrush="{DynamicResource ThemeBorderBrush}" BorderThickness="0,1,0,0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBox Grid.Column="0" x:Name="InputTextBox"
+                         AcceptsReturn="True" TextWrapping="Wrap"
+                         MaxHeight="120" MinHeight="28"
+                         VerticalScrollBarVisibility="Auto"
+                         FontFamily="Consolas" FontSize="13"
+                         VerticalContentAlignment="Center"
+                         Background="{DynamicResource SecondaryBackgroundBrush}"
+                         Foreground="{DynamicResource PrimaryForegroundBrush}"
+                         CaretBrush="{DynamicResource AccentBrush}"
+                         KeyDown="InputTextBox_KeyDown" />
+                <Button Grid.Column="1" x:Name="SendButton"
+                        Content="Send" Width="60" Height="28"
+                        Margin="6,0,0,0" Click="SendButton_Click"
+                        VerticalAlignment="Bottom"
+                        Style="{DynamicResource ToolbarButtonStyle}" />
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

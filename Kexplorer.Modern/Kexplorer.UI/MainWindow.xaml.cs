@@ -106,6 +106,9 @@ public partial class MainWindow : Window
                             tabState.TextViewerFilePath, tabState.TextViewerWordWrap,
                             tabState.TextViewerIsEditing);
                         break;
+                    case TabType.Chat:
+                        AddChatTab(tabState.TabName, tabState.IsSelected, tabState.ChatModel);
+                        break;
                 }
             }
         }
@@ -353,6 +356,33 @@ public partial class MainWindow : Window
         }, System.Windows.Threading.DispatcherPriority.Background);
     }
 
+    public void AddChatTab(string name, bool isSelected, string? model = null)
+    {
+        var panel = new ChatPanel();
+        var tabItem = new TabItem
+        {
+            Header = name,
+            HeaderTemplate = (DataTemplate)FindResource("ClosableTabHeader"),
+            Content = panel
+        };
+
+        var insertIndex = MainTabControl.Items.IndexOf(AddTabButton);
+        if (insertIndex >= 0)
+            MainTabControl.Items.Insert(insertIndex, tabItem);
+        else
+            MainTabControl.Items.Add(tabItem);
+
+        if (isSelected)
+        {
+            MainTabControl.SelectedItem = tabItem;
+        }
+
+        Dispatcher.InvokeAsync(async () =>
+        {
+            await panel.InitializeAsync(model);
+        }, System.Windows.Threading.DispatcherPriority.Background);
+    }
+
     private TabItem? _lastSelectedTab;
 
     private void MainTabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -399,6 +429,10 @@ public partial class MainWindow : Window
             else if (tab.Content is TextViewerPanel textViewer)
             {
                 StatusText.Text = textViewer.FilePath ?? "Text Viewer";
+            }
+            else if (tab.Content is ChatPanel)
+            {
+                StatusText.Text = "Copilot Chat";
             }
         }
     }
@@ -503,6 +537,15 @@ public partial class MainWindow : Window
             AddTerminalTab("Terminal (cmd)", isSelected: true, "cmd.exe");
         };
         menu.Items.Add(terminalCmdItem);
+
+        menu.Items.Add(new Separator());
+
+        var chatItem = new MenuItem { Header = "New Chat Tab (Copilot)" };
+        chatItem.Click += (s, e) =>
+        {
+            AddChatTab("Chat", isSelected: true);
+        };
+        menu.Items.Add(chatItem);
 
         menu.IsOpen = true;
     }
@@ -610,6 +653,16 @@ public partial class MainWindow : Window
                     TextViewerIsEditing = textViewerTab.IsEditing
                 });
             }
+            else if (tab.Content is ChatPanel chatTab)
+            {
+                _sessionState.Tabs.Add(new TabState
+                {
+                    TabName = tab.Header?.ToString() ?? "Chat",
+                    TabType = TabType.Chat,
+                    IsSelected = MainTabControl.SelectedItem == tab,
+                    ChatModel = chatTab.SelectedModel
+                });
+            }
         }
 
         await SessionStateManager.SaveAsync(_sessionState);
@@ -640,6 +693,10 @@ public partial class MainWindow : Window
             else if (tab.Content is TextViewerPanel textViewerPanel)
             {
                 await textViewerPanel.ShutdownAsync();
+            }
+            else if (tab.Content is ChatPanel chatPanel)
+            {
+                await chatPanel.ShutdownAsync();
             }
         }
 
