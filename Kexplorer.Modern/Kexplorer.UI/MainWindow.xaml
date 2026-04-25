@@ -33,14 +33,23 @@
         <!-- Status Bar -->
         <StatusBar DockPanel.Dock="Bottom">
             <StatusBarItem>
-                <TextBlock x:Name="StatusText" Text="Ready" />
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock x:Name="SpinnerText" Text="" FontFamily="Segoe UI Symbol" Margin="0,0,6,0"
+                               Visibility="Collapsed" />
+                    <TextBlock x:Name="StatusText" Text="Ready" />
+                </StackPanel>
             </StatusBarItem>
         </StatusBar>
 
         <!-- Tab control fills remaining space; gear overlays the tab strip -->
         <Grid>
             <TabControl x:Name="MainTabControl"
-                        SelectionChanged="MainTabControl_SelectionChanged">
+                        SelectionChanged="MainTabControl_SelectionChanged"
+                        AllowDrop="True"
+                        PreviewMouseLeftButtonDown="MainTabControl_PreviewMouseLeftButtonDown"
+                        PreviewMouseMove="MainTabControl_PreviewMouseMove"
+                        Drop="MainTabControl_Drop"
+                        DragOver="MainTabControl_DragOver">
                 <!-- Permanent "+" tab for adding new tabs -->
                 <TabItem x:Name="AddTabButton" Header="+" ToolTip="Add new tab"
                          FontWeight="Bold" Padding="6,2" />

@@ -136,4 +136,18 @@ public sealed class ServiceLoaderWorkItem : IWorkItem
 public interface IServiceShell : IKexplorerShell
 {
     Task SetServiceListAsync(IReadOnlyList<ServiceInfo> services, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Refresh the status of specific services in-place without reloading the full list.
+    /// </summary>
+    Task RefreshServiceStatusAsync(IReadOnlyList<ServiceInfo> services, CancellationToken cancellationToken = default);
+
+    /// <summary>The visible-services filter passed at initialization (null = all).</summary>
+    List<string>? VisibleServices { get; }
+
+    /// <summary>The target machine name (defaults to ".").</summary>
+    string MachineName { get; }
+
+    /// <summary>The search pattern filter (null = none).</summary>
+    string? SearchPattern { get; }
 }

@@ -16,6 +16,10 @@ public partial class MainWindow : Window
     private readonly LauncherService _launcherService = new();
     private bool _isInitializing = true;
 
+    // Tab drag-drop reordering state
+    private Point _tabDragStartPoint;
+    private bool _tabDragInProgress;
+
     public MainWindow()
     {
         InitializeComponent();
@@ -441,6 +445,92 @@ public partial class MainWindow : Window
         }
     }
 
+    #region Tab Drag-Drop Reordering
+
+    private void MainTabControl_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    {
+        _tabDragStartPoint = e.GetPosition(null);
+        _tabDragInProgress = false;
+    }
+
+    private void MainTabControl_PreviewMouseMove(object sender, MouseEventArgs e)
+    {
+        if (e.LeftButton != MouseButtonState.Pressed)
+            return;
+
+        var currentPos = e.GetPosition(null);
+        var diff = _tabDragStartPoint - currentPos;
+
+        if (Math.Abs(diff.X) < SystemParameters.MinimumHorizontalDragDistance &&
+            Math.Abs(diff.Y) < SystemParameters.MinimumVerticalDragDistance)
+            return;
+
+        // Find the TabItem under the mouse
+        var tabItem = FindAncestor<TabItem>((DependencyObject)e.OriginalSource);
+        if (tabItem is null || tabItem == AddTabButton)
+            return;
+
+        _tabDragInProgress = true;
+        DragDrop.DoDragDrop(tabItem, tabItem, DragDropEffects.Move);
+        _tabDragInProgress = false;
+    }
+
+    private void MainTabControl_DragOver(object sender, DragEventArgs e)
+    {
+        if (!e.Data.GetDataPresent(typeof(TabItem)))
+        {
+            e.Effects = DragDropEffects.None;
+            e.Handled = true;
+            return;
+        }
+
+        var targetTab = FindAncestor<TabItem>((DependencyObject)e.OriginalSource);
+        if (targetTab is null || targetTab == AddTabButton)
+        {
+            e.Effects = DragDropEffects.None;
+        }
+        else
+        {
+            e.Effects = DragDropEffects.Move;
+        }
+        e.Handled = true;
+    }
+
+    private void MainTabControl_Drop(object sender, DragEventArgs e)
+    {
+        if (!e.Data.GetDataPresent(typeof(TabItem)))
+            return;
+
+        var draggedTab = (TabItem)e.Data.GetData(typeof(TabItem));
+        var targetTab = FindAncestor<TabItem>((DependencyObject)e.OriginalSource);
+
+        if (targetTab is null || targetTab == AddTabButton || targetTab == draggedTab)
+            return;
+
+        var draggedIndex = MainTabControl.Items.IndexOf(draggedTab);
+        var targetIndex = MainTabControl.Items.IndexOf(targetTab);
+
+        if (draggedIndex < 0 || targetIndex < 0)
+            return;
+
+        MainTabControl.Items.Remove(draggedTab);
+        MainTabControl.Items.Insert(targetIndex, draggedTab);
+        MainTabControl.SelectedItem = draggedTab;
+    }
+
+    private static T? FindAncestor<T>(DependencyObject? current) where T : DependencyObject
+    {
+        while (current is not null)
+        {
+            if (current is T match)
+                return match;
+            current = VisualTreeHelper.GetParent(current);
+        }
+        return null;
+    }
+
+    #endregion
+
     private void ShowNewTabMenu()
     {
         var menu = new ContextMenu();
@@ -452,26 +542,6 @@ public partial class MainWindow : Window
             AddExplorerTab($"Tab {tabCount}", null, null, isSelected: true);
         };
         menu.Items.Add(explorerItem);
-
-        var servicesItem = new MenuItem { Header = "New Services Tab (deprecated)" };
-        servicesItem.Click += (s, e) =>
-        {
-            var patternDialog = new PromptDialog(
-                "Service Filter",
-                "Enter a regex pattern to filter services (leave blank for all):",
-                ".*");
-
-            if (patternDialog.ShowDialog() == true)
-            {
-                var pattern = patternDialog.ResponseText?.Trim();
-                if (string.IsNullOrEmpty(pattern))
-                    pattern = null;
-
-                var tabName = pattern is not null ? $"Services ({pattern})" : "Services";
-                AddServicesTab(tabName, null, null, pattern, isSelected: true);
-            }
-        };
-        menu.Items.Add(servicesItem);
 
         var hybridServicesItem = new MenuItem { Header = "New Hybrid Services Tab" };
         hybridServicesItem.Click += (s, e) =>
@@ -868,9 +938,54 @@ public partial class MainWindow : Window
 
     #endregion
 
+    private static readonly string[] _spinnerFrames = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" };
+    private int _spinnerIndex;
+    private System.Windows.Threading.DispatcherTimer? _spinnerTimer;
+
     public void UpdateStatus(string message)
     {
-        Dispatcher.InvokeAsync(() => StatusText.Text = message);
+        Dispatcher.InvokeAsync(() =>
+        {
+            StatusText.Text = message;
+            var busy = IsLoadingStatus(message);
+            SetSpinnerVisible(busy);
+        });
+    }
+
+    private static bool IsLoadingStatus(string message)
+    {
+        return message.Contains("Loading", StringComparison.OrdinalIgnoreCase)
+            || message.Contains("Restoring", StringComparison.OrdinalIgnoreCase)
+            || message.Contains("Checking", StringComparison.OrdinalIgnoreCase)
+            || message.Contains("Scanning", StringComparison.OrdinalIgnoreCase)
+            || message.EndsWith("...", StringComparison.Ordinal);
+    }
+
+    private void SetSpinnerVisible(bool visible)
+    {
+        if (visible)
+        {
+            SpinnerText.Visibility = Visibility.Visible;
+            if (_spinnerTimer is null)
+            {
+                _spinnerTimer = new System.Windows.Threading.DispatcherTimer
+                {
+                    Interval = TimeSpan.FromMilliseconds(80)
+                };
+                _spinnerTimer.Tick += (_, _) =>
+                {
+                    _spinnerIndex = (_spinnerIndex + 1) % _spinnerFrames.Length;
+                    SpinnerText.Text = _spinnerFrames[_spinnerIndex];
+                };
+            }
+            SpinnerText.Text = _spinnerFrames[_spinnerIndex];
+            _spinnerTimer.Start();
+        }
+        else
+        {
+            SpinnerText.Visibility = Visibility.Collapsed;
+            _spinnerTimer?.Stop();
+        }
     }
 
     private void SettingsGear_Click(object sender, RoutedEventArgs e)

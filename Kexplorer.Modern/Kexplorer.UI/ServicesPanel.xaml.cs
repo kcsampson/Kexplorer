@@ -21,6 +21,7 @@ public partial class ServicesPanel : UserControl, IServiceShell
 
     public string MachineName { get; private set; } = ".";
     public string? SearchPattern { get; private set; }
+    public List<string>? VisibleServices { get; private set; }
 
     public ServicesPanel()
     {
@@ -34,6 +35,7 @@ public partial class ServicesPanel : UserControl, IServiceShell
         _pluginManager = pluginManager;
         MachineName = machineName ?? ".";
         SearchPattern = searchPattern;
+        VisibleServices = visibleServices;
 
         _workQueue = new WorkQueue(this, new WorkQueueOptions { WorkerCount = 1 });
         await _workQueue.StartAsync();
@@ -95,6 +97,26 @@ public partial class ServicesPanel : UserControl, IServiceShell
             foreach (var svc in services)
             {
                 _services.Add(svc);
+            }
+        });
+        return Task.CompletedTask;
+    }
+
+    public Task RefreshServiceStatusAsync(IReadOnlyList<ServiceInfo> services, CancellationToken cancellationToken = default)
+    {
+        Dispatcher.InvokeAsync(() =>
+        {
+            foreach (var updated in services)
+            {
+                for (int i = 0; i < _services.Count; i++)
+                {
+                    if (string.Equals(_services[i].ServiceName, updated.ServiceName, StringComparison.OrdinalIgnoreCase)
+                        && string.Equals(_services[i].MachineName, updated.MachineName, StringComparison.OrdinalIgnoreCase))
+                    {
+                        _services[i] = updated;
+                        break;
+                    }
+                }
             }
         });
         return Task.CompletedTask;

@@ -77,4 +77,13 @@ public interface IPluginContext
     /// Shared across plugins for inter-plugin communication (e.g., COPYFILES, CUTFILES).
     /// </summary>
     IDictionary<string, object> Variables { get; }
+
+    /// <summary>
+    /// Paste file contents from the Shell clipboard into the destination folder.
+    /// Uses COM IDataObject with FileGroupDescriptorW/FileContents formats, which enables
+    /// file transfer across RDP sessions via the clipboard virtual channel.
+    /// Returns the number of files pasted.
+    /// </summary>
+    Task<int> PasteClipboardContentsToFolderAsync(string destinationFolder, CancellationToken cancellationToken = default)
+        => throw new NotSupportedException("Remote clipboard paste is not supported in this context.");
 }

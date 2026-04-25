@@ -118,6 +118,15 @@ internal sealed class PluginContextAdapter : IPluginContext
         await WorkQueue.EnqueueAsync(new FolderLoaderWorkItem(folderPath), cancellationToken);
     }
 
+    public Task<int> PasteClipboardContentsToFolderAsync(string destinationFolder, CancellationToken cancellationToken = default)
+    {
+        return ShellClipboardHelper.PasteToFolderAsync(
+            destinationFolder,
+            status => Application.Current.Dispatcher.InvokeAsync(
+                () => Shell.ReportStatusAsync(status, cancellationToken)),
+            cancellationToken);
+    }
+
     public Task ShowFileViewerAsync(string filePath, CancellationToken cancellationToken = default)
     {
         Application.Current.Dispatcher.Invoke(() =>

@@ -33,6 +33,8 @@ public partial class HybridServicesPanel : UserControl, IHybridServiceShell
 
     public string MachineName { get; private set; } = ".";
     public string? SearchPattern { get; private set; }
+    public List<string>? VisibleServices => _visibleServices;
+    private List<string>? _visibleServices;
     private List<string>? _serviceOrder;
     private List<string>? _dockerContainerOrder;
 
@@ -56,6 +58,7 @@ public partial class HybridServicesPanel : UserControl, IHybridServiceShell
         _launcherService = launcherService;
         MachineName = machineName ?? ".";
         SearchPattern = searchPattern;
+        _visibleServices = visibleServices;
         _serviceOrder = serviceOrder;
         _dockerContainerOrder = dockerContainerOrder;
 
@@ -110,11 +113,55 @@ public partial class HybridServicesPanel : UserControl, IHybridServiceShell
         ServiceRefreshButton.IsEnabled = false;
         try
         {
-            await _workQueue.EnqueueAsync(new ServiceLoaderWorkItem(null, MachineName, SearchPattern));
+            await _workQueue.EnqueueAsync(new ServiceLoaderWorkItem(_visibleServices, MachineName, SearchPattern));
         }
         finally
         {
             ServiceRefreshButton.IsEnabled = true;
+        }
+    }
+
+    private async void ServiceStart_Click(object sender, RoutedEventArgs e)
+    {
+        if (_pluginManager is null || _workQueue is null) return;
+        var selected = GetSelectedServices();
+        if (selected.Count == 0) return;
+
+        var startPlugin = _pluginManager.ServicePlugins.FirstOrDefault(p => p.Name == "Start" && p.IsActive);
+        if (startPlugin is null) return;
+
+        ServiceStartButton.IsEnabled = false;
+        try
+        {
+            var context = new PluginContextAdapter(this, _workQueue, new Core.Launching.LauncherService());
+            await startPlugin.ExecuteAsync(selected, context, CancellationToken.None);
+        }
+        finally
+        {
+            ServiceStartButton.IsEnabled = true;
+            UpdateServiceActionButtons();
+        }
+    }
+
+    private async void ServiceStop_Click(object sender, RoutedEventArgs e)
+    {
+        if (_pluginManager is null || _workQueue is null) return;
+        var selected = GetSelectedServices();
+        if (selected.Count == 0) return;
+
+        var stopPlugin = _pluginManager.ServicePlugins.FirstOrDefault(p => p.Name == "Stop" && p.IsActive);
+        if (stopPlugin is null) return;
+
+        ServiceStopButton.IsEnabled = false;
+        try
+        {
+            var context = new PluginContextAdapter(this, _workQueue, new Core.Launching.LauncherService());
+            await stopPlugin.ExecuteAsync(selected, context, CancellationToken.None);
+        }
+        finally
+        {
+            ServiceStopButton.IsEnabled = true;
+            UpdateServiceActionButtons();
         }
     }
 
@@ -275,6 +322,13 @@ public partial class HybridServicesPanel : UserControl, IHybridServiceShell
         ServiceMoveDownButton.IsEnabled = idx >= 0 && idx < _services.Count - 1;
     }
 
+    private void UpdateServiceActionButtons()
+    {
+        var selected = GetSelectedServices();
+        ServiceStartButton.IsEnabled = selected.Any(s => s.Status == ServiceRunningStatus.Stopped);
+        ServiceStopButton.IsEnabled = selected.Any(s => s.CanStop);
+    }
+
     private void UpdateDockerMoveButtons()
     {
         var selected = DockerGrid.SelectedItem;
@@ -366,6 +420,7 @@ public partial class HybridServicesPanel : UserControl, IHybridServiceShell
     private async void ServiceGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         UpdateServiceMoveButtons();
+        UpdateServiceActionButtons();
         _activeDetailGrid = "service";
 
         var selected = ServiceGrid.SelectedItem as ServiceInfo;
@@ -891,6 +946,26 @@ public partial class HybridServicesPanel : UserControl, IHybridServiceShell
             foreach (var svc in ordered)
             {
                 _services.Add(svc);
+            }
+        });
+        return Task.CompletedTask;
+    }
+
+    public Task RefreshServiceStatusAsync(IReadOnlyList<ServiceInfo> services, CancellationToken cancellationToken = default)
+    {
+        Dispatcher.InvokeAsync(() =>
+        {
+            foreach (var updated in services)
+            {
+                for (int i = 0; i < _services.Count; i++)
+                {
+                    if (string.Equals(_services[i].ServiceName, updated.ServiceName, StringComparison.OrdinalIgnoreCase)
+                        && string.Equals(_services[i].MachineName, updated.MachineName, StringComparison.OrdinalIgnoreCase))
+                    {
+                        _services[i] = updated;
+                        break;
+                    }
+                }
             }
         });
         return Task.CompletedTask;

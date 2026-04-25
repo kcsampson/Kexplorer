@@ -20,9 +20,10 @@ public sealed class OpenInEditorPlugin : IFilePlugin
 
     public Task ExecuteAsync(string folderPath, IReadOnlyList<FileEntry> selectedFiles, IPluginContext context, CancellationToken cancellationToken = default)
     {
+        var editor = context.Launcher.ProjectEditor;
         foreach (var file in selectedFiles)
         {
-            context.Launcher.Launch(file.FullPath);
+            context.RunProgram(editor, $"\"{file.FullPath}\"", folderPath);
         }
         return Task.CompletedTask;
     }

@@ -25,6 +25,12 @@
                 <Button x:Name="ServiceRefreshButton" Content="↻ Refresh" Width="80" Height="24"
                         Margin="2,0" Click="ServiceRefresh_Click" ToolTip="Refresh service list"
                         Style="{DynamicResource ToolbarButtonStyle}" />
+                <Button x:Name="ServiceStartButton" Content="▶ Start" Width="66" Height="24"
+                        Margin="2,0" Click="ServiceStart_Click" ToolTip="Start selected services"
+                        IsEnabled="False" Style="{DynamicResource ToolbarButtonStyle}" />
+                <Button x:Name="ServiceStopButton" Content="■ Stop" Width="66" Height="24"
+                        Margin="2,0" Click="ServiceStop_Click" ToolTip="Stop selected services"
+                        IsEnabled="False" Style="{DynamicResource ToolbarButtonStyle}" />
                 <Button x:Name="ServiceAddByPatternButton" Content="➕ Add" Width="66" Height="24"
                         Margin="2,0" Click="ServiceAddByPattern_Click" ToolTip="Add services matching a regex pattern"
                         Style="{DynamicResource ToolbarButtonStyle}" />

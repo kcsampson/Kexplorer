@@ -2,7 +2,7 @@
 
 $ErrorActionPreference = 'Stop'
 
-$source = "C:\kexplorer\github-dev\Kexplorer\Kexplorer.Modern\Kexplorer.UI\bin\Release\net8.0-windows\publish"
+$source = "C:\kexplorer\github-dev\Kexplorer\Kexplorer.Modern\Kexplorer.UI\bin\Release\net8.0-windows\win-x64\publish"
 $dest = "C:\kimbonics-exp"
 
 # Kill any running Kimbonics processes
@@ -15,8 +15,11 @@ if ($procs) {
     Write-Host "No running Kimbonics process found."
 }
 
-# Create destination if it doesn't exist
-if (-not (Test-Path $dest)) {
+# Clean destination directory
+if (Test-Path $dest) {
+    Write-Host "Cleaning $dest ..."
+    Remove-Item -Path "$dest\*" -Recurse -Force
+} else {
     New-Item -ItemType Directory -Path $dest | Out-Null
     Write-Host "Created $dest"
 }

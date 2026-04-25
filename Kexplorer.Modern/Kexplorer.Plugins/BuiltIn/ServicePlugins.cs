@@ -46,14 +46,15 @@ public sealed class StartServicePlugin : IServicePlugin
         }
 
         await Task.Delay(500, cancellationToken);
-        await ReloadServices(context, cancellationToken);
+        await RefreshSelectedServices(selectedServices, context, cancellationToken);
     }
 
-    private static async Task ReloadServices(IPluginContext context, CancellationToken cancellationToken)
+    private static async Task RefreshSelectedServices(IReadOnlyList<ServiceInfo> services, IPluginContext context, CancellationToken cancellationToken)
     {
+        var refreshed = ServiceStatusHelper.QueryCurrentStatus(services);
         if (context.Shell is IServiceShell serviceShell)
         {
-            await context.WorkQueue.EnqueueAsync(new ServiceLoaderWorkItem(), cancellationToken);
+            await serviceShell.RefreshServiceStatusAsync(refreshed, cancellationToken);
         }
     }
 }
@@ -99,7 +100,11 @@ public sealed class StopServicePlugin : IServicePlugin
         }
 
         await Task.Delay(500, cancellationToken);
-        await context.WorkQueue.EnqueueAsync(new ServiceLoaderWorkItem(), cancellationToken);
+        var refreshed = ServiceStatusHelper.QueryCurrentStatus(selectedServices);
+        if (context.Shell is IServiceShell serviceShell)
+        {
+            await serviceShell.RefreshServiceStatusAsync(refreshed, cancellationToken);
+        }
     }
 }
 
@@ -151,7 +156,11 @@ public sealed class RestartServicePlugin : IServicePlugin
             }
         }
 
-        await context.WorkQueue.EnqueueAsync(new ServiceLoaderWorkItem(), cancellationToken);
+        var refreshed = ServiceStatusHelper.QueryCurrentStatus(selectedServices);
+        if (context.Shell is IServiceShell serviceShell)
+        {
+            await serviceShell.RefreshServiceStatusAsync(refreshed, cancellationToken);
+        }
     }
 }
 
@@ -171,7 +180,19 @@ public sealed class RefreshServicesPlugin : IServicePlugin
 
     public async Task ExecuteAsync(IReadOnlyList<ServiceInfo> selectedServices, IPluginContext context, CancellationToken cancellationToken = default)
     {
-        await context.WorkQueue.EnqueueAsync(new ServiceLoaderWorkItem(), cancellationToken);
+        List<string>? visibleServices = null;
+        string? machineName = null;
+        string? searchPattern = null;
+
+        if (context.Shell is IServiceShell serviceShell)
+        {
+            visibleServices = serviceShell.VisibleServices;
+            machineName = serviceShell.MachineName;
+            searchPattern = serviceShell.SearchPattern;
+        }
+
+        await context.WorkQueue.EnqueueAsync(
+            new ServiceLoaderWorkItem(visibleServices, machineName, searchPattern), cancellationToken);
     }
 }
 
@@ -198,5 +219,57 @@ public sealed class HideServicePlugin : IServicePlugin
 
         var names = string.Join(", ", selectedServices.Select(s => s.DisplayName));
         await context.Shell.ReportStatusAsync($"Hidden: {names}", cancellationToken);
+    }
+}
+
+/// <summary>
+/// Helper to re-query current status for a set of services without reloading the full list.
+/// </summary>
+internal static class ServiceStatusHelper
+{
+    public static List<ServiceInfo> QueryCurrentStatus(IReadOnlyList<ServiceInfo> services)
+    {
+        var result = new List<ServiceInfo>(services.Count);
+        foreach (var svc in services)
+        {
+            try
+            {
+                using var sc = new ServiceController(svc.ServiceName, svc.MachineName);
+                result.Add(new ServiceInfo
+                {
+                    ServiceName = sc.ServiceName,
+                    DisplayName = sc.DisplayName,
+                    MachineName = sc.MachineName,
+                    Status = MapStatus(sc.Status),
+                    ServiceType = sc.ServiceType.ToString(),
+                    CanStop = TryGetBool(() => sc.CanStop),
+                    CanPauseAndContinue = TryGetBool(() => sc.CanPauseAndContinue),
+                    CanShutdown = TryGetBool(() => sc.CanShutdown)
+                });
+            }
+            catch
+            {
+                result.Add(svc);
+            }
+        }
+        return result;
+    }
+
+    private static ServiceRunningStatus MapStatus(ServiceControllerStatus status) => status switch
+    {
+        ServiceControllerStatus.Stopped => ServiceRunningStatus.Stopped,
+        ServiceControllerStatus.StartPending => ServiceRunningStatus.StartPending,
+        ServiceControllerStatus.StopPending => ServiceRunningStatus.StopPending,
+        ServiceControllerStatus.Running => ServiceRunningStatus.Running,
+        ServiceControllerStatus.ContinuePending => ServiceRunningStatus.ContinuePending,
+        ServiceControllerStatus.PausePending => ServiceRunningStatus.PausePending,
+        ServiceControllerStatus.Paused => ServiceRunningStatus.Paused,
+        _ => ServiceRunningStatus.Unknown
+    };
+
+    private static bool TryGetBool(Func<bool> getter)
+    {
+        try { return getter(); }
+        catch { return false; }
     }
 }
