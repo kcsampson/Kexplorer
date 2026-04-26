@@ -114,8 +114,9 @@ internal sealed class PluginContextAdapter : IPluginContext
     public async Task RefreshFolderAsync(string folderPath, CancellationToken cancellationToken = default)
     {
         await Shell.RefreshPathAsync(folderPath, cancellationToken);
-        // Re-enqueue folder loading
+        // Re-enqueue folder loading (tree children) and file listing (grid)
         await WorkQueue.EnqueueAsync(new FolderLoaderWorkItem(folderPath), cancellationToken);
+        await WorkQueue.EnqueueAsync(new FileListWorkItem(folderPath), cancellationToken);
     }
 
     public Task<int> PasteClipboardContentsToFolderAsync(string destinationFolder, CancellationToken cancellationToken = default)
