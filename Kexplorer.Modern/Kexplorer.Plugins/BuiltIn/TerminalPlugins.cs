@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 using Kexplorer.Core.FileSystem;
 using Kexplorer.Core.Plugins;
 
@@ -194,26 +195,58 @@ public sealed class OpenTerminalWslPlugin : IFolderPlugin, IMenuGroupPlugin
 }
 
 /// <summary>
-/// Open files/folders in the configured project editor.
-/// Reads the editor command from launchers.json "projectEditor" field.
-/// Defaults to "code" (VS Code) if not configured.
-/// Examples: "code", "zed", "notepad++", "subl", "cursor"
+/// Opens Windows File Explorer with the navigation pane tree expanded to the specified folder.
+/// Ensures the "Expand to open folder" Explorer setting is enabled (via registry) so
+/// that the left-hand tree (This PC > C: > ...) is fully expanded to the target folder.
+/// Uses ShellExecute with the "explore" verb which tells Windows to open the folder
+/// with the tree view expanded.
 /// </summary>
 [FolderContext]
-public sealed class OpenInProjectEditorPlugin : IFolderPlugin
+public sealed class OpenFileExplorerHerePlugin : IFolderPlugin
 {
-    public string Name => "Open in Project Editor";
-    public string Description => "Open folder in the configured project editor";
+    public string Name => "Open File Explorer Here";
+    public string Description => "Open Windows File Explorer at this folder";
     public bool IsActive => true;
     public PluginShortcut? Shortcut => null;
+
+    private const string ExplorerAdvancedKey = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced";
+    private const string ExpandValue = "NavPaneExpandToCurrentFolder";
 
     public Task InitializeAsync(IPluginContext context, CancellationToken cancellationToken = default)
         => Task.CompletedTask;
 
     public Task ExecuteAsync(string folderPath, IPluginContext context, CancellationToken cancellationToken = default)
     {
-        var editor = context.Launcher.ProjectEditor;
-        context.RunProgram(editor, $"\"{folderPath}\"", folderPath);
+        // Ensure "Expand to open folder" is enabled so the nav pane tree expands
+        EnsureNavPaneExpandEnabled();
+
+        // Use the "explore" verb via ShellExecute — this tells Windows to open
+        // the folder with the Explorer tree pane expanded to the location
+        Process.Start(new ProcessStartInfo
+        {
+            FileName = folderPath,
+            Verb = "explore",
+            UseShellExecute = true
+        });
+
         return Task.CompletedTask;
+    }
+
+    private static void EnsureNavPaneExpandEnabled()
+    {
+        try
+        {
+            using var key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(ExplorerAdvancedKey, writable: true);
+            if (key is null) return;
+            var current = key.GetValue(ExpandValue);
+            if (current is not int val || val != 1)
+            {
+                key.SetValue(ExpandValue, 1, Microsoft.Win32.RegistryValueKind.DWord);
+            }
+        }
+        catch
+        {
+            // Silently ignore if registry access fails
+        }
     }
 }

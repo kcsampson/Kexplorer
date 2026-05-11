@@ -93,16 +93,16 @@ public sealed class PluginManagerTests
     }
 
     [Fact]
-    public void ScanAssembly_OpenInProjectEditor_IsOnlyFolderPlugin()
+    public void ScanAssembly_OpenFileExplorerHere_IsOnlyFolderPlugin()
     {
         var mgr = new PluginManager();
         mgr.ScanAssembly(typeof(Kexplorer.Plugins.BuiltInPluginMarker).Assembly);
 
-        // OpenInProjectEditorPlugin should appear in folder plugins
-        Assert.Contains(mgr.FolderPlugins, p => p.Name == "Open in Project Editor");
+        // OpenFileExplorerHerePlugin should appear in folder plugins
+        Assert.Contains(mgr.FolderPlugins, p => p.Name == "Open File Explorer Here");
 
-        // OpenInProjectEditorPlugin should NOT appear in file plugins
-        Assert.DoesNotContain(mgr.FilePlugins, p => p.Name == "Open in Project Editor");
+        // OpenFileExplorerHerePlugin should NOT appear in file plugins
+        Assert.DoesNotContain(mgr.FilePlugins, p => p.Name == "Open File Explorer Here");
     }
 
     [Fact]

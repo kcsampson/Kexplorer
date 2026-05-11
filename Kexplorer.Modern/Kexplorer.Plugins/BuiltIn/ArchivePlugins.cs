@@ -3,6 +3,42 @@ using Kexplorer.Core.Plugins;
 
 namespace Kexplorer.Plugins.BuiltIn;
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+/// <summary>
+/// Resolves the 7z.exe path from common install locations.
+/// </summary>
+internal static class SevenZipResolver
+{
+    private static readonly string[] SearchPaths = new[]
+    {
+        @"C:\Program Files\7-Zip\7z.exe",
+        @"C:\Program Files (x86)\7-Zip\7z.exe",
+    };
+
+    public static string Resolve()
+    {
+        foreach (var path in SearchPaths)
+        {
+            if (File.Exists(path))
+                return path;
+        }
+        // Fall back to bare name in case it's on PATH
+        return "7z.exe";
+    }
+}
+
 /// <summary>
 /// Archive file extensions recognized by the archive plugins.
 /// </summary>
@@ -71,7 +107,7 @@ public sealed class ArchiveExtractHerePlugin : IFilePlugin
     {
         foreach (var file in selectedFiles)
         {
-            context.RunProgram("7z.exe", $"x \"{file.FullPath}\" -o\"{folderPath}\"", folderPath);
+            context.RunProgram(SevenZipResolver.Resolve(), $"x \"{file.FullPath}\" -o\"{folderPath}\"", folderPath);
         }
         await context.RefreshFolderAsync(folderPath, cancellationToken);
     }
@@ -108,7 +144,7 @@ public sealed class ArchiveExtractToPlugin : IFilePlugin
 
         foreach (var file in selectedFiles)
         {
-            context.RunProgram("7z.exe", $"x \"{file.FullPath}\" -o\"{destPath}\"", destPath);
+            context.RunProgram(SevenZipResolver.Resolve(), $"x \"{file.FullPath}\" -o\"{destPath}\"", destPath);
         }
         await context.RefreshFolderAsync(destPath, cancellationToken);
     }
@@ -168,7 +204,7 @@ public sealed class ArchiveCreatePlugin : IFolderPlugin, IFilePlugin
         var listFile = Path.Combine(Path.GetTempPath(), "kexplorer_ziplist.lst");
         await File.WriteAllLinesAsync(listFile, selectedFiles.Select(f => f.FullPath), cancellationToken);
 
-        context.RunProgram("7z.exe", $"a -tzip \"{zipName}\" @\"{listFile}\"", folderPath);
+        context.RunProgram(SevenZipResolver.Resolve(), $"a -tzip \"{zipName}\" @\"{listFile}\"", folderPath);
     }
 
     public async Task ExecuteAsync(string folderPath, IPluginContext context, CancellationToken cancellationToken = default)
@@ -181,6 +217,6 @@ public sealed class ArchiveCreatePlugin : IFolderPlugin, IFilePlugin
         if (!zipName.EndsWith(".zip", StringComparison.OrdinalIgnoreCase))
             zipName += ".zip";
 
-        context.RunProgram("7z.exe", $"a -tzip \"{zipName}\" -r \"{folderPath}\"", folderPath);
+        context.RunProgram(SevenZipResolver.Resolve(), $"a -tzip \"{zipName}\" -r \"{folderPath}\"", folderPath);
     }
 }
