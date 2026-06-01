@@ -1,5 +1,7 @@
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Windows;
+using Microsoft.Win32.SafeHandles;
 
 namespace Kexplorer.UI;
 
@@ -34,6 +36,7 @@ public partial class FolderInfoDialog : Window
         long processedBytes = 0;
         var ct = _cts.Token;
         var lastUpdate = Environment.TickCount64;
+        var seenFiles = new HashSet<FileIdentity>();
 
         // Track recursive folder stats for annotation back in the tree.
         var allDirectoryInfo = new Dictionary<string, FolderActivityInfo>(StringComparer.OrdinalIgnoreCase);
@@ -46,6 +49,7 @@ public partial class FolderInfoDialog : Window
                 ref fileCount,
                 ref folderCount,
                 ref processedBytes,
+                seenFiles,
                 ref lastUpdate,
                 ct);
             totalSize = rootInfo.SizeBytes;
@@ -64,6 +68,7 @@ public partial class FolderInfoDialog : Window
         ref long fileCount,
         ref long folderCount,
         ref long processedBytes,
+        HashSet<FileIdentity> seenFiles,
         ref long lastUpdate,
         CancellationToken ct)
     {
@@ -87,6 +92,12 @@ public partial class FolderInfoDialog : Window
                 try
                 {
                     var info = new FileInfo(file);
+
+                    if (TryGetFileIdentity(file, out var fileIdentity) && !seenFiles.Add(fileIdentity))
+                    {
+                        continue;
+                    }
+
                     size += info.Length;
                     fileCount++;
                     processedBytes += info.Length;
@@ -120,9 +131,14 @@ public partial class FolderInfoDialog : Window
                     return new FolderActivityInfo { SizeBytes = size, LatestModifiedUtc = latestModifiedUtc };
                 }
 
+                if (IsDirectoryLink(subDir))
+                {
+                    continue;
+                }
+
                 folderCount++;
                 var subInfo = CalculateDirectoryInfo(subDir, allDirectoryInfo, ref fileCount, ref folderCount,
-                    ref processedBytes, ref lastUpdate, ct);
+                    ref processedBytes, seenFiles, ref lastUpdate, ct);
                 size += subInfo.SizeBytes;
 
                 if (subInfo.LatestModifiedUtc.HasValue &&
@@ -168,4 +184,76 @@ public partial class FolderInfoDialog : Window
     {
         _cts.Cancel();
     }
+
+    private static bool TryGetFileIdentity(string filePath, out FileIdentity fileIdentity)
+    {
+        fileIdentity = default;
+
+        try
+        {
+            using var handle = File.OpenHandle(
+                filePath,
+                FileMode.Open,
+                FileAccess.Read,
+                FileShare.ReadWrite | FileShare.Delete);
+
+            if (!GetFileInformationByHandle(handle, out var info))
+            {
+                return false;
+            }
+
+            fileIdentity = new FileIdentity(
+                info.VolumeSerialNumber,
+                ((ulong)info.FileIndexHigh << 32) | info.FileIndexLow);
+
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    private static bool IsDirectoryLink(string directoryPath)
+    {
+        try
+        {
+            var attributes = File.GetAttributes(directoryPath);
+            return (attributes & FileAttributes.ReparsePoint) != 0;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    [DllImport("kernel32.dll", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static extern bool GetFileInformationByHandle(
+        SafeFileHandle fileHandle,
+        out ByHandleFileInformation fileInformation);
+
+    [StructLayout(LayoutKind.Sequential)]
+    private struct ByHandleFileInformation
+    {
+        public uint FileAttributes;
+        public FileTime CreationTime;
+        public FileTime LastAccessTime;
+        public FileTime LastWriteTime;
+        public uint VolumeSerialNumber;
+        public uint FileSizeHigh;
+        public uint FileSizeLow;
+        public uint NumberOfLinks;
+        public uint FileIndexHigh;
+        public uint FileIndexLow;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    private struct FileTime
+    {
+        public uint LowDateTime;
+        public uint HighDateTime;
+    }
+
+    private readonly record struct FileIdentity(uint VolumeSerialNumber, ulong FileIndex);
 }

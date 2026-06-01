@@ -31,7 +31,8 @@ public partial class ExplorerPanel : UserControl, IKexplorerShell
 
     // Track loaded drives for state persistence
     private readonly List<string> _loadedDrives = new();
-    private readonly Dictionary<TreeViewItem, (string Name, long SizeBytes, DateTime? LatestModifiedUtc)> _annotatedTreeItems = new();
+    private readonly Dictionary<TreeViewItem, (string Name, string FullPath, long SizeBytes, DateTime? LatestModifiedUtc)> _annotatedTreeItems = new();
+    private readonly Dictionary<string, bool> _linkedDirectoryCache = new(StringComparer.OrdinalIgnoreCase);
     private CancellationTokenSource? _restoreCts;
     private bool _restoringNavigation;
 
@@ -116,7 +117,7 @@ public partial class ExplorerPanel : UserControl, IKexplorerShell
             // Add drive node to tree
             var treeItem = new TreeViewItem
             {
-                Header = fullPath,
+                Header = GetDirectoryDisplayName(fullPath, fullPath),
                 Tag = new FileSystemNode(fullPath, fullPath, isDirectory: true)
             };
             // Add a dummy child so the expand arrow is shown
@@ -173,7 +174,7 @@ public partial class ExplorerPanel : UserControl, IKexplorerShell
 
         var treeItem = new TreeViewItem
         {
-            Header = displayName,
+            Header = GetDirectoryDisplayName(displayName, uncRoot),
             Tag = rootNode
         };
 
@@ -230,7 +231,7 @@ public partial class ExplorerPanel : UserControl, IKexplorerShell
 
         var treeItem = new TreeViewItem
         {
-            Header = shortName,
+            Header = GetDirectoryDisplayName(shortName, rootFolderPath),
             Tag = rootNode
         };
 
@@ -984,7 +985,7 @@ public partial class ExplorerPanel : UserControl, IKexplorerShell
     {
         var treeItem = new TreeViewItem
         {
-            Header = node.Name,
+            Header = GetDirectoryDisplayName(node.Name, node.FullPath),
             Tag = node
         };
 
@@ -1456,7 +1457,7 @@ public partial class ExplorerPanel : UserControl, IKexplorerShell
         if (parentItem.Tag is FileSystemNode parentNode && parentNode.IsDirectory &&
             folderInfo.TryGetValue(parentNode.FullPath, out var parentFolderInfo))
         {
-            SetSizeLabel(parentItem, parentNode.Name, parentFolderInfo.SizeBytes, parentFolderInfo.LatestModifiedUtc);
+            SetSizeLabel(parentItem, parentNode.Name, parentNode.FullPath, parentFolderInfo.SizeBytes, parentFolderInfo.LatestModifiedUtc);
         }
 
         foreach (var item in parentItem.Items)
@@ -1467,7 +1468,7 @@ public partial class ExplorerPanel : UserControl, IKexplorerShell
 
             if (folderInfo.TryGetValue(childNode.FullPath, out var childFolderInfo))
             {
-                SetSizeLabel(childItem, childNode.Name, childFolderInfo.SizeBytes, childFolderInfo.LatestModifiedUtc);
+                SetSizeLabel(childItem, childNode.Name, childNode.FullPath, childFolderInfo.SizeBytes, childFolderInfo.LatestModifiedUtc);
             }
 
             // Recurse into expanded children
@@ -1478,7 +1479,7 @@ public partial class ExplorerPanel : UserControl, IKexplorerShell
         }
     }
 
-    private void SetSizeLabel(TreeViewItem treeItem, string name, long sizeBytes, DateTime? latestModifiedUtc)
+    private void SetSizeLabel(TreeViewItem treeItem, string name, string fullPath, long sizeBytes, DateTime? latestModifiedUtc)
     {
         double leftOffset = 0;
         try
@@ -1501,7 +1502,7 @@ public partial class ExplorerPanel : UserControl, IKexplorerShell
 
         var nameText = new TextBlock
         {
-            Text = name,
+            Text = GetDirectoryDisplayName(name, fullPath),
             VerticalAlignment = VerticalAlignment.Center,
             TextTrimming = TextTrimming.CharacterEllipsis
         };
@@ -1534,7 +1535,7 @@ public partial class ExplorerPanel : UserControl, IKexplorerShell
         headerGrid.Children.Add(activityText);
 
         treeItem.Header = headerGrid;
-        _annotatedTreeItems[treeItem] = (name, sizeBytes, latestModifiedUtc);
+        _annotatedTreeItems[treeItem] = (name, fullPath, sizeBytes, latestModifiedUtc);
     }
 
     private void RefreshAnnotatedSizeLabels()
@@ -1550,8 +1551,35 @@ public partial class ExplorerPanel : UserControl, IKexplorerShell
                 continue;
             }
 
-            SetSizeLabel(item, value.Name, value.SizeBytes, value.LatestModifiedUtc);
+            SetSizeLabel(item, value.Name, value.FullPath, value.SizeBytes, value.LatestModifiedUtc);
         }
+    }
+
+    private string GetDirectoryDisplayName(string name, string fullPath)
+    {
+        return IsLinkedDirectory(fullPath) ? $"{name} ↗" : name;
+    }
+
+    private bool IsLinkedDirectory(string fullPath)
+    {
+        if (_linkedDirectoryCache.TryGetValue(fullPath, out var cached))
+        {
+            return cached;
+        }
+
+        var isLinked = false;
+        try
+        {
+            var attributes = File.GetAttributes(fullPath);
+            isLinked = (attributes & FileAttributes.ReparsePoint) != 0;
+        }
+        catch
+        {
+            // Keep false when path is inaccessible or missing.
+        }
+
+        _linkedDirectoryCache[fullPath] = isLinked;
+        return isLinked;
     }
 
     private static string FormatSizeMb(long bytes)
