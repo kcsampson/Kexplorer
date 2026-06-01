@@ -1,0 +1,52 @@
+<Window x:Class="Kexplorer.UI.FolderInfoDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Folder Info" Height="250" Width="420"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        ShowInTaskbar="False"
+        Background="{DynamicResource PrimaryBackgroundBrush}"
+        Closing="Window_Closing">
+    <StackPanel Margin="15">
+        <TextBlock x:Name="FolderPathText" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"
+                   Foreground="{DynamicResource PrimaryForegroundBrush}" FontWeight="SemiBold"
+                   Margin="0,0,0,12" />
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="Files:" Margin="0,0,12,6"
+                       Foreground="{DynamicResource PrimaryForegroundBrush}" />
+            <TextBlock x:Name="FileCountText" Grid.Row="0" Grid.Column="1" Text="Counting..."
+                       Foreground="{DynamicResource AccentBrush}" Margin="0,0,0,6" />
+
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="Folders:" Margin="0,0,12,6"
+                       Foreground="{DynamicResource PrimaryForegroundBrush}" />
+            <TextBlock x:Name="FolderCountText" Grid.Row="1" Grid.Column="1" Text="Counting..."
+                       Foreground="{DynamicResource AccentBrush}" Margin="0,0,0,6" />
+
+            <TextBlock Grid.Row="2" Grid.Column="0" Text="Total Size:" Margin="0,0,12,6"
+                       Foreground="{DynamicResource PrimaryForegroundBrush}" />
+            <TextBlock x:Name="TotalSizeText" Grid.Row="2" Grid.Column="1" Text="Calculating..."
+                       Foreground="{DynamicResource AccentBrush}" Margin="0,0,0,6" />
+
+            <TextBlock Grid.Row="3" Grid.Column="0" Text="Status:" Margin="0,0,12,6"
+                       Foreground="{DynamicResource PrimaryForegroundBrush}" />
+            <TextBlock x:Name="StatusText" Grid.Row="3" Grid.Column="1" Text="Scanning..."
+                       Foreground="{DynamicResource PrimaryForegroundBrush}" Margin="0,0,0,6" />
+        </Grid>
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,16,0,0">
+            <Button Content="Close" Width="75" Height="26" Click="Close_Click"
+                    Style="{DynamicResource ToolbarButtonStyle}" />
+        </StackPanel>
+    </StackPanel>
+</Window>

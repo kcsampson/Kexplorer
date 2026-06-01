@@ -111,8 +111,7 @@ public partial class MainWindow : Window
                             tabState.TextViewerIsEditing);
                         break;
                     case TabType.Chat:
-                        AddChatTab(tabState.TabName, tabState.IsSelected, tabState.ChatModel);
-                        break;
+                        break; // AI/Chat feature removed for size
                 }
             }
         }
@@ -360,32 +359,7 @@ public partial class MainWindow : Window
         }, System.Windows.Threading.DispatcherPriority.Background);
     }
 
-    public void AddChatTab(string name, bool isSelected, string? model = null)
-    {
-        var panel = new ChatPanel();
-        var tabItem = new TabItem
-        {
-            Header = name,
-            HeaderTemplate = (DataTemplate)FindResource("ClosableTabHeader"),
-            Content = panel
-        };
 
-        var insertIndex = MainTabControl.Items.IndexOf(AddTabButton);
-        if (insertIndex >= 0)
-            MainTabControl.Items.Insert(insertIndex, tabItem);
-        else
-            MainTabControl.Items.Add(tabItem);
-
-        if (isSelected)
-        {
-            MainTabControl.SelectedItem = tabItem;
-        }
-
-        Dispatcher.InvokeAsync(async () =>
-        {
-            await panel.InitializeAsync(model);
-        }, System.Windows.Threading.DispatcherPriority.Background);
-    }
 
     private TabItem? _lastSelectedTab;
 
@@ -438,10 +412,7 @@ public partial class MainWindow : Window
             {
                 StatusText.Text = textViewer.FilePath ?? "Text Viewer";
             }
-            else if (tab.Content is ChatPanel)
-            {
-                StatusText.Text = "Copilot Chat";
-            }
+
         }
     }
 
@@ -614,12 +585,7 @@ public partial class MainWindow : Window
 
         menu.Items.Add(new Separator());
 
-        var chatItem = new MenuItem { Header = "New Chat Tab (Copilot)" };
-        chatItem.Click += (s, e) =>
-        {
-            AddChatTab("Chat", isSelected: true);
-        };
-        menu.Items.Add(chatItem);
+
 
         menu.PlacementTarget = AddTabButton;
         menu.Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom;
@@ -729,16 +695,7 @@ public partial class MainWindow : Window
                     TextViewerIsEditing = textViewerTab.IsEditing
                 });
             }
-            else if (tab.Content is ChatPanel chatTab)
-            {
-                _sessionState.Tabs.Add(new TabState
-                {
-                    TabName = tab.Header?.ToString() ?? "Chat",
-                    TabType = TabType.Chat,
-                    IsSelected = MainTabControl.SelectedItem == tab,
-                    ChatModel = chatTab.SelectedModel
-                });
-            }
+
         }
 
         await SessionStateManager.SaveAsync(_sessionState);
@@ -770,10 +727,7 @@ public partial class MainWindow : Window
             {
                 await textViewerPanel.ShutdownAsync();
             }
-            else if (tab.Content is ChatPanel chatPanel)
-            {
-                await chatPanel.ShutdownAsync();
-            }
+
         }
 
         // Explicitly shut down the application — the async continuations in

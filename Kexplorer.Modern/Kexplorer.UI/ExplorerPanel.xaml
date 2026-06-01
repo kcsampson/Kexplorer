@@ -1,7 +1,22 @@
 <UserControl x:Class="Kexplorer.UI.ExplorerPanel"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <Grid>
+    <DockPanel>
+        <!-- Toolbar -->
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="4,2"
+                    Background="{DynamicResource ToolbarBackgroundBrush}">
+            <Button Content="↻ Refresh" Click="ToolbarRefresh_Click" Style="{DynamicResource ToolbarButtonStyle}" ToolTip="Refresh current folder" />
+            <Button Content="📂 New Folder" Click="ToolbarNewFolder_Click" Style="{DynamicResource ToolbarButtonStyle}" ToolTip="Create new folder" />
+            <Button Content="📋 Copy" Click="ToolbarCopy_Click" Style="{DynamicResource ToolbarButtonStyle}" ToolTip="Copy selected" />
+            <Button Content="✂ Cut" Click="ToolbarCut_Click" Style="{DynamicResource ToolbarButtonStyle}" ToolTip="Cut selected" />
+            <Button Content="📌 Paste" Click="ToolbarPaste_Click" Style="{DynamicResource ToolbarButtonStyle}" ToolTip="Paste" />
+            <Button Content="🗑 Delete" Click="ToolbarDelete_Click" Style="{DynamicResource ToolbarButtonStyle}" ToolTip="Delete selected" />
+            <Button Content="✏ Rename" Click="ToolbarRename_Click" Style="{DynamicResource ToolbarButtonStyle}" ToolTip="Rename selected" />
+            <Button Content="📁 Explorer" Click="ToolbarOpenExplorer_Click" Style="{DynamicResource ToolbarButtonStyle}" ToolTip="Open in Windows Explorer" />
+            <Button Content="ℹ Info" Click="ToolbarInfo_Click" Style="{DynamicResource ToolbarButtonStyle}" ToolTip="Folder info (file count &amp; size)" />
+        </StackPanel>
+
+        <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="250" MinWidth="100" />
             <ColumnDefinition Width="Auto" />
@@ -10,9 +25,15 @@
 
         <!-- Tree View -->
         <TreeView x:Name="FolderTree" Grid.Column="0"
+                  HorizontalContentAlignment="Stretch"
                   SelectedItemChanged="FolderTree_SelectedItemChanged"
                   TreeViewItem.Expanded="FolderTree_Expanded"
                   KeyDown="FolderTree_KeyDown">
+            <TreeView.ItemContainerStyle>
+                <Style TargetType="TreeViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                </Style>
+            </TreeView.ItemContainerStyle>
             <TreeView.ContextMenu>
                 <ContextMenu x:Name="TreeContextMenu"
                              Opened="TreeContextMenu_Opened" />
@@ -44,4 +65,5 @@
             </DataGrid.Columns>
         </DataGrid>
     </Grid>
+    </DockPanel>
 </UserControl>

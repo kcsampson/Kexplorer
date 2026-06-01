@@ -31,6 +31,7 @@ public partial class ExplorerPanel : UserControl, IKexplorerShell
 
     // Track loaded drives for state persistence
     private readonly List<string> _loadedDrives = new();
+    private readonly Dictionary<TreeViewItem, (string Name, long SizeBytes, DateTime? LatestModifiedUtc)> _annotatedTreeItems = new();
     private CancellationTokenSource? _restoreCts;
     private bool _restoringNavigation;
 
@@ -52,6 +53,7 @@ public partial class ExplorerPanel : UserControl, IKexplorerShell
     {
         InitializeComponent();
         FileGrid.ItemsSource = _fileItems;
+        FolderTree.SizeChanged += (_, _) => RefreshAnnotatedSizeLabels();
     }
 
     public async Task InitializeAsync(string? currentFolder, List<string>? drives,
@@ -1114,6 +1116,13 @@ public partial class ExplorerPanel : UserControl, IKexplorerShell
             };
             TreeContextMenu.Items.Add(openTerminal);
 
+            // "Info" — show file count and total size for this folder
+            var infoItem = new MenuItem { Header = "Info" };
+            var infoPath = node.FullPath;
+            var infoTreeItem = FolderTree.SelectedItem as TreeViewItem;
+            infoItem.Click += (s, e) => ShowFolderInfoDialog(infoPath, infoTreeItem);
+            TreeContextMenu.Items.Add(infoItem);
+
             TreeContextMenu.Items.Add(new Separator());
         }
 
@@ -1343,6 +1352,220 @@ public partial class ExplorerPanel : UserControl, IKexplorerShell
             if (col.Header is string header && widths.TryGetValue(header, out var width))
                 col.Width = new DataGridLength(width);
         }
+    }
+
+    #endregion
+
+    #region Toolbar Handlers
+
+    private FileSystemNode? GetSelectedTreeNode()
+    {
+        if (FolderTree.SelectedItem is TreeViewItem treeItem && treeItem.Tag is FileSystemNode node)
+            return node;
+        return null;
+    }
+
+    private async Task ExecuteFolderPluginByNameAsync(string pluginName)
+    {
+        if (_pluginManager is null || _pluginContext is null) return;
+        var node = GetSelectedTreeNode();
+        if (node is null || !node.IsDirectory) return;
+
+        var plugin = _pluginManager.FolderPlugins.FirstOrDefault(p => p.Name == pluginName && p.IsActive);
+        if (plugin is null) return;
+
+        try
+        {
+            await plugin.ExecuteAsync(node.FullPath, _pluginContext, CancellationToken.None);
+        }
+        catch (Exception ex)
+        {
+            await _pluginContext.Shell.ReportErrorAsync($"Plugin '{pluginName}' failed: {ex.Message}", ex);
+        }
+    }
+
+    private void ToolbarRefresh_Click(object sender, RoutedEventArgs e)
+    {
+        _ = ExecuteFolderPluginByNameAsync("Refresh");
+    }
+
+    private void ToolbarNewFolder_Click(object sender, RoutedEventArgs e)
+    {
+        _ = ExecuteFolderPluginByNameAsync("Make Directory");
+    }
+
+    private void ToolbarCopy_Click(object sender, RoutedEventArgs e)
+    {
+        _ = ExecuteFolderPluginByNameAsync("Copy");
+    }
+
+    private void ToolbarCut_Click(object sender, RoutedEventArgs e)
+    {
+        _ = ExecuteFolderPluginByNameAsync("Cut");
+    }
+
+    private void ToolbarPaste_Click(object sender, RoutedEventArgs e)
+    {
+        _ = ExecuteFolderPluginByNameAsync("Paste");
+    }
+
+    private void ToolbarDelete_Click(object sender, RoutedEventArgs e)
+    {
+        _ = ExecuteFolderPluginByNameAsync("Delete");
+    }
+
+    private void ToolbarRename_Click(object sender, RoutedEventArgs e)
+    {
+        _ = ExecuteFolderPluginByNameAsync("Rename");
+    }
+
+    private void ToolbarOpenExplorer_Click(object sender, RoutedEventArgs e)
+    {
+        _ = ExecuteFolderPluginByNameAsync("Open in File Explorer");
+    }
+
+    private void ToolbarInfo_Click(object sender, RoutedEventArgs e)
+    {
+        var node = GetSelectedTreeNode();
+        if (node is null || !node.IsDirectory) return;
+        var treeItem = FolderTree.SelectedItem as TreeViewItem;
+        ShowFolderInfoDialog(node.FullPath, treeItem);
+    }
+
+    #endregion
+
+    #region Folder Info
+
+    private void ShowFolderInfoDialog(string folderPath, TreeViewItem? treeItem)
+    {
+        var dialog = new FolderInfoDialog(folderPath, onComplete: folderInfo =>
+        {
+            if (treeItem is not null)
+                AnnotateTreeSizes(treeItem, folderInfo);
+        });
+        dialog.Owner = Window.GetWindow(this);
+        dialog.Show();
+    }
+
+    /// <summary>
+    /// Walk expanded child nodes and set their Header to include a right-aligned size label.
+    /// Only annotates nodes that are already loaded/expanded.
+    /// </summary>
+    private void AnnotateTreeSizes(TreeViewItem parentItem, Dictionary<string, FolderActivityInfo> folderInfo)
+    {
+        if (parentItem.Tag is FileSystemNode parentNode && parentNode.IsDirectory &&
+            folderInfo.TryGetValue(parentNode.FullPath, out var parentFolderInfo))
+        {
+            SetSizeLabel(parentItem, parentNode.Name, parentFolderInfo.SizeBytes, parentFolderInfo.LatestModifiedUtc);
+        }
+
+        foreach (var item in parentItem.Items)
+        {
+            if (item is not TreeViewItem childItem) continue;
+            if (childItem.Tag is not FileSystemNode childNode) continue;
+            if (!childNode.IsDirectory) continue;
+
+            if (folderInfo.TryGetValue(childNode.FullPath, out var childFolderInfo))
+            {
+                SetSizeLabel(childItem, childNode.Name, childFolderInfo.SizeBytes, childFolderInfo.LatestModifiedUtc);
+            }
+
+            // Recurse into expanded children
+            if (childItem.IsExpanded && childItem.Items.Count > 0)
+            {
+                AnnotateTreeSizes(childItem, folderInfo);
+            }
+        }
+    }
+
+    private void SetSizeLabel(TreeViewItem treeItem, string name, long sizeBytes, DateTime? latestModifiedUtc)
+    {
+        double leftOffset = 0;
+        try
+        {
+            leftOffset = treeItem.TransformToAncestor(FolderTree).Transform(new Point(0, 0)).X;
+        }
+        catch
+        {
+            // Fallback when layout is not ready yet.
+        }
+
+        var headerGrid = new Grid
+        {
+            Width = Math.Max(120, FolderTree.ActualWidth - leftOffset - 40),
+            Margin = new Thickness(0, 0, 8, 0)
+        };
+        headerGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+        headerGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+        headerGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+
+        var nameText = new TextBlock
+        {
+            Text = name,
+            VerticalAlignment = VerticalAlignment.Center,
+            TextTrimming = TextTrimming.CharacterEllipsis
+        };
+
+        var sizeText = new TextBlock
+        {
+            Text = FormatSizeMb(sizeBytes),
+            Opacity = 0.50,
+            FontSize = 11,
+            Margin = new Thickness(10, 0, 0, 0),
+            VerticalAlignment = VerticalAlignment.Center,
+            HorizontalAlignment = HorizontalAlignment.Right
+        };
+
+        var activityText = new TextBlock
+        {
+            Text = FormatActivityDate(latestModifiedUtc),
+            Opacity = 0.50,
+            FontSize = 11,
+            Margin = new Thickness(10, 0, 0, 0),
+            VerticalAlignment = VerticalAlignment.Center,
+            HorizontalAlignment = HorizontalAlignment.Right
+        };
+
+        Grid.SetColumn(nameText, 0);
+        Grid.SetColumn(sizeText, 1);
+        Grid.SetColumn(activityText, 2);
+        headerGrid.Children.Add(nameText);
+        headerGrid.Children.Add(sizeText);
+        headerGrid.Children.Add(activityText);
+
+        treeItem.Header = headerGrid;
+        _annotatedTreeItems[treeItem] = (name, sizeBytes, latestModifiedUtc);
+    }
+
+    private void RefreshAnnotatedSizeLabels()
+    {
+        if (_annotatedTreeItems.Count == 0) return;
+
+        var snapshot = _annotatedTreeItems.ToList();
+        foreach (var (item, value) in snapshot)
+        {
+            if (item.Tag is not FileSystemNode)
+            {
+                _annotatedTreeItems.Remove(item);
+                continue;
+            }
+
+            SetSizeLabel(item, value.Name, value.SizeBytes, value.LatestModifiedUtc);
+        }
+    }
+
+    private static string FormatSizeMb(long bytes)
+    {
+        var mb = bytes / (1024.0 * 1024.0);
+        return $"{mb:N1} MB";
+    }
+
+    private static string FormatActivityDate(DateTime? latestModifiedUtc)
+    {
+        if (!latestModifiedUtc.HasValue)
+            return "--/--";
+
+        return latestModifiedUtc.Value.ToLocalTime().ToString("MM/yy");
     }
 
     #endregion
