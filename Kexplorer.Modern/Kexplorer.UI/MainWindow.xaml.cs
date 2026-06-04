@@ -507,11 +507,142 @@ public partial class MainWindow : Window
         var menu = new ContextMenu();
 
         var explorerItem = new MenuItem { Header = "New File Explorer Tab" };
-        explorerItem.Click += (s, e) =>
+        var defaultExplorerItem = new MenuItem { Header = "Default" };
+        defaultExplorerItem.Click += (s, e) =>
         {
             var tabCount = MainTabControl.Items.Count; // includes the + tab
             AddExplorerTab($"Tab {tabCount}", null, null, isSelected: true);
         };
+        explorerItem.Items.Add(defaultExplorerItem);
+
+        explorerItem.Items.Add(new Separator());
+
+        var desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+        var desktopExplorerItem = new MenuItem
+        {
+            Header = "Desktop",
+            IsEnabled = System.IO.Directory.Exists(desktopPath)
+        };
+        desktopExplorerItem.Click += (s, e) => AddExplorerTab("Desktop", null, null, isSelected: true,
+            rootFolderPath: desktopPath);
+        explorerItem.Items.Add(desktopExplorerItem);
+
+        var oneDrivePath = ResolveOneDrivePath();
+        var oneDriveExplorerItem = new MenuItem
+        {
+            Header = "OneDrive",
+            IsEnabled = !string.IsNullOrEmpty(oneDrivePath)
+        };
+        oneDriveExplorerItem.Click += (s, e) =>
+        {
+            if (!string.IsNullOrEmpty(oneDrivePath))
+            {
+                AddExplorerTab("OneDrive", null, null, isSelected: true, rootFolderPath: oneDrivePath);
+            }
+        };
+        explorerItem.Items.Add(oneDriveExplorerItem);
+
+        var appDataPath = ResolveAppDataPath();
+        var appDataExplorerItem = new MenuItem
+        {
+            Header = "APP_DATA",
+            IsEnabled = !string.IsNullOrEmpty(appDataPath)
+        };
+        appDataExplorerItem.Click += (s, e) =>
+        {
+            if (!string.IsNullOrEmpty(appDataPath))
+            {
+                AddExplorerTab("APP_DATA", null, null, isSelected: true, rootFolderPath: appDataPath);
+            }
+        };
+        explorerItem.Items.Add(appDataExplorerItem);
+
+        var documentsPath = ResolveDocumentsPath();
+        var documentsExplorerItem = new MenuItem
+        {
+            Header = "Documents",
+            IsEnabled = !string.IsNullOrEmpty(documentsPath)
+        };
+        documentsExplorerItem.Click += (s, e) =>
+        {
+            if (!string.IsNullOrEmpty(documentsPath))
+            {
+                AddExplorerTab("Documents", null, null, isSelected: true, rootFolderPath: documentsPath);
+            }
+        };
+        explorerItem.Items.Add(documentsExplorerItem);
+
+        var downloadsPath = ResolveDownloadsPath();
+        var downloadsExplorerItem = new MenuItem
+        {
+            Header = "Downloads",
+            IsEnabled = !string.IsNullOrEmpty(downloadsPath)
+        };
+        downloadsExplorerItem.Click += (s, e) =>
+        {
+            if (!string.IsNullOrEmpty(downloadsPath))
+            {
+                AddExplorerTab("Downloads", null, null, isSelected: true, rootFolderPath: downloadsPath);
+            }
+        };
+        explorerItem.Items.Add(downloadsExplorerItem);
+
+        explorerItem.Items.Add(new Separator());
+
+        var rootVisibilityMenu = new MenuItem { Header = "Show In Every File Explorer" };
+
+        var showOneDriveItem = new MenuItem
+        {
+            Header = "OneDrive",
+            IsCheckable = true,
+            IsChecked = ExplorerPanel.IsSpecialRootVisible(ExplorerPanel.RootOneDrive)
+        };
+        showOneDriveItem.Click += (s, e) =>
+            ExplorerPanel.SetSpecialRootVisible(ExplorerPanel.RootOneDrive, showOneDriveItem.IsChecked);
+        rootVisibilityMenu.Items.Add(showOneDriveItem);
+
+        var showDesktopItem = new MenuItem
+        {
+            Header = "Desktop",
+            IsCheckable = true,
+            IsChecked = ExplorerPanel.IsSpecialRootVisible(ExplorerPanel.RootDesktop)
+        };
+        showDesktopItem.Click += (s, e) =>
+            ExplorerPanel.SetSpecialRootVisible(ExplorerPanel.RootDesktop, showDesktopItem.IsChecked);
+        rootVisibilityMenu.Items.Add(showDesktopItem);
+
+        var showAppDataItem = new MenuItem
+        {
+            Header = "APP_DATA",
+            IsCheckable = true,
+            IsChecked = ExplorerPanel.IsSpecialRootVisible(ExplorerPanel.RootAppData)
+        };
+        showAppDataItem.Click += (s, e) =>
+            ExplorerPanel.SetSpecialRootVisible(ExplorerPanel.RootAppData, showAppDataItem.IsChecked);
+        rootVisibilityMenu.Items.Add(showAppDataItem);
+
+        var showDocumentsItem = new MenuItem
+        {
+            Header = "Documents",
+            IsCheckable = true,
+            IsChecked = ExplorerPanel.IsSpecialRootVisible(ExplorerPanel.RootDocuments)
+        };
+        showDocumentsItem.Click += (s, e) =>
+            ExplorerPanel.SetSpecialRootVisible(ExplorerPanel.RootDocuments, showDocumentsItem.IsChecked);
+        rootVisibilityMenu.Items.Add(showDocumentsItem);
+
+        var showDownloadsItem = new MenuItem
+        {
+            Header = "Downloads",
+            IsCheckable = true,
+            IsChecked = ExplorerPanel.IsSpecialRootVisible(ExplorerPanel.RootDownloads)
+        };
+        showDownloadsItem.Click += (s, e) =>
+            ExplorerPanel.SetSpecialRootVisible(ExplorerPanel.RootDownloads, showDownloadsItem.IsChecked);
+        rootVisibilityMenu.Items.Add(showDownloadsItem);
+
+        explorerItem.Items.Add(rootVisibilityMenu);
+
         menu.Items.Add(explorerItem);
 
         var hybridServicesItem = new MenuItem { Header = "New Hybrid Services Tab" };
@@ -590,6 +721,46 @@ public partial class MainWindow : Window
         menu.PlacementTarget = AddTabButton;
         menu.Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom;
         menu.IsOpen = true;
+    }
+
+    private static string? ResolveOneDrivePath()
+    {
+        var envValue = Environment.GetEnvironmentVariable("OneDrive");
+        if (!string.IsNullOrWhiteSpace(envValue) && System.IO.Directory.Exists(envValue))
+            return envValue;
+
+        var userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+        if (string.IsNullOrWhiteSpace(userProfile))
+            return null;
+
+        var fallback = System.IO.Path.Combine(userProfile, "OneDrive");
+        return System.IO.Directory.Exists(fallback) ? fallback : null;
+    }
+
+    private static string? ResolveAppDataPath()
+    {
+        var envValue = Environment.GetEnvironmentVariable("APPDATA");
+        if (!string.IsNullOrWhiteSpace(envValue) && System.IO.Directory.Exists(envValue))
+            return envValue;
+
+        var roaming = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+        return !string.IsNullOrWhiteSpace(roaming) && System.IO.Directory.Exists(roaming) ? roaming : null;
+    }
+
+    private static string? ResolveDocumentsPath()
+    {
+        var documents = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+        return !string.IsNullOrWhiteSpace(documents) && System.IO.Directory.Exists(documents) ? documents : null;
+    }
+
+    private static string? ResolveDownloadsPath()
+    {
+        var userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+        if (string.IsNullOrWhiteSpace(userProfile))
+            return null;
+
+        var downloads = System.IO.Path.Combine(userProfile, "Downloads");
+        return System.IO.Directory.Exists(downloads) ? downloads : null;
     }
 
     private async void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)

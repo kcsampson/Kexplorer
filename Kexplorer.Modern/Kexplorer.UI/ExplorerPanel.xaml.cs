@@ -19,6 +19,21 @@ namespace Kexplorer.UI;
 /// </summary>
 public partial class ExplorerPanel : UserControl, IKexplorerShell
 {
+    public const string RootOneDrive = "OneDrive";
+    public const string RootDesktop = "Desktop";
+    public const string RootAppData = "AppData";
+    public const string RootDocuments = "Documents";
+    public const string RootDownloads = "Downloads";
+
+    private static readonly Dictionary<string, bool> _specialRootVisibility = new(StringComparer.OrdinalIgnoreCase)
+    {
+        [RootOneDrive] = true,
+        [RootDesktop] = true,
+        [RootAppData] = true,
+        [RootDocuments] = true,
+        [RootDownloads] = true
+    };
+
     private WorkQueue? _mainQueue;
     private readonly Dictionary<string, WorkQueue> _driveQueues = new(StringComparer.OrdinalIgnoreCase);
     private PluginManager? _pluginManager;
@@ -55,6 +70,17 @@ public partial class ExplorerPanel : UserControl, IKexplorerShell
         InitializeComponent();
         FileGrid.ItemsSource = _fileItems;
         FolderTree.SizeChanged += (_, _) => RefreshAnnotatedSizeLabels();
+    }
+
+    public static bool IsSpecialRootVisible(string rootName)
+    {
+        return _specialRootVisibility.TryGetValue(rootName, out var visible) && visible;
+    }
+
+    public static void SetSpecialRootVisible(string rootName, bool visible)
+    {
+        if (_specialRootVisibility.ContainsKey(rootName))
+            _specialRootVisibility[rootName] = visible;
     }
 
     public async Task InitializeAsync(string? currentFolder, List<string>? drives,
@@ -109,10 +135,14 @@ public partial class ExplorerPanel : UserControl, IKexplorerShell
 
             _loadedDrives.Add(fullPath);
 
-            // Create a per-drive work queue
-            var driveQueue = new WorkQueue(this, new WorkQueueOptions { WorkerCount = 1 });
-            _driveQueues[driveLetter.Substring(0, 1)] = driveQueue;
-            await driveQueue.StartAsync();
+            var queueKey = driveLetter.Substring(0, 1);
+            if (!_driveQueues.TryGetValue(queueKey, out var driveQueue))
+            {
+                // Create a per-drive work queue if one is not already present.
+                driveQueue = new WorkQueue(this, new WorkQueueOptions { WorkerCount = 1 });
+                _driveQueues[queueKey] = driveQueue;
+                await driveQueue.StartAsync();
+            }
 
             // Add drive node to tree
             var treeItem = new TreeViewItem
@@ -127,6 +157,9 @@ public partial class ExplorerPanel : UserControl, IKexplorerShell
             // Enqueue drive loading
             await driveQueue.EnqueueAsync(new DriveLoaderWorkItem(fullPath));
         }
+
+        // Add common user roots after drive letters.
+        await AddUserSpecialRootsAsync();
 
         // If we have expanded folders to restore, do it after drives load
         if (expandedFolders is { Count: > 0 } || !string.IsNullOrEmpty(selectedFolder))
@@ -148,6 +181,80 @@ public partial class ExplorerPanel : UserControl, IKexplorerShell
                 await NavigateToPathAsync(currentFolder);
             });
         }
+    }
+
+    private async Task AddUserSpecialRootsAsync()
+    {
+        if (IsSpecialRootVisible(RootOneDrive))
+            await AddSpecialRootNodeAsync(RootOneDrive, ResolveOneDrivePath());
+
+        if (IsSpecialRootVisible(RootDesktop))
+            await AddSpecialRootNodeAsync(RootDesktop,
+                Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory));
+
+        if (IsSpecialRootVisible(RootAppData))
+            await AddSpecialRootNodeAsync(RootAppData,
+                Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));
+
+        if (IsSpecialRootVisible(RootDocuments))
+            await AddSpecialRootNodeAsync(RootDocuments,
+                Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
+
+        if (IsSpecialRootVisible(RootDownloads))
+            await AddSpecialRootNodeAsync(RootDownloads,
+                GetDownloadsFolderPath());
+    }
+
+    private static string? GetDownloadsFolderPath()
+    {
+        var userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+        if (string.IsNullOrWhiteSpace(userProfile))
+            return null;
+
+        var downloads = Path.Combine(userProfile, "Downloads");
+        return Directory.Exists(downloads) ? downloads : null;
+    }
+
+    private static string? ResolveOneDrivePath()
+    {
+        var oneDrive = Environment.GetEnvironmentVariable("OneDrive");
+        if (!string.IsNullOrWhiteSpace(oneDrive) && Directory.Exists(oneDrive))
+            return oneDrive;
+
+        var userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+        if (string.IsNullOrWhiteSpace(userProfile))
+            return null;
+
+        var fallback = Path.Combine(userProfile, "OneDrive");
+        return Directory.Exists(fallback) ? fallback : null;
+    }
+
+    private async Task AddSpecialRootNodeAsync(string displayName, string? folderPath)
+    {
+        if (string.IsNullOrWhiteSpace(folderPath) || !Directory.Exists(folderPath))
+            return;
+
+        var node = new FileSystemNode(displayName, folderPath, isDirectory: true);
+        var treeItem = new TreeViewItem
+        {
+            Header = GetDirectoryDisplayName(displayName, folderPath),
+            Tag = node
+        };
+        treeItem.Items.Add(new TreeViewItem { Header = "Loading..." });
+        FolderTree.Items.Add(treeItem);
+
+        // Use a dedicated queue per special root so these nodes are not blocked
+        // behind heavy drive-root scans (for example C:\).
+        var queueKey = $"_root_{displayName.ToLowerInvariant()}";
+
+        if (!_driveQueues.TryGetValue(queueKey, out var queue))
+        {
+            queue = new WorkQueue(this, new WorkQueueOptions { WorkerCount = 1 });
+            _driveQueues[queueKey] = queue;
+            await queue.StartAsync();
+        }
+
+        await queue.EnqueueAsync(new FolderLoaderWorkItem(folderPath));
     }
 
     private async Task InitializeWslTabAsync(string distroName,
@@ -358,41 +465,40 @@ public partial class ExplorerPanel : UserControl, IKexplorerShell
 
     #region File Grid Events
 
-    private void FileGrid_DoubleClick(object sender, MouseButtonEventArgs e)
+    private void OpenFileFromGrid(FileGridItem item)
     {
-        if (FileGrid.SelectedItem is FileGridItem item)
+        try
         {
-            try
+            if (_launcherService is not null)
+            {
+                _launcherService.Launch(item.FullPath);
+            }
+            else
             {
                 var mainWindow = Window.GetWindow(this) as MainWindow
                     ?? Application.Current.MainWindow as MainWindow;
                 mainWindow?.AddTextViewerTab(item.Name, isSelected: true, item.FullPath);
             }
-            catch (Exception ex)
-            {
-                Clipboard.SetText(ex.ToString());
-                MessageBox.Show($"Error opening internal editor (copied to clipboard):\n{ex.Message}",
-                    "Open Internal Editor Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
         }
+        catch (Exception ex)
+        {
+            Clipboard.SetText(ex.ToString());
+            MessageBox.Show($"Error opening file (copied to clipboard):\n{ex.Message}",
+                "Open File Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+    }
+
+    private void FileGrid_DoubleClick(object sender, MouseButtonEventArgs e)
+    {
+        if (FileGrid.SelectedItem is FileGridItem item)
+            OpenFileFromGrid(item);
     }
 
     private void FileGrid_KeyDown(object sender, KeyEventArgs e)
     {
         if (e.Key == Key.Enter && FileGrid.SelectedItem is FileGridItem item)
         {
-            try
-            {
-                var mainWindow = Window.GetWindow(this) as MainWindow
-                    ?? Application.Current.MainWindow as MainWindow;
-                mainWindow?.AddTextViewerTab(item.Name, isSelected: true, item.FullPath);
-            }
-            catch (Exception ex)
-            {
-                Clipboard.SetText(ex.ToString());
-                MessageBox.Show($"Error opening internal editor (copied to clipboard):\n{ex.Message}",
-                    "Open Internal Editor Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+            OpenFileFromGrid(item);
             e.Handled = true;
         }
     }

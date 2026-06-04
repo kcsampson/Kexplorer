@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.ComponentModel;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -53,6 +54,22 @@ public sealed class LauncherService
     private readonly Dictionary<string, LauncherMapping> _mappings = new(StringComparer.OrdinalIgnoreCase);
     private LauncherMapping? _defaultMapping;
 
+    // Sensible Windows defaults when the user has no launchers.json yet.
+    // Any explicit mapping in launchers.json overrides these.
+    private static readonly LauncherMapping[] WindowsDefaultMappings =
+    {
+        new() { Extension = "pdf", Command = "chrome.exe" },
+        new() { Extension = "doc", Command = "winword.exe" },
+        new() { Extension = "docx", Command = "winword.exe" },
+        new() { Extension = "xls", Command = "excel.exe" },
+        new() { Extension = "xlsx", Command = "excel.exe" },
+        new() { Extension = "xlsm", Command = "excel.exe" },
+        new() { Extension = "xlsb", Command = "excel.exe" },
+        new() { Extension = "csv", Command = "excel.exe" },
+        new() { Extension = "ppt", Command = "powerpnt.exe" },
+        new() { Extension = "pptx", Command = "powerpnt.exe" }
+    };
+
     /// <summary>
     /// The project editor command (e.g., "code", "zed", "notepad++"). Defaults to "code".
     /// </summary>
@@ -66,6 +83,20 @@ public sealed class LauncherService
         _mappings.Clear();
         _defaultMapping = null;
         ProjectEditor = "code";
+
+        if (OperatingSystem.IsWindows())
+        {
+            foreach (var mapping in WindowsDefaultMappings)
+            {
+                _mappings["." + mapping.Extension.TrimStart('.')] = new LauncherMapping
+                {
+                    Extension = mapping.Extension,
+                    Command = mapping.Command,
+                    PreOption = mapping.PreOption,
+                    Options = mapping.Options
+                };
+            }
+        }
 
         if (!File.Exists(filePath))
             return;
@@ -141,13 +172,33 @@ public sealed class LauncherService
             args += " " + mapping.Options;
         }
 
-        Process.Start(new ProcessStartInfo
+        try
         {
-            FileName = mapping.Command,
-            Arguments = args,
-            WorkingDirectory = fi.DirectoryName ?? "",
-            UseShellExecute = true
-        });
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = mapping.Command,
+                Arguments = args,
+                WorkingDirectory = fi.DirectoryName ?? "",
+                UseShellExecute = true
+            });
+        }
+        catch (Win32Exception)
+        {
+            // If the configured launcher command is unavailable, fall back to shell open.
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = fi.FullName,
+                UseShellExecute = true
+            });
+        }
+        catch (FileNotFoundException)
+        {
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = fi.FullName,
+                UseShellExecute = true
+            });
+        }
     }
 
     /// <summary>
