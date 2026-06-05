@@ -1,5 +1,7 @@
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -1218,10 +1220,30 @@ public partial class ExplorerPanel : UserControl, IKexplorerShell
                 }
                 else
                 {
-                    capturedWindow.AddTerminalTab("Terminal", isSelected: true, "powershell.exe", termFolderPath);
+                    capturedWindow.AddTerminalTab("Terminal (cmd)", isSelected: true, "cmd.exe", termFolderPath);
                 }
             };
             TreeContextMenu.Items.Add(openTerminal);
+
+            // "Open in IntelliJ" for folders that contain a .idea project marker.
+            if (HasIdeaProjectMarker(node.FullPath))
+            {
+                var openInIntelliJ = new MenuItem { Header = "Open in IntelliJ" };
+                var intelliJPath = node.FullPath;
+                openInIntelliJ.Click += (s, e) =>
+                {
+                    if (!TryOpenInIntelliJ(intelliJPath))
+                    {
+                        MessageBox.Show(
+                            "Could not find IntelliJ launcher (idea64.exe/idea.exe/idea). " +
+                            "Please add IntelliJ to PATH.",
+                            "Open in IntelliJ",
+                            MessageBoxButton.OK,
+                            MessageBoxImage.Warning);
+                    }
+                };
+                TreeContextMenu.Items.Add(openInIntelliJ);
+            }
 
             // "Info" — show file count and total size for this folder
             var infoItem = new MenuItem { Header = "Info" };
@@ -1325,6 +1347,51 @@ public partial class ExplorerPanel : UserControl, IKexplorerShell
                 AddPluginMenuItem(TreeContextMenu, plugin, node.FullPath);
             }
         }
+    }
+
+    private static bool HasIdeaProjectMarker(string folderPath)
+    {
+        if (string.IsNullOrWhiteSpace(folderPath))
+            return false;
+
+        try
+        {
+            return Directory.Exists(Path.Combine(folderPath, ".idea"));
+        }
+        catch (Exception)
+        {
+            return false;
+        }
+    }
+
+    private static bool TryOpenInIntelliJ(string folderPath)
+    {
+        var launchers = new[] { "idea64.exe", "idea.exe", "idea.cmd", "idea.bat", "idea" };
+
+        foreach (var launcher in launchers)
+        {
+            try
+            {
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = launcher,
+                    Arguments = $"\"{folderPath}\"",
+                    WorkingDirectory = folderPath,
+                    UseShellExecute = true
+                });
+                return true;
+            }
+            catch (Win32Exception)
+            {
+                // Try the next launcher candidate.
+            }
+            catch (FileNotFoundException)
+            {
+                // Try the next launcher candidate.
+            }
+        }
+
+        return false;
     }
 
     private void AddPluginMenuItem(ContextMenu menu, IFolderPlugin plugin, string folderPath)
