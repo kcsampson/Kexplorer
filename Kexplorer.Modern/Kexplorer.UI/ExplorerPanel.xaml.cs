@@ -1235,8 +1235,8 @@ public partial class ExplorerPanel : UserControl, IKexplorerShell
                     if (!TryOpenInIntelliJ(intelliJPath))
                     {
                         MessageBox.Show(
-                            "Could not find IntelliJ launcher (idea64.exe/idea.exe/idea). " +
-                            "Please add IntelliJ to PATH.",
+                            "Could not find IntelliJ launcher. " +
+                            "Kexplorer checked PATH and common JetBrains install folders.",
                             "Open in IntelliJ",
                             MessageBoxButton.OK,
                             MessageBoxImage.Warning);
@@ -1366,9 +1366,7 @@ public partial class ExplorerPanel : UserControl, IKexplorerShell
 
     private static bool TryOpenInIntelliJ(string folderPath)
     {
-        var launchers = new[] { "idea64.exe", "idea.exe", "idea.cmd", "idea.bat", "idea" };
-
-        foreach (var launcher in launchers)
+        foreach (var launcher in GetIntelliJLauncherCandidates())
         {
             try
             {
@@ -1389,9 +1387,149 @@ public partial class ExplorerPanel : UserControl, IKexplorerShell
             {
                 // Try the next launcher candidate.
             }
+            catch (DirectoryNotFoundException)
+            {
+                // JetBrains may move folders during updates; continue trying candidates.
+            }
         }
 
         return false;
+    }
+
+    private static IEnumerable<string> GetIntelliJLauncherCandidates()
+    {
+        var seen = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+        // PATH candidates first, then absolute install paths.
+        var pathCandidates = new[] { "idea64.exe", "idea.exe", "idea.cmd", "idea.bat", "idea" };
+        foreach (var candidate in pathCandidates)
+        {
+            if (seen.Add(candidate))
+                yield return candidate;
+        }
+
+        foreach (var installedPath in FindInstalledIntelliJLaunchers())
+        {
+            if (seen.Add(installedPath))
+                yield return installedPath;
+        }
+    }
+
+    private static IEnumerable<string> FindInstalledIntelliJLaunchers()
+    {
+        if (!OperatingSystem.IsWindows())
+            yield break;
+
+        var programFilesRoots = new[]
+        {
+            Environment.GetEnvironmentVariable("ProgramFiles"),
+            Environment.GetEnvironmentVariable("ProgramFiles(x86)"),
+            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Programs")
+        };
+
+        foreach (var root in programFilesRoots)
+        {
+            if (string.IsNullOrWhiteSpace(root) || !Directory.Exists(root))
+                continue;
+
+            foreach (var candidate in FindJetBrainsIdeLaunchersUnder(root))
+                yield return candidate;
+        }
+
+        var toolboxAppsRoot = Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+            "JetBrains",
+            "Toolbox",
+            "apps");
+
+        foreach (var productDir in EnumerateDirectoriesSafe(toolboxAppsRoot, "IDEA*"))
+        {
+            foreach (var channelDir in EnumerateDirectoriesSafe(productDir, "ch-*"))
+            {
+                foreach (var versionDir in EnumerateDirectoriesSafe(channelDir))
+                {
+                    foreach (var exeName in new[] { "idea64.exe", "idea.exe" })
+                    {
+                        var launcherPath = Path.Combine(versionDir, "bin", exeName);
+                        if (File.Exists(launcherPath))
+                            yield return launcherPath;
+                    }
+                }
+            }
+        }
+    }
+
+    private static IEnumerable<string> FindJetBrainsIdeLaunchersUnder(string root)
+    {
+        // Common layout: {root}\JetBrains\IntelliJ IDEA*\bin\idea64.exe
+        foreach (var jetBrainsDir in EnumerateDirectoriesSafe(root, "JetBrains"))
+        {
+            foreach (var ideDir in EnumerateDirectoriesSafe(jetBrainsDir, "IntelliJ IDEA*"))
+            {
+                foreach (var exeName in new[] { "idea64.exe", "idea.exe" })
+                {
+                    var launcherPath = Path.Combine(ideDir, "bin", exeName);
+                    if (File.Exists(launcherPath))
+                        yield return launcherPath;
+                }
+            }
+        }
+
+        // Some installs place IntelliJ directly under Program Files.
+        foreach (var ideDir in EnumerateDirectoriesSafe(root, "IntelliJ IDEA*"))
+        {
+            foreach (var exeName in new[] { "idea64.exe", "idea.exe" })
+            {
+                var launcherPath = Path.Combine(ideDir, "bin", exeName);
+                if (File.Exists(launcherPath))
+                    yield return launcherPath;
+            }
+        }
+    }
+
+    private static IEnumerable<string> EnumerateDirectoriesSafe(string root, string searchPattern = "*")
+    {
+        if (string.IsNullOrWhiteSpace(root) || !Directory.Exists(root))
+            yield break;
+
+        IEnumerator<string>? enumerator = null;
+        try
+        {
+            enumerator = Directory.EnumerateDirectories(root, searchPattern, SearchOption.TopDirectoryOnly).GetEnumerator();
+        }
+        catch (UnauthorizedAccessException)
+        {
+            yield break;
+        }
+        catch (IOException)
+        {
+            yield break;
+        }
+
+        using (enumerator)
+        {
+            while (true)
+            {
+                bool moved;
+                try
+                {
+                    moved = enumerator.MoveNext();
+                }
+                catch (UnauthorizedAccessException)
+                {
+                    yield break;
+                }
+                catch (IOException)
+                {
+                    yield break;
+                }
+
+                if (!moved)
+                    yield break;
+
+                yield return enumerator.Current;
+            }
+        }
     }
 
     private void AddPluginMenuItem(ContextMenu menu, IFolderPlugin plugin, string folderPath)
