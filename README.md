@@ -1,43 +1,148 @@
-Kexplorer - 
-C# Windows Form Application
-=========
+# Kexplorer — Multi-Tabbed Windows Explorer
 
-KExplorer is a Multi-Tabbed Windows Explorer alternative I started back in 2004. 
+## New in 2026: Kexplorer.Modern
 
-As a programmer, I constantly work hundreds of files spread out all over my hard-drive and network drives. 
-I need to be able to work with these files as efficiently as possible.  Windows Explorer has two big drawbacks
-that effect my productivity.  First, it can be slow.  Sometimes, there is a 30 to 60 second freeze-up when I right mouse click a file to get its context menu.
-Second, Windows Explorer does not have tabs.  You must open a completely different windows to have differents looks into your file system.
+Kexplorer.Modern was introduced in the first half of 2026 as the new version of Kexplorer.
 
-So I started KExplorer with some basic problems I wanted to solve to improve my productivity:
+- Tighter integration with WSL and Docker
+- Windows Services tab is split with dedicated Docker Containers status
+- Completed terminal session tabs: PowerShell, Cmd, and Linux Bash
 
-  1.  Multi-Tabbed User Interface to the File System.  TreeView of Folders on Left - List of File Information on the Right.
-  2.  Multi-Threaded - Improve Responsiveness by performing File System Loading in background worker threads.
-  3.  Custom Context Menus - Improve responsiveness of Context Menus by eliminating Icons, and, custom programming.
-  4.  Add a "Services" tab - Often I want to Stop/Start services.  Wouldn't it be nice if I could have a listing of services in another tab and be able to start/stop then.
-  5.  A "Scripting" framework - I want to integrate my own scripts/tools that help me get my work done fast.
-		a. Zip/Unzip - Zipping is extremenly east.  
-			i. You can go to a folder and say "Next Unzip Location Should be Here"
-			ii. Right click on and zip file and say "Unzip To"
-		b. Quickly get Full Path File Name, or just the File Name.
-			i. Right mouse click - "Name - Full Name to Clipboard"
-			ii or Right mouse click - "Name - Short Name to Clipboard.
-		c. Xml/Xslt Transforms
-			i.  Right click an Xml file and say "This is the source to the next Xslt I run".
-			ii. Right click an Xslt file and say "Run this XSLT with the last Xml I said to run with"
-		d. Xml Validation - Right click an Xml file and quickly validate it.
-		e. Set other file extensions as Zip files.  .docx, .xslx, .ppptx
-		b. WinGrep here.... Run WinGrep command right at the current location.
-		
-		
-		
-	6. Passive - Don't check for file system changes.  
-		i. This can cause performance problems in Windows Explorer
-		ii. Force the user to hit F5 - Refresh to see file changes.
-		
-	7. Don't allow Drag and Drop
-		i. Bad things can happend with drag and drop.  Like you can accidentally move thousands of files this way.
-		ii. I worked on a large project where field engineers often drag/dropped files out of existence.
+Start here: **[Kexplorer.Modern/README.md](./Kexplorer.Modern/README.md)**
+
+---
+
+A high-performance, multi-tabbed file explorer for Windows developers. **New to this project? Start with [Kexplorer Modern](#-kexplorer-modern-recommended)** — the cutting-edge .NET 8 WPF version built for developers who use Windows, WSL, Docker, and remote systems.
+
+Disclaimer: Kexplorer is opinionated to how I work. Feel free to fork your own copy and add your own handling for certain file types.
+
+![Kexplorer screenshot](./kexplorer-screenshot.png)
+
+---
+
+## 🚀 Kexplorer Modern (Recommended)
+
+**[Kexplorer.Modern/](./Kexplorer.Modern/)** — A complete modern rewrite targeting .NET 8 and WPF.
+
+### Why Kexplorer Modern?
+
+- **Advanced hybrid environment support** — Windows + WSL + Docker in one unified interface
+- **Modern async architecture** — Built on `async/await` with true background work queues—no UI freezes
+- **Sophisticated plugin system** — Easily extensible with attribute-based capability declarations
+- **Better performance** — Lazy-loading trees, per-tab work queues, proper CancellationToken support
+- **Actively developed** — Ongoing phases for AI integration, MCP server, and plugin marketplace
+
+### Quick Start (Kexplorer Modern)
+
+```powershell
+cd Kexplorer.Modern
+dotnet build
+dotnet run --project Kexplorer.UI
+```
+
+**See [Kexplorer.Modern/README.md](./Kexplorer.Modern/README.md) for the modern overview and requirements.**
+**See [Kexplorer.Modern/Kexplorer.UI/README.md](./Kexplorer.Modern/Kexplorer.UI/README.md) for full UI documentation.**
+
+---
+
+## 📖 Historical Context — Kexplorer Legacy
+
+**Kexplorer** is a Multi-Tabbed Windows Explorer alternative I started back in **2004**. The legacy version (in the `/Kexplorer` directory) is a Windows Forms application that introduced:
+
+### Original Design Goals (Still Valid)
+
+As a programmer working with hundreds of files across drives and network shares, I needed to solve Windows Explorer's key productivity drawbacks:
+
+1. **Multi-Tabbed Interface** — TreeView of folders on left, detailed file grid on right. Work with multiple locations without opening separate windows.
+
+2. **Multi-Threaded Responsiveness** — File system loading runs on background worker threads. No more 30-60 second freeze-ups when right-clicking files.
+
+3. **Custom Context Menus** — Fast, focused context menus without bloated icons.
+
+4. **Services Tab** — Stop/start/restart Windows services in a tab instead of Control Panel.
+
+5. **Extensible Scripting Framework** — Integrate custom tools:
+   - Zip/Unzip files with workflow support
+   - Quick path copy (full name or filename only)
+   - XML/XSLT transforms
+   - XML validation
+   - Windows grep integration
+   - Rename, delete, make directory operations
+
+6. **Passive File Monitoring** — No automatic refresh (prevents Explorer freezes). Explicit F5 refresh only.
+
+7. **No Drag-and-Drop** — By design. Too many accidental file moves in high-volume environments.
+
+### Legacy Project Structure
+
+```
+Kexplorer/                      — Legacy Windows Forms application
+├── Kexplorer.csproj          — Main project file
+├── src/                        — Core controllers, nodes, work units (20 files)
+├── res/                        — Windows Forms UI dialogs (11 files)
+├── services/src/               — Windows service management (9 files)
+├── scripting/src/              — Script system infrastructure (12 files)
+└── scripts/src/                — Built-in scripts (45+ files)
+```
+
+### Legacy Features
+
+- **KExplorerControl** — Main controller orchestrating UI and work pipelines
+- **Pipeline System** — Background work queue with priority handling
+- **KExplorerNode** — Tree node model for file system
+- **Script Manager** — Reflection-based plugin discovery and execution
+- **FTP Support** — Browse FTP sites in tabs alongside Windows folders
+- **Session Persistence** — Saves tabs and window state across sessions
+
+---
+
+## 🔄 Migrating from Legacy to Modern
+
+All core functionality from the legacy version is being ported to Kexplorer Modern:
+
+| Feature | Legacy | Modern | Status |
+|---------|--------|--------|--------|
+| Multi-tabbed explorer | ✅ | ✅ | Complete |
+| Tree + Grid split panel | ✅ | ✅ | Complete |
+| Services management | ✅ | ✅ | Complete |
+| File/folder plugins | ✅ | ✅ | Complete (10 core plugins) |
+| Launcher service | ✅ | ✅ | Modernized to JSON |
+| Session persistence | ✅ | ✅ | Complete |
+| **WSL support** | ❌ | ✅ | **New in Modern** |
+| **Docker integration** | ❌ | ✅ | **New in Modern** |
+| **Async architecture** | ❌ | ✅ | **New in Modern** |
+| **Modern UI (WPF)** | ❌ | ✅ | **New in Modern** |
+
+**Migration tracking:** See [Kexplorer.Modern/MIGRATION_NOTES.md](./Kexplorer.Modern/MIGRATION_NOTES.md)
+
+---
+
+## 📂 Repository Structure
+
+```
+Kexplorer/
+├── README.md                    — This file
+├── Kexplorer/                   — Legacy Windows Forms application
+│   ├── Kexplorer.csproj
+│   ├── src/                     — Core logic
+│   ├── res/                     — UI forms and dialogs
+│   └── scripts/                 — Custom script implementations
+│
+├── Kexplorer.Modern/            — Modern .NET 8 WPF rewrite (RECOMMENDED)
+│   ├── Kexplorer.Modern.sln
+│   ├── Kexplorer.Core/          — Domain models, work queue, plugins
+│   ├── Kexplorer.UI/            — WPF application (start here!)
+│   ├── Kexplorer.Plugins/       — Built-in plugins
+│   ├── Kexplorer.Core.Tests/    — Test suite
+│   ├── Kexplorer.MCP/           — MCP server (Phase 3)
+│   ├── Kexplorer.AI/            — AI features (Phase 3)
+│   ├── Kexplorer.UI/README.md   — Comprehensive UI documentation
+│   └── MIGRATION_NOTES.md       — Detailed phase status
+│
+└── specifications/              — Design specifications
+    ├── 01-Modern-Refresh.md     — Full Kexplorer Modern spec
+    └── 03-bugs-and-enhancements/
+```
 		
 	
 
