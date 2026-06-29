@@ -6,6 +6,20 @@ It keeps the original productivity-first explorer workflow while modernizing the
 
 ![Kexplorer screenshot](../kexplorer-screenshot.png)
 
+## Additional Screenshots
+
+Windows file explorer view:
+
+![Windows file explorer view](../screenshot-file-explorer-windows.png)
+
+Linux WSL file explorer view:
+
+![Linux WSL file explorer view](../scerenshow-linux-wsl-file-explorer.png)
+
+Network ports tab:
+
+![Network ports tab](../screenshot-network-ports-tab.png)
+
 ## Highlights
 
 - Tighter integration with WSL and Docker for mixed-environment workflows
