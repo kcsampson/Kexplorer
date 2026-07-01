@@ -24,7 +24,8 @@ public sealed class DriveLoaderWorkItem : IWorkItem
 
         await shell.ReportStatusAsync($"Loading drive {_drivePath}...", cancellationToken);
 
-        var children = DirectoryLoader.LoadChildren(_drivePath, recurseDepth: 2);
+        // Keep root loading shallow; deeper levels are loaded lazily on demand.
+        var children = DirectoryLoader.LoadChildren(_drivePath, recurseDepth: 1);
 
         cancellationToken.ThrowIfCancellationRequested();
 

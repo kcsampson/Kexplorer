@@ -19,7 +19,9 @@ public static class DirectoryLoader
             var di = new DirectoryInfo(directoryPath);
             foreach (var subdir in di.GetDirectories())
             {
-                var childNode = new FileSystemNode(subdir.Name, subdir.FullName, isDirectory: true);
+                var isLinkedDirectory = (subdir.Attributes & FileAttributes.ReparsePoint) != 0;
+                var childNode = new FileSystemNode(subdir.Name, subdir.FullName, isDirectory: true,
+                    isLinkedDirectory: isLinkedDirectory);
                 childNode.Loaded = true;
 
                 if (recurseDepth > 1)

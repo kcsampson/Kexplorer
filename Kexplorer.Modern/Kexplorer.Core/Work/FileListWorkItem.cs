@@ -1,5 +1,6 @@
 using Kexplorer.Core.FileSystem;
 using Kexplorer.Core.Shell;
+using System.Diagnostics;
 
 namespace Kexplorer.Core.Work;
 
@@ -22,10 +23,18 @@ public sealed class FileListWorkItem : IWorkItem
     {
         cancellationToken.ThrowIfCancellationRequested();
 
+        await shell.ReportStatusAsync($"Loading files: {_directoryPath}", cancellationToken);
+        var sw = Stopwatch.StartNew();
+
         var files = DirectoryLoader.LoadFiles(_directoryPath);
+
+        sw.Stop();
 
         cancellationToken.ThrowIfCancellationRequested();
 
         await shell.SetFileListAsync(_directoryPath, files, cancellationToken);
+        await shell.ReportStatusAsync(
+            $"Loaded {files.Count} files from {_directoryPath} in {sw.ElapsedMilliseconds} ms",
+            cancellationToken);
     }
 }

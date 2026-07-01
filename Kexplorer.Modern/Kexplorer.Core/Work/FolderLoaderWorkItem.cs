@@ -1,5 +1,6 @@
 using Kexplorer.Core.FileSystem;
 using Kexplorer.Core.Shell;
+using System.Diagnostics;
 
 namespace Kexplorer.Core.Work;
 
@@ -22,10 +23,20 @@ public sealed class FolderLoaderWorkItem : IWorkItem
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        var children = DirectoryLoader.LoadChildren(_folderPath, recurseDepth: 2);
+        await shell.ReportStatusAsync($"Loading folder tree: {_folderPath}", cancellationToken);
+        var sw = Stopwatch.StartNew();
+
+        // Load only one level per expand. Eagerly preloading grandchildren can make
+        // large providers (for example OneDrive) feel hung while recursion completes.
+        var children = DirectoryLoader.LoadChildren(_folderPath, recurseDepth: 1);
+
+        sw.Stop();
 
         cancellationToken.ThrowIfCancellationRequested();
 
         await shell.SetTreeChildrenAsync(_folderPath, children, cancellationToken);
+        await shell.ReportStatusAsync(
+            $"Loaded {children.Count} folders from {_folderPath} in {sw.ElapsedMilliseconds} ms",
+            cancellationToken);
     }
 }

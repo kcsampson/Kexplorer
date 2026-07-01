@@ -21,6 +21,14 @@ namespace Kexplorer.UI;
 /// </summary>
 public partial class ExplorerPanel : UserControl, IKexplorerShell
 {
+    private static readonly HashSet<string> MediaViewerExtensions = new(StringComparer.OrdinalIgnoreCase)
+    {
+        ".jpg", ".jpeg", ".png", ".gif", ".bmp", ".tiff", ".tif",
+        ".webp", ".ico", ".heic", ".heif", ".avif",
+        ".mp4", ".mkv", ".avi", ".mov", ".wmv", ".flv", ".webm",
+        ".mpg", ".mpeg", ".m4v", ".ts"
+    };
+
     public const string RootOneDrive = "OneDrive";
     public const string RootDesktop = "Desktop";
     public const string RootAppData = "AppData";
@@ -49,7 +57,6 @@ public partial class ExplorerPanel : UserControl, IKexplorerShell
     // Track loaded drives for state persistence
     private readonly List<string> _loadedDrives = new();
     private readonly Dictionary<TreeViewItem, (string Name, string FullPath, long SizeBytes, DateTime? LatestModifiedUtc)> _annotatedTreeItems = new();
-    private readonly Dictionary<string, bool> _linkedDirectoryCache = new(StringComparer.OrdinalIgnoreCase);
     private CancellationTokenSource? _restoreCts;
     private bool _restoringNavigation;
 
@@ -149,7 +156,7 @@ public partial class ExplorerPanel : UserControl, IKexplorerShell
             // Add drive node to tree
             var treeItem = new TreeViewItem
             {
-                Header = GetDirectoryDisplayName(fullPath, fullPath),
+                Header = GetDirectoryDisplayName(fullPath, false),
                 Tag = new FileSystemNode(fullPath, fullPath, isDirectory: true)
             };
             // Add a dummy child so the expand arrow is shown
@@ -239,7 +246,7 @@ public partial class ExplorerPanel : UserControl, IKexplorerShell
         var node = new FileSystemNode(displayName, folderPath, isDirectory: true);
         var treeItem = new TreeViewItem
         {
-            Header = GetDirectoryDisplayName(displayName, folderPath),
+            Header = GetDirectoryDisplayName(displayName, false),
             Tag = node
         };
         treeItem.Items.Add(new TreeViewItem { Header = "Loading..." });
@@ -283,7 +290,7 @@ public partial class ExplorerPanel : UserControl, IKexplorerShell
 
         var treeItem = new TreeViewItem
         {
-            Header = GetDirectoryDisplayName(displayName, uncRoot),
+            Header = GetDirectoryDisplayName(displayName, false),
             Tag = rootNode
         };
 
@@ -340,7 +347,7 @@ public partial class ExplorerPanel : UserControl, IKexplorerShell
 
         var treeItem = new TreeViewItem
         {
-            Header = GetDirectoryDisplayName(shortName, rootFolderPath),
+            Header = GetDirectoryDisplayName(shortName, false),
             Tag = rootNode
         };
 
@@ -1093,7 +1100,7 @@ public partial class ExplorerPanel : UserControl, IKexplorerShell
     {
         var treeItem = new TreeViewItem
         {
-            Header = GetDirectoryDisplayName(node.Name, node.FullPath),
+            Header = GetDirectoryDisplayName(node.Name, node.IsLinkedDirectory),
             Tag = node
         };
 
@@ -1186,6 +1193,27 @@ public partial class ExplorerPanel : UserControl, IKexplorerShell
     {
         TreeContextMenu.Items.Clear();
         if (_pluginManager is null || _pluginContext is null) return;
+
+        if (node.IsDirectory && TryGetFirstMediaFile(node.FullPath, out var firstMediaFile))
+        {
+            var imageViewerItem = new MenuItem { Header = "Image Viewer" };
+            var capturedContext = _pluginContext;
+            var capturedMediaFile = firstMediaFile;
+            imageViewerItem.Click += async (s, e) =>
+            {
+                if (capturedContext is null) return;
+                try
+                {
+                    await capturedContext.ShowFileViewerAsync(capturedMediaFile, CancellationToken.None);
+                }
+                catch (Exception ex)
+                {
+                    await capturedContext.Shell.ReportErrorAsync($"Image Viewer failed: {ex.Message}", ex);
+                }
+            };
+            TreeContextMenu.Items.Add(imageViewerItem);
+            TreeContextMenu.Items.Add(new Separator());
+        }
 
         // "Open in New Tab" — opens a new explorer tab rooted at this folder
         if (node.IsDirectory)
@@ -1557,11 +1585,35 @@ public partial class ExplorerPanel : UserControl, IKexplorerShell
         FileContextMenu.Items.Clear();
         if (_pluginManager is null || _pluginContext is null) return;
 
+        var hasBuiltInImageViewer = false;
+        if (IsMediaExtension(file.Extension))
+        {
+            hasBuiltInImageViewer = true;
+            var imageViewerItem = new MenuItem { Header = "Image Viewer" };
+            var capturedContext = _pluginContext;
+            var mediaFilePath = file.FullPath;
+            imageViewerItem.Click += async (s, e) =>
+            {
+                if (capturedContext is null) return;
+                try
+                {
+                    await capturedContext.ShowFileViewerAsync(mediaFilePath, CancellationToken.None);
+                }
+                catch (Exception ex)
+                {
+                    await capturedContext.Shell.ReportErrorAsync($"Image Viewer failed: {ex.Message}", ex);
+                }
+            };
+            FileContextMenu.Items.Add(imageViewerItem);
+            FileContextMenu.Items.Add(new Separator());
+        }
+
         foreach (var plugin in _pluginManager.FilePlugins.OrderBy(p => p.Name))
         {
             try
             {
                 if (!plugin.IsActive) continue;
+                if (hasBuiltInImageViewer && string.Equals(plugin.Name, "View / Play Media", StringComparison.OrdinalIgnoreCase)) continue;
                 if (!plugin.IsValidForFile(file)) continue;
             }
             catch (Exception ex)
@@ -1627,6 +1679,44 @@ public partial class ExplorerPanel : UserControl, IKexplorerShell
             }
         };
         FileContextMenu.Items.Add(viewTextItem);
+    }
+
+    private static bool IsMediaExtension(string extension)
+    {
+        if (string.IsNullOrWhiteSpace(extension))
+            return false;
+
+        return MediaViewerExtensions.Contains(extension);
+    }
+
+    private static bool TryGetFirstMediaFile(string folderPath, out string mediaFile)
+    {
+        mediaFile = string.Empty;
+
+        try
+        {
+            var first = Directory.EnumerateFiles(folderPath, "*", SearchOption.TopDirectoryOnly)
+                .Where(path => IsMediaExtension(Path.GetExtension(path)))
+                .OrderBy(path => path, StringComparer.OrdinalIgnoreCase)
+                .FirstOrDefault();
+
+            if (!string.IsNullOrEmpty(first))
+            {
+                mediaFile = first;
+                return true;
+            }
+        }
+        catch (UnauthorizedAccessException)
+        {
+        }
+        catch (DirectoryNotFoundException)
+        {
+        }
+        catch (IOException)
+        {
+        }
+
+        return false;
     }
 
     #endregion
@@ -1813,7 +1903,7 @@ public partial class ExplorerPanel : UserControl, IKexplorerShell
 
         var nameText = new TextBlock
         {
-            Text = GetDirectoryDisplayName(name, fullPath),
+            Text = GetDirectoryDisplayName(name, false),
             VerticalAlignment = VerticalAlignment.Center,
             TextTrimming = TextTrimming.CharacterEllipsis
         };
@@ -1866,31 +1956,9 @@ public partial class ExplorerPanel : UserControl, IKexplorerShell
         }
     }
 
-    private string GetDirectoryDisplayName(string name, string fullPath)
+    private static string GetDirectoryDisplayName(string name, bool isLinkedDirectory)
     {
-        return IsLinkedDirectory(fullPath) ? $"{name} ↗" : name;
-    }
-
-    private bool IsLinkedDirectory(string fullPath)
-    {
-        if (_linkedDirectoryCache.TryGetValue(fullPath, out var cached))
-        {
-            return cached;
-        }
-
-        var isLinked = false;
-        try
-        {
-            var attributes = File.GetAttributes(fullPath);
-            isLinked = (attributes & FileAttributes.ReparsePoint) != 0;
-        }
-        catch
-        {
-            // Keep false when path is inaccessible or missing.
-        }
-
-        _linkedDirectoryCache[fullPath] = isLinked;
-        return isLinked;
+        return isLinkedDirectory ? $"{name} ↗" : name;
     }
 
     private static string FormatSizeMb(long bytes)

@@ -6,16 +6,23 @@ namespace Kexplorer.Core.FileSystem;
 /// </summary>
 public sealed class FileSystemNode
 {
-    public FileSystemNode(string name, string fullPath, bool isDirectory)
+    public FileSystemNode(string name, string fullPath, bool isDirectory, bool isLinkedDirectory = false)
     {
         Name = name;
         FullPath = fullPath;
         IsDirectory = isDirectory;
+        IsLinkedDirectory = isLinkedDirectory;
     }
 
     public string Name { get; }
     public string FullPath { get; }
     public bool IsDirectory { get; }
+
+    /// <summary>
+    /// True when this directory is a reparse point (junction/symlink/cloud placeholder).
+    /// Populated by background loaders to avoid UI-thread attribute probing.
+    /// </summary>
+    public bool IsLinkedDirectory { get; }
 
     /// <summary>
     /// When true, the node's children are out of date and should be reloaded.
